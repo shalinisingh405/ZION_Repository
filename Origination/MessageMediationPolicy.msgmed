@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><msgmed:messageMediationPolicy xmlns:msgmed="http://www.intel.com/soae/localService/messageMediationPolicy-2009a/">
+  <msgmed:httpRequestMetadataMediationPolicy>
+    <msgmed:method>POST</msgmed:method>
+    <msgmed:version>HTTP/1.1</msgmed:version>
+    <msgmed:uri>
+      <msgmed:path>
+        <msgmed:static>/Origination</msgmed:static>
+      </msgmed:path>
+      <msgmed:query active="true">
+        <msgmed:queryParametersToDelete/>
+        <msgmed:queryParametersToAdd/>
+      </msgmed:query>
+    </msgmed:uri>
+    <msgmed:headers>
+      <msgmed:headersToDelete>
+        <msgmed:item name="soapaction">
+          <msgmed:static>*</msgmed:static>
+        </msgmed:item>
+        <msgmed:item name="content-type">
+          <msgmed:static>*</msgmed:static>
+        </msgmed:item>
+      </msgmed:headersToDelete>
+      <msgmed:headersToAdd>
+        <msgmed:item name="content-type">
+          <msgmed:static>text/xml</msgmed:static>
+        </msgmed:item>
+        <msgmed:item name="UUID">
+          <msgmed:inputFromWorkflow>http:UUID</msgmed:inputFromWorkflow>
+        </msgmed:item>
+      </msgmed:headersToAdd>
+    </msgmed:headers>
+  </msgmed:httpRequestMetadataMediationPolicy>
+</msgmed:messageMediationPolicy>
