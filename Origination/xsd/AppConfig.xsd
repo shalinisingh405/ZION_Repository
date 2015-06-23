@@ -8,7 +8,7 @@
 		<xs:complexType>
 			<xs:sequence>
 				<!-- Element for decrypt values -->
-				<xs:element name="SaltText" type="xs:string" />
+				<xs:element name="SaltText1" type="xs:string" />
 				<!-- Path for writing the alarm-point exception logs -->
 				<xs:element name="ErrorLogPath" type="xs:string" />
 				<!-- TAlogs enabled/disabled flag -->
