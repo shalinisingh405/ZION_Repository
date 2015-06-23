@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soae="http://www.intel.com/soae/wsdl/wsdl11-2007a/" xmlns:tns="http://www.example.com/Origination/file/bin/OriginationProcess/WriteArchiveRequestToLocalESGFolder" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd0="http://www.example.com/Origination/file/bin/OriginationProcess/WriteArchiveRequestToLocalESGFolder/schemas" targetNamespace="http://www.example.com/Origination/file/bin/OriginationProcess/WriteArchiveRequestToLocalESGFolder">
+  <plnk:partnerLinkType name="WriteArchiveRequestToLocalESGFolderServicePartnerLinkType">
+    <plnk:role name="role" portType="tns:WriteArchiveRequestToLocalESGFolderServicePortType"/>
+  </plnk:partnerLinkType>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.com/Origination/file/bin/OriginationProcess/WriteArchiveRequestToLocalESGFolder/schemas"/>
+  </wsdl:types>
+  <wsdl:message name="WriteArchiveRequestToLocalESGFolderInput">
+    <wsdl:part name="body" type="xsd:anyType"/>
+  </wsdl:message>
+  <wsdl:portType name="WriteArchiveRequestToLocalESGFolderServicePortType">
+    <wsdl:operation name="WriteArchiveRequestToLocalESGFolderOperation">
+      <wsdl:input message="tns:WriteArchiveRequestToLocalESGFolderInput"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WriteArchiveRequestToLocalESGFolderServiceBinding" type="tns:WriteArchiveRequestToLocalESGFolderServicePortType">
+    <soae:binding transport="http://www.intel.com/soae/transport/file"/>
+    <wsdl:operation name="WriteArchiveRequestToLocalESGFolderOperation">
+      <wsdl:input>
+        <soae:content part="body" type="text/xml"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WriteArchiveRequestToLocalESGFolderService">
+    <wsdl:port binding="tns:WriteArchiveRequestToLocalESGFolderServiceBinding" name="WriteArchiveRequestToLocalESGFolderPort">
+      <soae:address location="file:///opt/xion/transactionlogs/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

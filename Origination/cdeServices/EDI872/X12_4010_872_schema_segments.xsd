@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:x12="http://www.informatica.com/B2B/X12" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.informatica.com/B2B/X12" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xs:complexType name="delimiters_Schema">
+		<xs:sequence>
+			<xs:element name="field_separator" type="xs:string"/>
+			<xs:element name="segment_separator" type="xs:string"/>
+			<xs:element name="composite_separator" type="xs:string"/>
+			<xs:element name="segment_separator_suffix" type="xs:string"/>
+			<xs:element name="repetition_separator" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	<xs:attribute name="SegErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="delimiters" type="x12:delimiters_Schema"/>
+	<xs:complexType name="ISA_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R10" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R11" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R12" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R13" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R14" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R15" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R16" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="ISA" type="x12:ISA_Schema"/>
+	<xs:complexType name="GS_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="GS" type="x12:GS_Schema"/>
+	<xs:complexType name="GE_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="GE" type="x12:GE_Schema"/>
+	<xs:complexType name="IEA_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="IEA" type="x12:IEA_Schema"/>
+	<xs:complexType name="ST_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="ST" type="x12:ST_Schema"/>
+	<xs:complexType name="BGN_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="BGN" type="x12:BGN_Schema"/>
+	<xs:complexType name="N1_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="N1" type="x12:N1_Schema"/>
+	<xs:complexType name="LX_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="LX" type="x12:LX_Schema"/>
+	<xs:complexType name="REF_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:C040_Schema" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="REF" type="x12:REF_Schema"/>
+	<xs:complexType name="LRQ_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R10" type="x12:C048_Schema" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R11" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R12" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R13" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R14" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R15" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R16" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R17" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R18" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R19" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R20" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="LRQ" type="x12:LRQ_Schema"/>
+	<xs:complexType name="LN1_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R10" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R11" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R12" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R13" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R14" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R15" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R16" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R17" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R18" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R19" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R20" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R21" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R22" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R23" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="LN1" type="x12:LN1_Schema"/>
+	<xs:complexType name="PRD_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R10" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R11" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="PRD" type="x12:PRD_Schema"/>
+	<xs:complexType name="MIC_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:C001_Schema" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R10" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R11" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R12" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R13" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R14" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R15" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R16" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R17" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="MIC" type="x12:MIC_Schema"/>
+	<xs:complexType name="PER_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="PER" type="x12:PER_Schema"/>
+	<xs:complexType name="PEX_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:C001_Schema" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="PEX" type="x12:PEX_Schema"/>
+	<xs:complexType name="RLD_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="RLD" type="x12:RLD_Schema"/>
+	<xs:complexType name="PAY_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:C001_Schema" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:C001_Schema" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R10" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R11" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R12" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R13" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R14" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R15" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R16" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R17" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R18" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R19" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R20" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R21" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R22" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="PAY" type="x12:PAY_Schema"/>
+	<xs:complexType name="RAT_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:C001_Schema" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:C001_Schema" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:C001_Schema" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R10" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R11" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R12" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R13" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R14" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R15" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R16" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R17" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="RAT" type="x12:RAT_Schema"/>
+	<xs:complexType name="SCM_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="SCM" type="x12:SCM_Schema"/>
+	<xs:complexType name="SCS_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="SCS" type="x12:SCS_Schema"/>
+	<xs:complexType name="NX1_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="NX1" type="x12:NX1_Schema"/>
+	<xs:complexType name="NX2_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="NX2" type="x12:NX2_Schema"/>
+	<xs:complexType name="PAS_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="PAS" type="x12:PAS_Schema"/>
+	<xs:complexType name="MSG_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="MSG" type="x12:MSG_Schema"/>
+	<xs:complexType name="IN1_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="IN1" type="x12:IN1_Schema"/>
+	<xs:complexType name="IN2_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="IN2" type="x12:IN2_Schema"/>
+	<xs:complexType name="YNQ_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R10" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="YNQ" type="x12:YNQ_Schema"/>
+	<xs:complexType name="DMG_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="DMG" type="x12:DMG_Schema"/>
+	<xs:complexType name="N10_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R10" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R11" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R12" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R13" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="N10" type="x12:N10_Schema"/>
+	<xs:complexType name="BFS_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R10" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="BFS" type="x12:BFS_Schema"/>
+	<xs:complexType name="ARS_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="ARS" type="x12:ARS_Schema"/>
+	<xs:complexType name="REA_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:C047_Schema" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:C001_Schema" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R10" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R11" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R12" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R13" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="REA" type="x12:REA_Schema"/>
+	<xs:complexType name="AMT_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="AMT" type="x12:AMT_Schema"/>
+	<xs:complexType name="MCD_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="MCD" type="x12:MCD_Schema"/>
+	<xs:complexType name="BUY_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="BUY" type="x12:BUY_Schema"/>
+	<xs:complexType name="TBA_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:C001_Schema" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="TBA" type="x12:TBA_Schema"/>
+	<xs:complexType name="PRJ_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="PRJ" type="x12:PRJ_Schema"/>
+	<xs:complexType name="SE_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="SE" type="x12:SE_Schema"/>
+<xs:complexType name="C040_Schema">
+	<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="compErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="C040" type="x12:C040_Schema"/>
+<xs:complexType name="C048_Schema">
+	<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="compErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="C048" type="x12:C048_Schema"/>
+<xs:complexType name="C001_Schema">
+	<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R06" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R07" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R08" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R09" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R10" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R11" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R12" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R13" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R14" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R15" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="compErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="C001" type="x12:C001_Schema"/>
+<xs:complexType name="C047_Schema">
+	<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R02" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R03" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R04" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="R05" type="x12:dataElement_StringType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="compErrorCd" use="optional"/>
+		</xs:complexType>
+	<xs:element name="C047" type="x12:C047_Schema"/>
+	<xs:complexType name="dataElement_StringType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="errorCd" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:schema>

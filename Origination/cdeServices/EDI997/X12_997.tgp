@@ -1,0 +1,996 @@
+// syntaxVersion = 4.00.10
+// engineVersion = 9.1.0(Build:06)
+instance MultipleInterchanges = Mapper
+{
+	source = 
+	[
+		Locator(XPath("/x12:Errors"))
+	];
+	target = 
+	[
+		Locator(XPath("/x12:Multiple997Messages"))
+	];
+	contains = 
+	[
+		RepeatingGroupMapping
+		{
+			source = 
+			[
+				Locator(XPath("/x12:Errors/*s/Interchange"))
+			];
+			target = 
+			[
+				Locator(XPath("/x12:Multiple997Messages/*s/x12:interchange"))
+			];
+			contains = 
+			[
+				GroupMapping
+				{
+					source = 
+					[
+						Locator(XPath("/x12:Errors/*s/Interchange/*s/x12:ISA"))
+					];
+					target = 
+					[
+						Locator(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/ISA"))
+					];
+					contains = 
+					[
+						Map(XPath("/x12:Errors/*s/Interchange/*s/x12:ISA"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/ISA")), 
+						GroupMapping
+						{
+							contains = 
+							[
+								AppendValues
+								{
+									output = XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/ISA/*s/R09");
+									input = 
+									[
+										XPath("$VarSystem/*s/ExecStartTime/*s/Year"), 
+										XPath("$VarSystem/*s/ExecStartTime/*s/Month"), 
+										XPath("$VarSystem/*s/ExecStartTime/*s/Day")
+									];
+								}, 
+								Map(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/ISA/*s/R09"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/ISA/*s/R09"), [Resize<align="right">(StaticInt(6))])
+							];
+							name = "date";
+						}, 
+						AppendValues
+						{
+							output = XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/ISA/*s/R10");
+							input = 
+							[
+								XPath("$VarSystem/*s/ExecStartTime/*s/Hour"), 
+								XPath("$VarSystem/*s/ExecStartTime/*s/Minute")
+							];
+							name = "time";
+						}, 
+						Map(XPath("$inOutgoingInterchangeControlNumber"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/ISA/*s/R13"), [Resize<align="right">(StaticInt(9), StaticString("0"))]), 
+						SetValue("0", XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/ISA/*s/R14"))
+					];
+					name = "ISA";
+				}, 
+				RepeatingGroupMapping
+				{
+					source = 
+					[
+						Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup"))
+					];
+					target = 
+					[
+						Locator(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1"))
+					];
+					contains = 
+					[
+						SetValue("0", XPath("$receivedTransactionSetsCount")), 
+						SetValue("0", XPath("$rejectedTransactionSetsCount")), 
+						CalculateValue("$1 + 1", [XPath("$FAGroupCount")], XPath("$FAGroupCount")), 
+						GroupMapping
+						{
+							source = 
+							[
+								Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS"))
+							];
+							target = 
+							[
+								Locator(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GS"))
+							];
+							contains = 
+							[
+								SetValue("FA", XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GS/*s/R01")), 
+								Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R02"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GS/*s/R03")), 
+								Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R03"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GS/*s/R02")), 
+								AppendValues
+								{
+									output = XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GS/*s/R04");
+									input = 
+									[
+										XPath("$VarSystem/*s/ExecStartTime/*s/Year"), 
+										XPath("$VarSystem/*s/ExecStartTime/*s/Month"), 
+										XPath("$VarSystem/*s/ExecStartTime/*s/Day")
+									];
+									name = "date";
+								}, 
+								AppendValues
+								{
+									output = XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GS/*s/R05");
+									input = 
+									[
+										XPath("$VarSystem/*s/ExecStartTime/*s/Hour"), 
+										XPath("$VarSystem/*s/ExecStartTime/*s/Minute")
+									];
+									name = "time";
+								}, 
+								Map(XPath("$FAGroupCount"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GS/*s/R06"), [Resize<align="right">(StaticInt(9), StaticString("0"))]), 
+								Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R07"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GS/*s/R07")), 
+								Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R08"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GS/*s/R08"))
+							];
+							name = "GS";
+						}, 
+						GroupMapping
+						{
+							contains = 
+							[
+								SetValue("997", XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/ST/*s/R01")), 
+								SetValue("000000001", XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/ST/*s/R02"))
+							];
+							name = "ST";
+						}, 
+						GroupMapping
+						{
+							contains = 
+							[
+								Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R01"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK1/*s/R01"), [], "Functional Identifier Code"), 
+								Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R06"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK1/*s/R02"), [], "Group Control Number")
+							];
+							name = "AK1";
+						}, 
+						RepeatingGroupMapping<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors"))
+							];
+							target = 
+							[
+								Locator(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2"))
+							];
+							contains = 
+							[
+								CalculateValue("$1 + 1", [XPath("$receivedTransactionSetsCount")], XPath("$receivedTransactionSetsCount"), "Ignore", "Increment TS count in FA group"), 
+								GroupMapping
+								{
+									target = 
+									[
+										Locator(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK2"))
+									];
+									contains = 
+									[
+										Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/@TransactionSetIdentifier"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK2/*s/R01"), [], "Transaction Set Identifier Code"), 
+										Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/@TransactionSetControlNumber"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK2/*s/R02"), [], "Transaction Set Control Number")
+									];
+									name = "AK2";
+								}, 
+								RepeatingGroupMapping<optional>
+								{
+									source = 
+									[
+										Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error"))
+									];
+									target = 
+									[
+										LocatorByKey(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3[AK3/*s/R01=$1]"), [DynamicString(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error/*s/SegmentIndex"))])
+									];
+									contains = 
+									[
+										Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error/*s/SegmentIdentifier"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK3/*s/R01"), [], "Segment ID Code"), 
+										Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error/*s/SegmentIndex"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK3/*s/R02"), [], "Segment Position in Transaction Set"), 
+										Map<optional>(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error/*s/LoopIdentifier"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK3/*s/R03"), [], "Loop Identifier Code"), 
+										Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error/@Code"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK3/*s/R04"), [], "Segment Syntax Error Code"), 
+										GroupMapping<optional>
+										{
+											target = 
+											[
+												Locator(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4"))
+											];
+											contains = 
+											[
+												GroupMapping
+												{
+													contains = 
+													[
+														Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error/*s/DataElementIndex"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4/*s/R01/*s/R01"), [], "Element Position in Segment"), 
+														Map<optional>(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error/*s/ElementInCompositeIndex"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4/*s/R01/*s/R02"), [], "Component Data Element Position in Composite"), 
+														Map<optional>(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error/*s/RepetitionIndex"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4/*s/R01/*s/R03"), [], "Repeating Data Element Position")
+													];
+													name = "Position in Segment";
+												}, 
+												Map<optional>(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error/*s/DataElementRefNumber"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4/*s/R02"), [], "Data Element Reference Number"), 
+												Map<optional>(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error/@Code"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4/*s/R03"), [], "Data Element Syntax Error Code"), 
+												Map<optional>(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error/*s/DataElementValue"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4/*s/R04"), [], "Copy of Bad Data Element"), 
+												SetValue("8", XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK3/*s/R04"), [], "Override AK3 Error Code (segment has data element errors)")
+											];
+											name = "AK4";
+										}
+									];
+									name = "Loop AK3";
+								}, 
+								GroupMapping
+								{
+									target = 
+									[
+										Locator(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5"))
+									];
+									contains = 
+									[
+										SetValue("A", XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5/*s/R01"), [], "Transaction Set Acknowledgment Code (default is ACCEPT)"), 
+										AlternativeMappings<optional>
+										{
+											options = 
+											[
+												RepeatingGroupMapping
+												{
+													source = 
+													[
+														Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError"))
+													];
+													contains = 
+													[
+														EnsureCondition("$1 == \"5\"", [XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError/@code")])
+													];
+													name = "Error code '5' already exists in input";
+												}, 
+												GroupMapping<optional>
+												{
+													source = 
+													[
+														Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error"))
+													];
+													target = 
+													[
+														Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError"))
+													];
+													contains = 
+													[
+														SetValue("5", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError/@code")), 
+														SetValue("One or More Segments in Error", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError/@description"))
+													];
+													name = "One or More Segments in Error - add error code '5'";
+												}
+											];
+											name = "Check if TransactionSet error code 5 (one or more segments in error) exists in input or should be added";
+										}, 
+										GroupMapping<optional>
+										{
+											source = 
+											[
+												LocatorByOccurrence<optional>(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError"), StaticInt(1))
+											];
+											contains = 
+											[
+												Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError/@code"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5/*s/R02")), 
+												SetValue("R", XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5/*s/R01"), [], "Found at least one error - override Transaction Set Syntax Error Code"), 
+												CalculateValue("$1 + 1", [XPath("$rejectedTransactionSetsCount")], XPath("$rejectedTransactionSetsCount"))
+											];
+											name = "Transaction Set Syntax Error Code (1)";
+										}, 
+										GroupMapping<optional>
+										{
+											source = 
+											[
+												LocatorByOccurrence<optional>(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError"), StaticInt(2))
+											];
+											contains = 
+											[
+												Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError/@code"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5/*s/R03"))
+											];
+											name = "Transaction Set Syntax Error Code (2)";
+										}, 
+										GroupMapping<optional>
+										{
+											source = 
+											[
+												LocatorByOccurrence<optional>(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError"), StaticInt(3))
+											];
+											contains = 
+											[
+												Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError/@code"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5/*s/R04"))
+											];
+											name = "Transaction Set Syntax Error Code (3)";
+										}, 
+										GroupMapping<optional>
+										{
+											source = 
+											[
+												LocatorByOccurrence<optional>(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError"), StaticInt(4))
+											];
+											contains = 
+											[
+												Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError/@code"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5/*s/R05"))
+											];
+											name = "Transaction Set Syntax Error Code (4)";
+										}, 
+										GroupMapping<optional>
+										{
+											source = 
+											[
+												LocatorByOccurrence<optional>(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError"), StaticInt(5))
+											];
+											contains = 
+											[
+												Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError/@code"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5/*s/R06"))
+											];
+											name = "Transaction Set Syntax Error Code (5)";
+										}
+									];
+									name = "AK5";
+								}
+							];
+							name = "Transaction Sets";
+						}, 
+						GroupMapping
+						{
+							contains = 
+							[
+								AlternativeMappings
+								{
+									options = 
+									[
+										GroupMapping
+										{
+											source = 
+											[
+												Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"))
+											];
+											contains = 
+											[
+												SetValue("R", XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R01"))
+											];
+											name = "Functional Group Error";
+										}, 
+										GroupMapping
+										{
+											contains = 
+											[
+												EnsureCondition("$1 == 0", [XPath("$rejectedTransactionSetsCount")]), 
+												SetValue("A", XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R01"))
+											];
+											name = "All Accepted";
+										}, 
+										GroupMapping
+										{
+											contains = 
+											[
+												EnsureCondition
+												{
+													condition = "$1 == $2";
+													params = 
+													[
+														XPath("$rejectedTransactionSetsCount"), 
+														XPath("$receivedTransactionSetsCount")
+													];
+												}, 
+												SetValue("R", XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R01"))
+											];
+											name = "All Rejected";
+										}, 
+										GroupMapping
+										{
+											contains = 
+											[
+												SetValue("P", XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R01"))
+											];
+											name = "Partially Accepted";
+										}
+									];
+									name = "Functional Group Acknowledge Code";
+								}, 
+								AlternativeMappings
+								{
+									options = 
+									[
+										Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE/*s/R01"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R02")), 
+										Map(XPath("$receivedTransactionSetsCount"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R02"), [], "If Functional Group trailer is missing, use actual received TS count")
+									];
+									name = "Number of Transaction Sets Included";
+								}, 
+								Map(XPath("$receivedTransactionSetsCount"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R03"), [], "Number of Received Transaction Sets"), 
+								CalculateValue
+								{
+									expression = "$1 - $2";
+									params = 
+									[
+										XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R03"), 
+										XPath("$rejectedTransactionSetsCount")
+									];
+									result = XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R04");
+									name = "Number of Accepted Transaction Sets";
+								}, 
+								GroupMapping<optional>
+								{
+									source = 
+									[
+										LocatorByOccurrence(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"), StaticInt(1))
+									];
+									contains = 
+									[
+										Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R05"))
+									];
+									name = "Functional Group Syntax Error Code (1)";
+								}, 
+								GroupMapping<optional>
+								{
+									source = 
+									[
+										LocatorByOccurrence(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"), StaticInt(2))
+									];
+									contains = 
+									[
+										Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R06"))
+									];
+									name = "Functional Group Syntax Error Code (2)";
+								}, 
+								GroupMapping<optional>
+								{
+									source = 
+									[
+										LocatorByOccurrence(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"), StaticInt(3))
+									];
+									contains = 
+									[
+										Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R07"))
+									];
+									name = "Functional Group Syntax Error Code (3)";
+								}, 
+								GroupMapping<optional>
+								{
+									source = 
+									[
+										LocatorByOccurrence(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"), StaticInt(4))
+									];
+									contains = 
+									[
+										Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R08"))
+									];
+									name = "Functional Group Syntax Error Code (4)";
+								}, 
+								GroupMapping<optional>
+								{
+									source = 
+									[
+										LocatorByOccurrence(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"), StaticInt(5))
+									];
+									contains = 
+									[
+										Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R09"))
+									];
+									name = "Functional Group Syntax Error Code (5)";
+								}
+							];
+							name = "AK9";
+						}, 
+						GroupMapping
+						{
+							target = 
+							[
+								Locator(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/SE"))
+							];
+							contains = 
+							[
+								SetValue("1", XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/SE/*s/R01")), 
+								Map(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/ST/*s/R02"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/SE/*s/R02"))
+							];
+							name = "SE";
+						}, 
+						GroupMapping
+						{
+							source = 
+							[
+								Locator(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GS"))
+							];
+							target = 
+							[
+								Locator(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GE"))
+							];
+							contains = 
+							[
+								SetValue("1", XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GE/*s/R01")), 
+								Map(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GS/*s/R06"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/*s1/GE/*s/R02"))
+							];
+							name = "GE";
+						}
+					];
+					name = "Functional Groups";
+				}, 
+				GroupMapping
+				{
+					source = 
+					[
+						Locator(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/ISA"))
+					];
+					target = 
+					[
+						Locator(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/IEA"))
+					];
+					contains = 
+					[
+						Map(XPath("$FAGroupCount"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/IEA/*s/R01")), 
+						Map(XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/ISA/*s/R13"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/IEA/*s/R02"))
+					];
+					name = "IEA";
+				}, 
+				GroupMapping
+				{
+					contains = 
+					[
+						Map(XPath("/x12:Errors/@fieldSeparator"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/delimiters/*s/field_separator")), 
+						Map(XPath("/x12:Errors/*s/Interchange/*s/x12:ISA/*s/R16"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/delimiters/*s/composite_separator")), 
+						Map(XPath("/x12:Errors/@segmentSeparator"), XPath("/x12:Multiple997Messages/*s/x12:interchange/*s/delimiters/*s/segment_separator")), 
+						WriteValue(XPath("/x12:Multiple997Messages/*s/x12:interchange"), OutputDataHolder(XPath("$EDI997_Interchange_XMLAsString"))), 
+						RunSerializer(Serialize997, XPath("$EDI997_Output"), XPath("$EDI997_Interchange_XMLAsString")), 
+						WriteValue<no_tags>(XPath("$EDI997_Output"))
+					];
+					name = "Generate 997 output";
+				}
+			];
+			name = "Interchanges";
+		}
+	];
+	remark = "Vertical Content Version: 9.1.0.125";
+}
+instance Serialize997 = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:interchange"))
+	];
+	contains = 
+	[
+		GroupSerializer<optional>
+		{
+			source = 
+			[
+				Locator(XPath("/x12:interchange/*s/delimiters"))
+			];
+			contains = 
+			[
+				Map(XPath("/x12:interchange/*s/delimiters/*s/field_separator"), XPath("$fieldSeparator")), 
+				Map(XPath("/x12:interchange/*s/delimiters/*s/composite_separator"), XPath("$compositeSeparator")), 
+				Map(XPath("/x12:interchange/*s/delimiters/*s/segment_separator"), XPath("$segmentDelimiter"))
+			];
+			name = "Delimiters";
+		}, 
+		GroupSerializer
+		{
+			contains = 
+			[
+				StringSerializer("ISA"), 
+				DelimitedSectionsSerializer
+				{
+					sections = 
+					[
+						ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R01"), [Resize(StaticInt(2))]), 
+						AlternativeSerializers
+						{
+							options = 
+							[
+								ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R02"), [Resize(StaticInt(10))]), 
+								StringSerializer("          ")
+							];
+						}, 
+						ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R03"), [Resize(StaticInt(2))]), 
+						AlternativeSerializers
+						{
+							options = 
+							[
+								ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R04"), [Resize(StaticInt(10))]), 
+								StringSerializer("          ")
+							];
+						}, 
+						ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R05"), [Resize(StaticInt(2))]), 
+						ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R06"), [Resize(StaticInt(15))]), 
+						ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R07"), [Resize(StaticInt(2))]), 
+						ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R08"), [Resize(StaticInt(15))]), 
+						AlternativeSerializers
+						{
+							options = 
+							[
+								GroupSerializer
+								{
+									contains = 
+									[
+										EnsureCondition("$1", [XPath("$resetTimestamps")]), 
+										StringSerializer("000000")
+									];
+									name = "QA mode";
+								}, 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R09"), [Resize(StaticInt(6))])
+							];
+						}, 
+						AlternativeSerializers
+						{
+							options = 
+							[
+								GroupSerializer
+								{
+									contains = 
+									[
+										EnsureCondition("$1", [XPath("$resetTimestamps")]), 
+										StringSerializer("0000")
+									];
+									name = "QA mode";
+								}, 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R10"), [Resize(StaticInt(4))])
+							];
+						}, 
+						ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R11"), [Resize(StaticInt(1))]), 
+						ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R12"), [Resize(StaticInt(5))]), 
+						ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R13"), [Resize<align="right">(StaticInt(9), StaticString("0"))]), 
+						ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R14"), [Resize(StaticInt(1))]), 
+						ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R15"), [Resize(StaticInt(1))]), 
+						ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R16"), [Resize(StaticInt(1))])
+					];
+					separator = ContentSerializer("", "", XPath("$fieldSeparator"));
+				}, 
+				ContentSerializer("", "", XPath("$segmentDelimiter"))
+			];
+			name = "ISA";
+		}, 
+		RepeatingGroupSerializer
+		{
+			source = 
+			[
+				Locator(XPath("/x12:interchange/*s/*s1"))
+			];
+			contains = 
+			[
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:interchange/*s/*s1/GS"))
+					];
+					contains = 
+					[
+						StringSerializer("GS"), 
+						DelimitedSectionsSerializer
+						{
+							sections = 
+							[
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/GS/*s/R01")), 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/GS/*s/R02")), 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/GS/*s/R03")), 
+								AlternativeSerializers
+								{
+									options = 
+									[
+										GroupSerializer
+										{
+											contains = 
+											[
+												EnsureCondition("$1", [XPath("$resetTimestamps")]), 
+												StringSerializer("00000000")
+											];
+											name = "QA mode";
+										}, 
+										ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/GS/*s/R04"))
+									];
+								}, 
+								AlternativeSerializers
+								{
+									options = 
+									[
+										GroupSerializer
+										{
+											contains = 
+											[
+												EnsureCondition("$1", [XPath("$resetTimestamps")]), 
+												StringSerializer("0000")
+											];
+											name = "QA mode";
+										}, 
+										ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/GS/*s/R05"))
+									];
+								}, 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/GS/*s/R06")), 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/GS/*s/R07")), 
+								ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/GS/*s/R08"))
+							];
+							separator = ContentSerializer("", "", XPath("$fieldSeparator"));
+						}, 
+						ContentSerializer("", "", XPath("$segmentDelimiter"))
+					];
+					name = "GS";
+				}, 
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/ST"))
+					];
+					contains = 
+					[
+						StringSerializer("ST"), 
+						DelimitedSectionsSerializer
+						{
+							sections = 
+							[
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/ST/*s/R01")), 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/ST/*s/R02")), 
+								ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/ST/*s/R03"))
+							];
+							separator = ContentSerializer("", "", XPath("$fieldSeparator"));
+						}, 
+						ContentSerializer("", "", XPath("$segmentDelimiter")), 
+						SetValue("1", XPath("$segmentCount"))
+					];
+					name = "ST";
+				}, 
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK1"))
+					];
+					contains = 
+					[
+						StringSerializer("AK1"), 
+						DelimitedSectionsSerializer
+						{
+							sections = 
+							[
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK1/*s/R01")), 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK1/*s/R02"))
+							];
+							separator = ContentSerializer("", "", XPath("$fieldSeparator"));
+						}, 
+						ContentSerializer("", "", XPath("$segmentDelimiter")), 
+						CalculateValue("$1 + 1", [XPath("$segmentCount")], XPath("$segmentCount"))
+					];
+					name = "AK1";
+				}, 
+				RepeatingGroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							source = 
+							[
+								Locator(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK2"))
+							];
+							contains = 
+							[
+								StringSerializer("AK2"), 
+								DelimitedSectionsSerializer
+								{
+									sections = 
+									[
+										ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK2/*s/R01")), 
+										ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK2/*s/R02"))
+									];
+									separator = ContentSerializer("", "", XPath("$fieldSeparator"));
+								}, 
+								ContentSerializer("", "", XPath("$segmentDelimiter")), 
+								CalculateValue("$1 + 1", [XPath("$segmentCount")], XPath("$segmentCount"))
+							];
+							name = "AK2";
+						}, 
+						RepeatingGroupSerializer<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3"))
+							];
+							contains = 
+							[
+								GroupSerializer
+								{
+									source = 
+									[
+										Locator(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK3"))
+									];
+									contains = 
+									[
+										StringSerializer("AK3"), 
+										DelimitedSectionsSerializer
+										{
+											sections = 
+											[
+												ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK3/*s/R01")), 
+												ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK3/*s/R02")), 
+												ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK3/*s/R03")), 
+												ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK3/*s/R04"))
+											];
+											separator = ContentSerializer("", "", XPath("$fieldSeparator"));
+										}, 
+										ContentSerializer("", "", XPath("$segmentDelimiter")), 
+										CalculateValue("$1 + 1", [XPath("$segmentCount")], XPath("$segmentCount"))
+									];
+									name = "AK3";
+								}, 
+								RepeatingGroupSerializer<optional>
+								{
+									source = 
+									[
+										Locator(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4"))
+									];
+									contains = 
+									[
+										StringSerializer("AK4"), 
+										DelimitedSectionsSerializer
+										{
+											sections = 
+											[
+												DelimitedSectionsSerializer<separator_position="between">
+												{
+													sections = 
+													[
+														ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4/*s/R01/*s/R01")), 
+														ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4/*s/R01/*s/R02")), 
+														ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4/*s/R01/*s/R03"))
+													];
+													separator = ContentSerializer("", "", XPath("$compositeSeparator"));
+												}, 
+												ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4/*s/R02")), 
+												ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4/*s/R03")), 
+												ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK4/*s/R04"))
+											];
+											separator = ContentSerializer("", "", XPath("$fieldSeparator"));
+										}, 
+										ContentSerializer("", "", XPath("$segmentDelimiter")), 
+										CalculateValue("$1 + 1", [XPath("$segmentCount")], XPath("$segmentCount"))
+									];
+									name = "AK4";
+								}
+							];
+							name = "Loop AK3";
+						}, 
+						GroupSerializer
+						{
+							source = 
+							[
+								Locator(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5"))
+							];
+							contains = 
+							[
+								StringSerializer("AK5"), 
+								DelimitedSectionsSerializer
+								{
+									sections = 
+									[
+										ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5/*s/R01")), 
+										ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5/*s/R02")), 
+										ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5/*s/R03")), 
+										ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5/*s/R04")), 
+										ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5/*s/R05")), 
+										ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/AK5/*s/R06"))
+									];
+									separator = ContentSerializer("", "", XPath("$fieldSeparator"));
+								}, 
+								ContentSerializer("", "", XPath("$segmentDelimiter")), 
+								CalculateValue("$1 + 1", [XPath("$segmentCount")], XPath("$segmentCount"))
+							];
+							name = "AK5";
+						}
+					];
+					name = "Loop AK2";
+				}, 
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9"))
+					];
+					contains = 
+					[
+						StringSerializer("AK9"), 
+						DelimitedSectionsSerializer
+						{
+							sections = 
+							[
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R01")), 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R02")), 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R03")), 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R04")), 
+								ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R05")), 
+								ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R06")), 
+								ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R07")), 
+								ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R08")), 
+								ContentSerializer<optional>("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/AK9/*s/R09"))
+							];
+							separator = ContentSerializer("", "", XPath("$fieldSeparator"));
+						}, 
+						ContentSerializer("", "", XPath("$segmentDelimiter")), 
+						CalculateValue("$1 + 1", [XPath("$segmentCount")], XPath("$segmentCount"))
+					];
+					name = "AK9";
+				}, 
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/SE"))
+					];
+					contains = 
+					[
+						CalculateValue("$1 + 1", [XPath("$segmentCount")], XPath("$segmentCount")), 
+						StringSerializer("SE"), 
+						DelimitedSectionsSerializer
+						{
+							sections = 
+							[
+								ContentSerializer("", "", XPath("$segmentCount")), 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/SE/*s/R02"))
+							];
+							separator = ContentSerializer("", "", XPath("$fieldSeparator"));
+						}, 
+						ContentSerializer("", "", XPath("$segmentDelimiter"))
+					];
+					name = "SE";
+				}, 
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:interchange/*s/*s1/GE"))
+					];
+					contains = 
+					[
+						StringSerializer("GE"), 
+						DelimitedSectionsSerializer
+						{
+							sections = 
+							[
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/GE/*s/R01")), 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/GE/*s/R02"))
+							];
+							separator = ContentSerializer("", "", XPath("$fieldSeparator"));
+						}, 
+						ContentSerializer("", "", XPath("$segmentDelimiter"))
+					];
+					name = "GE";
+				}
+			];
+			name = "Functional Groups";
+		}, 
+		GroupSerializer
+		{
+			source = 
+			[
+				Locator(XPath("/x12:interchange/*s/IEA"))
+			];
+			contains = 
+			[
+				StringSerializer("IEA"), 
+				DelimitedSectionsSerializer
+				{
+					sections = 
+					[
+						ContentSerializer("", "", XPath("/x12:interchange/*s/IEA/*s/R01")), 
+						ContentSerializer("", "", XPath("/x12:interchange/*s/IEA/*s/R02"))
+					];
+					separator = ContentSerializer("", "", XPath("$fieldSeparator"));
+				}, 
+				ContentSerializer("", "", XPath("$segmentDelimiter"))
+			];
+			name = "IEA";
+		}
+	];
+}
+instance inOutgoingInterchangeControlNumber = Variable(XSDTypeRef("xs:string"), InitialValue("1"))
+instance fieldSeparator = Variable(XSDTypeRef("xs:string"), InitialValue("*"))
+instance compositeSeparator = Variable(XSDTypeRef("xs:string"), InitialValue(":"))
+instance segmentDelimiter = Variable(XSDTypeRef("xs:string"), InitialValue("~\r\n"))
+instance receivedTransactionSetsCount = Variable(XSDTypeRef("xs:int"), InitialValue("0"))
+instance rejectedTransactionSetsCount = Variable(XSDTypeRef("xs:int"))
+instance FAGroupCount = Variable(XSDTypeRef("xs:int"), InitialValue("0"))
+instance keyAK3LoopBySegmentIndex = Key(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3"), [XPath("/x12:interchange/*s/*s1/*c1/x12:TS_997/*s/LOOP_AK2/*s/LOOP_AK3/*s/AK3/*s/R01")])
+instance EDI997_Interchange_XMLAsString = Variable()
+instance EDI997_Output = Variable()
+instance segmentCount = Variable(XSDTypeRef("xs:int"))
+instance resetTimestamps = Variable(XSDTypeRef("xs:boolean"), InitialValue("false"))

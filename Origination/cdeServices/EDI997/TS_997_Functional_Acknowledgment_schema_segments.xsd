@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:x12="http://www.informatica.com/B2B/X12" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.informatica.com/B2B/X12" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xs:complexType name="delimiters_Schema">
+		<xs:sequence>
+			<xs:element name="field_separator" type="xs:string"/>
+			<xs:element name="segment_separator" type="xs:string"/>
+			<xs:element name="composite_separator" type="xs:string"/>
+			<xs:element name="segment_separator_suffix" type="xs:string"/>
+			<xs:element name="repetition_separator" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="SegErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="delimiters" type="x12:delimiters_Schema"/>
+	<xs:complexType name="ISA_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R03" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R04" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R05" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R06" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R07" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R08" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R09" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R10" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R11" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R12" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R13" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R14" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R15" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R16" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="ISA" type="x12:ISA_Schema"/>
+	<xs:complexType name="GS_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R03" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R04" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R05" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R06" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R07" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R08" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="GS" type="x12:GS_Schema"/>
+	<xs:complexType name="GE_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="GE" type="x12:GE_Schema"/>
+	<xs:complexType name="IEA_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="IEA" type="x12:IEA_Schema"/>
+	<xs:complexType name="ST_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R03" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="ST" type="x12:ST_Schema"/>
+	<xs:complexType name="AK1_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="AK1" type="x12:AK1_Schema"/>
+	<xs:complexType name="AK2_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="AK2" type="x12:AK2_Schema"/>
+	<xs:complexType name="AK3_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R03" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R04" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="AK3" type="x12:AK3_Schema"/>
+	<xs:complexType name="AK4_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:C030_Schema" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R03" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R04" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="AK4" type="x12:AK4_Schema"/>
+	<xs:complexType name="AK5_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R03" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R04" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R05" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R06" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="AK5" type="x12:AK5_Schema"/>
+	<xs:complexType name="AK9_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R03" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R04" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R05" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R06" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R07" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R08" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R09" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="AK9" type="x12:AK9_Schema"/>
+	<xs:complexType name="TA1_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R03" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R04" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R05" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="TA1" type="x12:TA1_Schema"/>
+	<xs:complexType name="SE_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="segErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="SE" type="x12:SE_Schema"/>
+	<xs:complexType name="C030_Schema">
+		<xs:sequence>
+			<xs:element name="R01" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R02" type="x12:dataElement_Type" minOccurs="0"/>
+			<xs:element name="R03" type="x12:dataElement_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="compErrorCd" use="optional"/>
+	</xs:complexType>
+	<xs:element name="C030" type="x12:C030_Schema"/>
+	<xs:complexType name="dataElement_Type">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="errorCd" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:schema>

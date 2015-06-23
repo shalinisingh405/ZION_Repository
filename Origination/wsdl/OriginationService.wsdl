@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:soae="http://www.intel.com/soae/wsdl/wsdl11-2007a/"
+	xmlns:tns="http://www.radian.biz/ClientConnectivity/zion/http/OriginationService"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsd0="http://www.radian.biz/ClientConnectivity/zion/http/OriginationService/schemas"
+	name="OriginationService"
+	targetNamespace="http://www.radian.biz/ClientConnectivity/zion/http/OriginationService"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+	xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+	xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+	<plnk:partnerLinkType name="OriginationServicePartnerLinkType">
+		<plnk:role name="OriginationServiceProvider" portType="tns:OriginationServicePortType" />
+	</plnk:partnerLinkType>
+	<wsp:Policy wsu:Id="OriginationWSSecurityPolicy">
+		<sp:AsymmetricBinding>
+			<wsp:Policy>
+				<sp:InitiatorToken>
+					<wsp:Policy>
+						<sp:X509Token
+							sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+							<wsp:Policy>
+								<sp:WssX509V3Token10 />
+							</wsp:Policy>
+						</sp:X509Token>
+					</wsp:Policy>
+				</sp:InitiatorToken>
+				<sp:RecipientToken>
+					<wsp:Policy>
+						<sp:X509Token
+							sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/Never">
+							<wsp:Policy>
+								<sp:WssX509V3Token10 />
+							</wsp:Policy>
+						</sp:X509Token>
+					</wsp:Policy>
+				</sp:RecipientToken>
+				<sp:AlgorithmSuite>
+					<wsp:Policy>
+						<sp:TripleDesRsa15 />
+					</wsp:Policy>
+				</sp:AlgorithmSuite>
+			</wsp:Policy>
+		</sp:AsymmetricBinding>
+		<sp:Wss10>
+			<wsp:Policy>
+				<sp:MustSupportRefEmbeddedToken />
+				<sp:MustSupportRefIssuerSerial />
+			</wsp:Policy>
+		</sp:Wss10>
+		<sp:SignedParts>
+			<sp:Body />
+		</sp:SignedParts>
+		<sp:EncryptedParts>
+			<sp:Body />
+		</sp:EncryptedParts>
+	</wsp:Policy>
+	<wsdl:types>
+		<xsd:schema
+			targetNamespace="http://www.radian.biz/ClientConnectivity/zion/http/OriginationService/schemas">
+			<xsd:import schemaLocation="../xsd/OriginationRequest.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="GetOriginationRequestInput">
+		<wsdl:part element="OriginationRequest" name="body" />
+	</wsdl:message>
+	<wsdl:message name="GetOriginationRequestOutput">
+		<wsdl:part element="OriginationRequest" name="body" />
+	</wsdl:message>
+	<wsdl:portType name="OriginationServicePortType">
+		<wsdl:operation name="GetOriginationRequest">
+			<wsdl:input message="tns:GetOriginationRequestInput" />
+			<wsdl:output message="tns:GetOriginationRequestOutput" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOriginationRequestSecure">
+			<wsdl:input message="tns:GetOriginationRequestInput" />
+			<wsdl:output message="tns:GetOriginationRequestOutput" />
+		</wsdl:operation>
+		<wsdl:operation name="GetOriginationRequestString">
+			<wsdl:input message="tns:GetOriginationRequestInput" />
+			<wsdl:output message="tns:GetOriginationRequestOutput" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="OriginationServiceSOAPBinding" type="tns:OriginationServicePortType">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetOriginationRequest">
+			<soap:operation style="document" soapAction="GetOriginationRequest" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOriginationRequestSecure">
+		<wsp:PolicyReference URI="#OriginationWSSecurityPolicy"	required="true" />
+			<soap:operation style="document" soapAction="GetOriginationRequestSecure" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOriginationRequestString">
+			<soap:operation style="document" soapAction="GetOriginationRequestString" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="OriginationServiceSOAP12Binding" type="tns:OriginationServicePortType">
+		<soap12:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetOriginationRequest">
+			<soap12:operation style="document" soapAction="GetOriginationRequest" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOriginationRequestSecure">
+		<wsp:PolicyReference URI="#OriginationWSSecurityPolicy"	required="true" />
+			<soap12:operation style="document" soapAction="GetOriginationRequestSecure" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetOriginationRequestString">
+			<soap12:operation style="document" soapAction="GetOriginationRequestString" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="OriginationService">
+		<wsdl:port binding="tns:OriginationServiceSOAPBinding" name="OriginationServicePort">
+			<soap:address location="https://b2bint.radianmi.biz:8883/Origination" />
+		</wsdl:port>
+		<wsdl:port binding="tns:OriginationServiceSOAP12Binding" name="OriginationServicePortSOAP12">
+			<soap12:address location="https://b2bint.radianmi.biz:8883/Origination" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

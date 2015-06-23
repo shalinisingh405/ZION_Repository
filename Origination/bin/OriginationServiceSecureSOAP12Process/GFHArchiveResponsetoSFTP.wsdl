@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soae="http://www.intel.com/soae/wsdl/wsdl11-2007a/" xmlns:tns="http://www.example.com/Origination/sftp/bin/OriginationServiceSecureSOAP12Process/GFHArchiveResponsetoSFTP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd0="http://www.example.com/Origination/sftp/bin/OriginationServiceSecureSOAP12Process/GFHArchiveResponsetoSFTP/schemas" targetNamespace="http://www.example.com/Origination/sftp/bin/OriginationServiceSecureSOAP12Process/GFHArchiveResponsetoSFTP">
+  <plnk:partnerLinkType name="GFHArchiveResponsetoSFTPServicePartnerLinkType">
+    <plnk:role name="role" portType="tns:GFHArchiveResponsetoSFTPServicePortType"/>
+  </plnk:partnerLinkType>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.com/Origination/sftp/bin/OriginationServiceSecureSOAP12Process/GFHArchiveResponsetoSFTP/schemas"/>
+  </wsdl:types>
+  <wsdl:message name="GFHArchiveResponsetoSFTPInput">
+    <wsdl:part name="body" type="xsd:anyType"/>
+  </wsdl:message>
+  <wsdl:portType name="GFHArchiveResponsetoSFTPServicePortType">
+    <wsdl:operation name="GFHArchiveResponsetoSFTPOperation">
+      <wsdl:input message="tns:GFHArchiveResponsetoSFTPInput"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GFHArchiveResponsetoSFTPServiceBinding" type="tns:GFHArchiveResponsetoSFTPServicePortType">
+    <soae:binding transport="http://www.intel.com/soae/transport/sftp"/>
+    <wsdl:operation name="GFHArchiveResponsetoSFTPOperation">
+      <wsdl:input>
+        <soae:content part="body" type="text/xml"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GFHArchiveResponsetoSFTPService">
+    <wsdl:port binding="tns:GFHArchiveResponsetoSFTPServiceBinding" name="GFHArchiveResponsetoSFTPPort">
+      <soae:address location="sftp://intconnect.datacenter.radiangroupinc.net:22//origination/archive/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

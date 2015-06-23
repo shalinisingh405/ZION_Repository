@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://www.radian.biz/ClientConnectivity/zion/ComputeBlockCipher" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.radian.biz/ClientConnectivity/zion/ComputeBlockCipher" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="ComputeBlockCipher">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ComputeBlockCipherDetails" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<!-- Number of authentication levels present within the request -->
+							<xs:element name="Credential" type="Credential" minOccurs="1" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>				
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Credential">
+		<xs:sequence>
+				<xs:element name="Input" type="xs:string" minOccurs="1"/>
+				<xs:element name="SaltBase64" type="xs:string" minOccurs="1"/>
+				<xs:element name="InitVector" type="xs:string" minOccurs="1"/>
+				<xs:element name="SymmetricKeyName" type="xs:string" minOccurs="1"/>
+				<xs:element name="Output" type="xs:string" minOccurs="1"/>					
+		</xs:sequence>
+		<xs:attribute name="Level" type="xs:int" use="required"/>
+	</xs:complexType>
+</xs:schema>

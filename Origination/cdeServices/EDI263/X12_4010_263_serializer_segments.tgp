@@ -1,0 +1,2695 @@
+// syntaxVersion = 4.00.10
+instance ISA_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:ISA"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R01"), [Resize(StaticInt(2))]), 
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						AlternativeSerializers
+						{
+							options = 
+							[
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R02"), [Resize(StaticInt(10))]), 
+								StringSerializer("          ")
+							];
+						}
+					];
+					name = "R02";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("3", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R03"), [Resize(StaticInt(2))]), 
+					];
+					name = "R03";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("4", XPath("$DataElementIndex"), [], "Set element index"), 
+						AlternativeSerializers
+						{
+							options = 
+							[
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R04"), [Resize(StaticInt(10))]), 
+								StringSerializer("          ")
+							];
+						}
+					];
+					name = "R04";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("5", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R05"), [Resize(StaticInt(2))]), 
+					];
+					name = "R05";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("6", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R06"), [Resize(StaticInt(15))]), 
+					];
+					name = "R06";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("7", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R07"), [Resize(StaticInt(2))]), 
+					];
+					name = "R07";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("8", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R08"), [Resize(StaticInt(15))]), 
+					];
+					name = "R08";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("9", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R09"), [Resize(StaticInt(6))]), 
+					];
+					name = "R09";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("10", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R10"), [Resize(StaticInt(4))]), 
+					];
+					name = "R10";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("11", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R11"), [Resize(StaticInt(1))]), 
+					];
+					name = "R11";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("12", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R12"), [Resize(StaticInt(5))]), 
+					];
+					name = "R12";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("13", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R13"), [Resize<align="right">(StaticInt(9), StaticString("0"))]), 
+					];
+					name = "R13";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("14", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R14"), [Resize(StaticInt(1))]), 
+					];
+					name = "R14";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("15", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R15"), [Resize(StaticInt(1))]), 
+					];
+					name = "R15";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("16", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ISA/*s/R16"), [Resize(StaticInt(1))]), 
+					];
+					name = "R16";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "ISA";
+		}, 
+	];
+}
+instance GS_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:GS"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:GS/*s/R01")), 
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:GS/*s/R02")), 
+					];
+					name = "R02";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("3", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:GS/*s/R03")), 
+					];
+					name = "R03";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("4", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:GS/*s/R04")), 
+					];
+					name = "R04";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("5", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:GS/*s/R05")), 
+					];
+					name = "R05";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("6", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:GS/*s/R06")), 
+					];
+					name = "R06";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("7", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:GS/*s/R07")), 
+					];
+					name = "R07";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("8", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:GS/*s/R08")), 
+					];
+					name = "R08";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "GS";
+		}, 
+	];
+}
+instance GE_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:GE"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:GE/*s/R01")), 
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:GE/*s/R02")), 
+					];
+					name = "R02";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "GE";
+		}, 
+	];
+}
+instance IEA_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:IEA"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:IEA/*s/R01")), 
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:IEA/*s/R02"), [Resize<align="right">(StaticInt(9), StaticString("0"))]), 
+					];
+					name = "R02";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "IEA";
+		}, 
+	];
+}
+instance ST_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:ST"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						AlternativeSerializers
+						{
+							options = 
+							[
+						ContentSerializer("", "", XPath("/x12:ST/*s/R01")), 
+								StringSerializer("263")
+							];
+						}
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:ST/*s/R02")), 
+					];
+					name = "R02";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "ST";
+		}, 
+	];
+}
+instance BGN_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:BGN"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:BGN/*s/R01")), 
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:BGN/*s/R02")), 
+					];
+					name = "R02";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("3", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:BGN/*s/R03")), 
+					];
+					name = "R03";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("4", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:BGN/*s/R04")), 
+					];
+					name = "R04";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("5", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:BGN/*s/R05")), 
+					];
+					name = "R05";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("6", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:BGN/*s/R06")), 
+					];
+					name = "R06";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("7", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:BGN/*s/R07")), 
+					];
+					name = "R07";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("8", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:BGN/*s/R08")), 
+					];
+					name = "R08";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("9", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:BGN/*s/R09")), 
+					];
+					name = "R09";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "BGN";
+		}, 
+		GroupSerializer<optional>
+		{
+			target = 
+			[
+				Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+			];
+			contains = 
+			[
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:BGN/*s/R05"))
+					];
+					contains = 
+					[
+						WriteValue(XPath("/x12:BGN/*s/R05"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+						EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+					];
+					name = "Check if element is present and not empty";
+				}, 
+				AlternativeSerializers
+				{
+					options = 
+					[
+						GroupSerializer
+						{
+							source = 
+							[
+								Locator(XPath("/x12:BGN/*s/R04"))
+							];
+							contains = 
+							[
+												WriteValue(XPath("/x12:BGN/*s/R04"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+												EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+											];
+							name = "R04 exist";
+								}, 
+						GroupSerializer
+						{
+								target = 
+								[
+									Locator(XPath("/x12:BGN/*s/R04"))
+								];
+							contains = 
+							[
+								SetValue("2", XPath("/x12:BGN/*s/R04/@errorCd")),
+								SetValue("4", XPath("$DataElementIndex"), [], "Set element index"), 
+								SyntaxNoteViolation
+							];
+							name = "syntax violation - set error codes";
+						}
+					];
+					name = "R04";
+				}, 
+			];
+			name = "C0504";
+		}, 
+	];
+}
+instance N1_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:N1"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:N1/*s/R01")), 
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:N1/*s/R02")), 
+					];
+					name = "R02";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("3", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:N1/*s/R03")), 
+					];
+					name = "R03";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("4", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:N1/*s/R04")), 
+					];
+					name = "R04";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("5", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:N1/*s/R05")), 
+					];
+					name = "R05";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("6", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:N1/*s/R06")), 
+					];
+					name = "R06";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "N1";
+		}, 
+		AlternativeSerializers
+		{
+			options = 
+			[
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:N1/*s/R02"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:N1/*s/R02"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}
+					];
+					name = "R02 exists ?";
+				},
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:N1/*s/R03"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:N1/*s/R03"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}
+					];
+					name = "R03 exists ?";
+				},
+				GroupSerializer
+				{
+								target = 
+								[
+									Locator(XPath("/x12:N1/*s/R02"))
+								];
+					contains = 
+					[
+						SetValue("2", XPath("/x12:N1/*s/R02/@errorCd")),
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						SyntaxNoteViolation
+					];
+					name = "syntax violation - set error codes";
+				}
+			];
+			name = "R0203";
+		}, 
+		GroupSerializer
+		{
+			contains = 
+			[
+				SetValue("0", XPath("$NumberOfElements")), 
+				GroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:N1/*s/R03"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:N1/*s/R03"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}, 
+						CalculateValue("$1 +1", [XPath("$NumberOfElements")], XPath("$NumberOfElements"))
+					];
+					name = "R03 exists";
+				}, 
+				GroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:N1/*s/R04"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:N1/*s/R04"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}, 
+						CalculateValue("$1 +1", [XPath("$NumberOfElements")], XPath("$NumberOfElements"))
+					];
+					name = "R04 exists";
+				}, 
+				AlternativeSerializers
+				{
+					options = 
+					[
+						EnsureCondition("$1 == 0", [XPath("$NumberOfElements")]), 
+						EnsureCondition("$1 == 2", [XPath("$NumberOfElements")]), 
+						GroupSerializer
+						{
+							contains = 
+							[
+								AlternativeSerializers<optional>
+								{
+									options = 
+									[
+										GroupSerializer
+										{
+											source = 
+											[
+												Locator(XPath("/x12:N1/*s/R03"))
+											];
+											contains = 
+											[
+												WriteValue(XPath("/x12:N1/*s/R03"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+												EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+											];
+										}, 
+										GroupSerializer
+										{
+											target = 
+											[
+												Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+
+									Locator(XPath("/x12:N1/*s/R03"))
+											];
+											contains = 
+											[
+												SetValue("2", XPath("/x12:N1/*s/R03/@errorCd")), 
+												SetValue("3", XPath("$DataElementIndex"), [], "Set element index"), 
+												SyntaxNoteViolation
+											];
+											name = "syntax violation - set error codes";
+										}
+									];
+									name = "R03 exists ?";
+								}, 
+								AlternativeSerializers<optional>
+								{
+									options = 
+									[
+										GroupSerializer
+										{
+											source = 
+											[
+												Locator(XPath("/x12:N1/*s/R04"))
+											];
+											contains = 
+											[
+												WriteValue(XPath("/x12:N1/*s/R04"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+												EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+											];
+										}, 
+										GroupSerializer
+										{
+											target = 
+											[
+												Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+
+									Locator(XPath("/x12:N1/*s/R04"))
+											];
+											contains = 
+											[
+												SetValue("2", XPath("/x12:N1/*s/R04/@errorCd")), 
+												SetValue("4", XPath("$DataElementIndex"), [], "Set element index"), 
+												SyntaxNoteViolation
+											];
+											name = "syntax violation - set error codes";
+										}
+									];
+									name = "R04 exists ?";
+								}, 
+							];
+							name = "error";
+						}
+					];
+					name = "Check for errors";
+				}
+			];
+			name = "P0304";
+		}, 
+	];
+}
+instance LX_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:LX"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:LX/*s/R01")), 
+					];
+					name = "R01";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "LX";
+		}, 
+	];
+}
+instance REF_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:REF"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:REF/*s/R01")), 
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:REF/*s/R02")), 
+					];
+					name = "R02";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("3", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:REF/*s/R03")), 
+					];
+					name = "R03";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("4", XPath("$DataElementIndex"), [], "Set element index"), 
+						EmbeddedSerializer
+						{
+							serializer = C040_Composite_Serializer;
+							schema_connections =
+							[
+								Connect(XPath("/x12:REF/*s/R04"), XPath("/x12:C040")),
+								Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+								Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+								Connect(XPath("$RecordID"), XPath("$RecordID")), 
+								Connect(XPath("$DataElementIndex"), XPath("$DataElementIndex"))
+								Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+							];
+						}
+					];
+					name = "R04";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "REF";
+		}, 
+		AlternativeSerializers
+		{
+			options = 
+			[
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:REF/*s/R02"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:REF/*s/R02"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}
+					];
+					name = "R02 exists ?";
+				},
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:REF/*s/R03"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:REF/*s/R03"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}
+					];
+					name = "R03 exists ?";
+				},
+				GroupSerializer
+				{
+								target = 
+								[
+									Locator(XPath("/x12:REF/*s/R02"))
+								];
+					contains = 
+					[
+						SetValue("2", XPath("/x12:REF/*s/R02/@errorCd")),
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						SyntaxNoteViolation
+					];
+					name = "syntax violation - set error codes";
+				}
+			];
+			name = "R0203";
+		}, 
+	];
+}
+instance MIR_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:MIR"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:MIR/*s/R01")), 
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:MIR/*s/R02")), 
+					];
+					name = "R02";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("3", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:MIR/*s/R03")), 
+					];
+					name = "R03";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("4", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:MIR/*s/R04")), 
+					];
+					name = "R04";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("5", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:MIR/*s/R05")), 
+						GroupSerializer<optional>
+						{
+							contains = 
+							[
+								Map
+								{
+									source = XPath("/x12:MIR/*s/R05");
+									target = XPath("$checkLength");
+									transformers = 
+									[
+										Replace<optional>(PatternSearch("[+-.E]*"))
+									];
+									validators = 
+									[
+										MaxLength
+										{
+											length = StaticInt(10);
+										}
+									];
+									on_fail = NotifyFailure(ElementTooLong, DynamicString(XPath("/x12:MIR/*s/R05")));
+								}
+							];
+						}
+					];
+					name = "R05";
+					notifications = 
+					[
+						NotificationHandler
+						{
+							notification = ElementTooLong;
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+							];
+							actions = 
+							[
+								SetValue("954", XPath("/x12:TS_Errors/*s/x12:Error/*s/DataElementRefNumber")), 
+								DataElementTooLong
+							];
+						}
+					];
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("6", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:MIR/*s/R06")), 
+					];
+					name = "R06";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("7", XPath("$DataElementIndex"), [], "Set element index"), 
+						EmbeddedSerializer
+						{
+							serializer = C001_Composite_Serializer;
+							schema_connections =
+							[
+								Connect(XPath("/x12:MIR/*s/R07"), XPath("/x12:C001")),
+								Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+								Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+								Connect(XPath("$RecordID"), XPath("$RecordID")), 
+								Connect(XPath("$DataElementIndex"), XPath("$DataElementIndex"))
+								Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+							];
+						}
+					];
+					name = "R07";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("8", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:MIR/*s/R08")), 
+						GroupSerializer<optional>
+						{
+							contains = 
+							[
+								Map
+								{
+									source = XPath("/x12:MIR/*s/R08");
+									target = XPath("$checkLength");
+									transformers = 
+									[
+										Replace<optional>(PatternSearch("[+-.E]*"))
+									];
+									validators = 
+									[
+										MaxLength
+										{
+											length = StaticInt(15);
+										}
+									];
+									on_fail = NotifyFailure(ElementTooLong, DynamicString(XPath("/x12:MIR/*s/R08")));
+								}
+							];
+						}
+					];
+					name = "R08";
+					notifications = 
+					[
+						NotificationHandler
+						{
+							notification = ElementTooLong;
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+							];
+							actions = 
+							[
+								SetValue("380", XPath("/x12:TS_Errors/*s/x12:Error/*s/DataElementRefNumber")), 
+								DataElementTooLong
+							];
+						}
+					];
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("9", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:MIR/*s/R09")), 
+						GroupSerializer<optional>
+						{
+							contains = 
+							[
+								Map
+								{
+									source = XPath("/x12:MIR/*s/R09");
+									target = XPath("$checkLength");
+									transformers = 
+									[
+										Replace<optional>(PatternSearch("[+-.E]*"))
+									];
+									validators = 
+									[
+										MaxLength
+										{
+											length = StaticInt(10);
+										}
+									];
+									on_fail = NotifyFailure(ElementTooLong, DynamicString(XPath("/x12:MIR/*s/R09")));
+								}
+							];
+						}
+					];
+					name = "R09";
+					notifications = 
+					[
+						NotificationHandler
+						{
+							notification = ElementTooLong;
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+							];
+							actions = 
+							[
+								SetValue("954", XPath("/x12:TS_Errors/*s/x12:Error/*s/DataElementRefNumber")), 
+								DataElementTooLong
+							];
+						}
+					];
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("10", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:MIR/*s/R10")), 
+						GroupSerializer<optional>
+						{
+							contains = 
+							[
+								Map
+								{
+									source = XPath("/x12:MIR/*s/R10");
+									target = XPath("$checkLength");
+									transformers = 
+									[
+										Replace<optional>(PatternSearch("[+-.E]*"))
+									];
+									validators = 
+									[
+										MaxLength
+										{
+											length = StaticInt(10);
+										}
+									];
+									on_fail = NotifyFailure(ElementTooLong, DynamicString(XPath("/x12:MIR/*s/R10")));
+								}
+							];
+						}
+					];
+					name = "R10";
+					notifications = 
+					[
+						NotificationHandler
+						{
+							notification = ElementTooLong;
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+							];
+							actions = 
+							[
+								SetValue("954", XPath("/x12:TS_Errors/*s/x12:Error/*s/DataElementRefNumber")), 
+								DataElementTooLong
+							];
+						}
+					];
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("11", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:MIR/*s/R11")), 
+					];
+					name = "R11";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("12", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:MIR/*s/R12")), 
+					];
+					name = "R12";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "MIR";
+		}, 
+		GroupSerializer
+		{
+			contains = 
+			[
+				SetValue("0", XPath("$NumberOfElements")), 
+				GroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:MIR/*s/R07"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:MIR/*s/R07"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}, 
+						CalculateValue("$1 +1", [XPath("$NumberOfElements")], XPath("$NumberOfElements"))
+					];
+					name = "R07 exists";
+				}, 
+				GroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:MIR/*s/R08"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:MIR/*s/R08"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}, 
+						CalculateValue("$1 +1", [XPath("$NumberOfElements")], XPath("$NumberOfElements"))
+					];
+					name = "R08 exists";
+				}, 
+				AlternativeSerializers
+				{
+					options = 
+					[
+						EnsureCondition("$1 == 0", [XPath("$NumberOfElements")]), 
+						EnsureCondition("$1 == 2", [XPath("$NumberOfElements")]), 
+						GroupSerializer
+						{
+							contains = 
+							[
+								AlternativeSerializers<optional>
+								{
+									options = 
+									[
+										GroupSerializer
+										{
+											source = 
+											[
+												Locator(XPath("/x12:MIR/*s/R07"))
+											];
+											contains = 
+											[
+												WriteValue(XPath("/x12:MIR/*s/R07"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+												EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+											];
+										}, 
+										GroupSerializer
+										{
+											target = 
+											[
+												Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+
+									Locator(XPath("/x12:MIR/*s/R07"))
+											];
+											contains = 
+											[
+												SetValue("2", XPath("/x12:MIR/*s/R07/@compErrorCd")), 
+												SetValue("7", XPath("$DataElementIndex"), [], "Set element index"), 
+												SyntaxNoteViolation
+											];
+											name = "syntax violation - set error codes";
+										}
+									];
+									name = "R07 exists ?";
+								}, 
+								AlternativeSerializers<optional>
+								{
+									options = 
+									[
+										GroupSerializer
+										{
+											source = 
+											[
+												Locator(XPath("/x12:MIR/*s/R08"))
+											];
+											contains = 
+											[
+												WriteValue(XPath("/x12:MIR/*s/R08"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+												EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+											];
+										}, 
+										GroupSerializer
+										{
+											target = 
+											[
+												Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+
+									Locator(XPath("/x12:MIR/*s/R08"))
+											];
+											contains = 
+											[
+												SetValue("2", XPath("/x12:MIR/*s/R08/@errorCd")), 
+												SetValue("8", XPath("$DataElementIndex"), [], "Set element index"), 
+												SyntaxNoteViolation
+											];
+											name = "syntax violation - set error codes";
+										}
+									];
+									name = "R08 exists ?";
+								}, 
+							];
+							name = "error";
+						}
+					];
+					name = "Check for errors";
+				}
+			];
+			name = "P0708";
+		}, 
+	];
+}
+instance TXI_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:TXI"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:TXI/*s/R01")), 
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:TXI/*s/R02")), 
+						GroupSerializer<optional>
+						{
+							contains = 
+							[
+								Map
+								{
+									source = XPath("/x12:TXI/*s/R02");
+									target = XPath("$checkLength");
+									transformers = 
+									[
+										Replace<optional>(PatternSearch("[+-.E]*"))
+									];
+									validators = 
+									[
+										MaxLength
+										{
+											length = StaticInt(18);
+										}
+									];
+									on_fail = NotifyFailure(ElementTooLong, DynamicString(XPath("/x12:TXI/*s/R02")));
+								}
+							];
+						}
+					];
+					name = "R02";
+					notifications = 
+					[
+						NotificationHandler
+						{
+							notification = ElementTooLong;
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+							];
+							actions = 
+							[
+								SetValue("782", XPath("/x12:TS_Errors/*s/x12:Error/*s/DataElementRefNumber")), 
+								DataElementTooLong
+							];
+						}
+					];
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("3", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:TXI/*s/R03")), 
+						GroupSerializer<optional>
+						{
+							contains = 
+							[
+								Map
+								{
+									source = XPath("/x12:TXI/*s/R03");
+									target = XPath("$checkLength");
+									transformers = 
+									[
+										Replace<optional>(PatternSearch("[+-.E]*"))
+									];
+									validators = 
+									[
+										MaxLength
+										{
+											length = StaticInt(10);
+										}
+									];
+									on_fail = NotifyFailure(ElementTooLong, DynamicString(XPath("/x12:TXI/*s/R03")));
+								}
+							];
+						}
+					];
+					name = "R03";
+					notifications = 
+					[
+						NotificationHandler
+						{
+							notification = ElementTooLong;
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+							];
+							actions = 
+							[
+								SetValue("954", XPath("/x12:TS_Errors/*s/x12:Error/*s/DataElementRefNumber")), 
+								DataElementTooLong
+							];
+						}
+					];
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("4", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:TXI/*s/R04")), 
+					];
+					name = "R04";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("5", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:TXI/*s/R05")), 
+					];
+					name = "R05";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("6", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:TXI/*s/R06")), 
+					];
+					name = "R06";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("7", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:TXI/*s/R07")), 
+					];
+					name = "R07";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("8", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:TXI/*s/R08")), 
+						GroupSerializer<optional>
+						{
+							contains = 
+							[
+								Map
+								{
+									source = XPath("/x12:TXI/*s/R08");
+									target = XPath("$checkLength");
+									transformers = 
+									[
+										Replace<optional>(PatternSearch("[+-.E]*"))
+									];
+									validators = 
+									[
+										MaxLength
+										{
+											length = StaticInt(9);
+										}
+									];
+									on_fail = NotifyFailure(ElementTooLong, DynamicString(XPath("/x12:TXI/*s/R08")));
+								}
+							];
+						}
+					];
+					name = "R08";
+					notifications = 
+					[
+						NotificationHandler
+						{
+							notification = ElementTooLong;
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+							];
+							actions = 
+							[
+								SetValue("828", XPath("/x12:TS_Errors/*s/x12:Error/*s/DataElementRefNumber")), 
+								DataElementTooLong
+							];
+						}
+					];
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("9", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:TXI/*s/R09")), 
+					];
+					name = "R09";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("10", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:TXI/*s/R10")), 
+					];
+					name = "R10";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "TXI";
+		}, 
+		AlternativeSerializers
+		{
+			options = 
+			[
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:TXI/*s/R02"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:TXI/*s/R02"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}
+					];
+					name = "R02 exists ?";
+				},
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:TXI/*s/R03"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:TXI/*s/R03"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}
+					];
+					name = "R03 exists ?";
+				},
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:TXI/*s/R06"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:TXI/*s/R06"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}
+					];
+					name = "R06 exists ?";
+				},
+				GroupSerializer
+				{
+								target = 
+								[
+									Locator(XPath("/x12:TXI/*s/R02"))
+								];
+					contains = 
+					[
+						SetValue("2", XPath("/x12:TXI/*s/R02/@errorCd")),
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						SyntaxNoteViolation
+					];
+					name = "syntax violation - set error codes";
+				}
+			];
+			name = "R020306";
+		}, 
+		GroupSerializer
+		{
+			contains = 
+			[
+				SetValue("0", XPath("$NumberOfElements")), 
+				GroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:TXI/*s/R04"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:TXI/*s/R04"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}, 
+						CalculateValue("$1 +1", [XPath("$NumberOfElements")], XPath("$NumberOfElements"))
+					];
+					name = "R04 exists";
+				}, 
+				GroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:TXI/*s/R05"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:TXI/*s/R05"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}, 
+						CalculateValue("$1 +1", [XPath("$NumberOfElements")], XPath("$NumberOfElements"))
+					];
+					name = "R05 exists";
+				}, 
+				AlternativeSerializers
+				{
+					options = 
+					[
+						EnsureCondition("$1 == 0", [XPath("$NumberOfElements")]), 
+						EnsureCondition("$1 == 2", [XPath("$NumberOfElements")]), 
+						GroupSerializer
+						{
+							contains = 
+							[
+								AlternativeSerializers<optional>
+								{
+									options = 
+									[
+										GroupSerializer
+										{
+											source = 
+											[
+												Locator(XPath("/x12:TXI/*s/R04"))
+											];
+											contains = 
+											[
+												WriteValue(XPath("/x12:TXI/*s/R04"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+												EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+											];
+										}, 
+										GroupSerializer
+										{
+											target = 
+											[
+												Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+
+									Locator(XPath("/x12:TXI/*s/R04"))
+											];
+											contains = 
+											[
+												SetValue("2", XPath("/x12:TXI/*s/R04/@errorCd")), 
+												SetValue("4", XPath("$DataElementIndex"), [], "Set element index"), 
+												SyntaxNoteViolation
+											];
+											name = "syntax violation - set error codes";
+										}
+									];
+									name = "R04 exists ?";
+								}, 
+								AlternativeSerializers<optional>
+								{
+									options = 
+									[
+										GroupSerializer
+										{
+											source = 
+											[
+												Locator(XPath("/x12:TXI/*s/R05"))
+											];
+											contains = 
+											[
+												WriteValue(XPath("/x12:TXI/*s/R05"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+												EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+											];
+										}, 
+										GroupSerializer
+										{
+											target = 
+											[
+												Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+
+									Locator(XPath("/x12:TXI/*s/R05"))
+											];
+											contains = 
+											[
+												SetValue("2", XPath("/x12:TXI/*s/R05/@errorCd")), 
+												SetValue("5", XPath("$DataElementIndex"), [], "Set element index"), 
+												SyntaxNoteViolation
+											];
+											name = "syntax violation - set error codes";
+										}
+									];
+									name = "R05 exists ?";
+								}, 
+							];
+							name = "error";
+						}
+					];
+					name = "Check for errors";
+				}
+			];
+			name = "P0405";
+		}, 
+		GroupSerializer<optional>
+		{
+			target = 
+			[
+				Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+			];
+			contains = 
+			[
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:TXI/*s/R08"))
+					];
+					contains = 
+					[
+						WriteValue(XPath("/x12:TXI/*s/R08"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+						EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+					];
+					name = "Check if element is present and not empty";
+				}, 
+				AlternativeSerializers
+				{
+					options = 
+					[
+						GroupSerializer
+						{
+							source = 
+							[
+								Locator(XPath("/x12:TXI/*s/R03"))
+							];
+							contains = 
+							[
+												WriteValue(XPath("/x12:TXI/*s/R03"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+												EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+											];
+							name = "R03 exist";
+								}, 
+						GroupSerializer
+						{
+								target = 
+								[
+									Locator(XPath("/x12:TXI/*s/R03"))
+								];
+							contains = 
+							[
+								SetValue("2", XPath("/x12:TXI/*s/R03/@errorCd")),
+								SetValue("3", XPath("$DataElementIndex"), [], "Set element index"), 
+								SyntaxNoteViolation
+							];
+							name = "syntax violation - set error codes";
+						}
+					];
+					name = "R03";
+				}, 
+			];
+			name = "C0803";
+		}, 
+	];
+}
+instance N9_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:N9"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:N9/*s/R01")), 
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:N9/*s/R02")), 
+					];
+					name = "R02";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("3", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:N9/*s/R03")), 
+					];
+					name = "R03";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("4", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:N9/*s/R04")), 
+					];
+					name = "R04";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("5", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:N9/*s/R05")), 
+					];
+					name = "R05";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("6", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:N9/*s/R06")), 
+					];
+					name = "R06";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("7", XPath("$DataElementIndex"), [], "Set element index"), 
+						EmbeddedSerializer
+						{
+							serializer = C040_Composite_Serializer;
+							schema_connections =
+							[
+								Connect(XPath("/x12:N9/*s/R07"), XPath("/x12:C040")),
+								Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+								Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+								Connect(XPath("$RecordID"), XPath("$RecordID")), 
+								Connect(XPath("$DataElementIndex"), XPath("$DataElementIndex"))
+								Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+							];
+						}
+					];
+					name = "R07";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "N9";
+		}, 
+		AlternativeSerializers
+		{
+			options = 
+			[
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:N9/*s/R02"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:N9/*s/R02"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}
+					];
+					name = "R02 exists ?";
+				},
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:N9/*s/R03"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:N9/*s/R03"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}
+					];
+					name = "R03 exists ?";
+				},
+				GroupSerializer
+				{
+								target = 
+								[
+									Locator(XPath("/x12:N9/*s/R02"))
+								];
+					contains = 
+					[
+						SetValue("2", XPath("/x12:N9/*s/R02/@errorCd")),
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						SyntaxNoteViolation
+					];
+					name = "syntax violation - set error codes";
+				}
+			];
+			name = "R0203";
+		}, 
+		GroupSerializer<optional>
+		{
+			target = 
+			[
+				Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+			];
+			contains = 
+			[
+				GroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:N9/*s/R06"))
+					];
+					contains = 
+					[
+						WriteValue(XPath("/x12:N9/*s/R06"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+						EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+					];
+					name = "Check if element is present and not empty";
+				}, 
+				AlternativeSerializers
+				{
+					options = 
+					[
+						GroupSerializer
+						{
+							source = 
+							[
+								Locator(XPath("/x12:N9/*s/R05"))
+							];
+							contains = 
+							[
+												WriteValue(XPath("/x12:N9/*s/R05"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+												EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+											];
+							name = "R05 exist";
+								}, 
+						GroupSerializer
+						{
+								target = 
+								[
+									Locator(XPath("/x12:N9/*s/R05"))
+								];
+							contains = 
+							[
+								SetValue("2", XPath("/x12:N9/*s/R05/@errorCd")),
+								SetValue("5", XPath("$DataElementIndex"), [], "Set element index"), 
+								SyntaxNoteViolation
+							];
+							name = "syntax violation - set error codes";
+						}
+					];
+					name = "R05";
+				}, 
+			];
+			name = "C0605";
+		}, 
+	];
+}
+instance G63_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:G63"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:G63/*s/R01")), 
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:G63/*s/R02")), 
+					];
+					name = "R02";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("3", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:G63/*s/R03")), 
+					];
+					name = "R03";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("4", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:G63/*s/R04")), 
+					];
+					name = "R04";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "G63";
+		}, 
+	];
+}
+instance PCT_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:PCT"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:PCT/*s/R01")), 
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:PCT/*s/R02")), 
+						GroupSerializer<optional>
+						{
+							contains = 
+							[
+								Map
+								{
+									source = XPath("/x12:PCT/*s/R02");
+									target = XPath("$checkLength");
+									transformers = 
+									[
+										Replace<optional>(PatternSearch("[+-.E]*"))
+									];
+									validators = 
+									[
+										MaxLength
+										{
+											length = StaticInt(10);
+										}
+									];
+									on_fail = NotifyFailure(ElementTooLong, DynamicString(XPath("/x12:PCT/*s/R02")));
+								}
+							];
+						}
+					];
+					name = "R02";
+					notifications = 
+					[
+						NotificationHandler
+						{
+							notification = ElementTooLong;
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+							];
+							actions = 
+							[
+								SetValue("954", XPath("/x12:TS_Errors/*s/x12:Error/*s/DataElementRefNumber")), 
+								DataElementTooLong
+							];
+						}
+					];
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "PCT";
+		}, 
+	];
+}
+instance SE_Segment_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:SE"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("1", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:SE/*s/R01")), 
+					];
+					name = "R01";
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						SetValue("2", XPath("$DataElementIndex"), [], "Set element index"), 
+						ContentSerializer("", "", XPath("/x12:SE/*s/R02")), 
+					];
+					name = "R02";
+				}, 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator"));
+			name = "SE";
+		}, 
+	];
+}
+instance C040_Composite_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:C040"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:C040/*s/R01"), [], "R01"), 
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:C040/*s/R02"), [], "R02"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C040/*s/R03"), [], "R03"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C040/*s/R04"), [], "R04"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C040/*s/R05"), [], "R05"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C040/*s/R06"), [], "R06"), 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/composite_separator"));
+			name = "C040";
+		}
+		GroupSerializer
+		{
+			contains = 
+			[
+				SetValue("0", XPath("$NumberOfElements")), 
+				GroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:C040/*s/R03"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:C040/*s/R03"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}, 
+						CalculateValue("$1 +1", [XPath("$NumberOfElements")], XPath("$NumberOfElements"))
+					];
+					name = "R03 exists";
+				}, 
+				GroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:C040/*s/R04"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:C040/*s/R04"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}, 
+						CalculateValue("$1 +1", [XPath("$NumberOfElements")], XPath("$NumberOfElements"))
+					];
+					name = "R04 exists";
+				}, 
+				AlternativeSerializers
+				{
+					options = 
+					[
+						EnsureCondition("$1 == 0", [XPath("$NumberOfElements")]), 
+						EnsureCondition("$1 == 2", [XPath("$NumberOfElements")]), 
+						GroupSerializer
+						{
+							contains = 
+							[
+								AlternativeSerializers<optional>
+								{
+									options = 
+									[
+										GroupSerializer
+										{
+											source = 
+											[
+												Locator(XPath("/x12:C040/*s/R03"))
+											];
+											contains = 
+											[
+												WriteValue(XPath("/x12:C040/*s/R03"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+												EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+											];
+										}, 
+										GroupSerializer
+										{
+											target = 
+											[
+												Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+
+									Locator(XPath("/x12:C040/*s/R03"))
+											];
+											contains = 
+											[
+												SetValue("2", XPath("/x12:C040/*s/R03/@errorCd")), 
+												SetValue("3", XPath("$CompositeElementIndex"), [], "Set element index"), 
+												SyntaxNoteViolation
+											];
+											name = "syntax violation - set error codes";
+										}
+									];
+									name = "R03 exists ?";
+								}, 
+								AlternativeSerializers<optional>
+								{
+									options = 
+									[
+										GroupSerializer
+										{
+											source = 
+											[
+												Locator(XPath("/x12:C040/*s/R04"))
+											];
+											contains = 
+											[
+												WriteValue(XPath("/x12:C040/*s/R04"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+												EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+											];
+										}, 
+										GroupSerializer
+										{
+											target = 
+											[
+												Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+
+									Locator(XPath("/x12:C040/*s/R04"))
+											];
+											contains = 
+											[
+												SetValue("2", XPath("/x12:C040/*s/R04/@errorCd")), 
+												SetValue("4", XPath("$CompositeElementIndex"), [], "Set element index"), 
+												SyntaxNoteViolation
+											];
+											name = "syntax violation - set error codes";
+										}
+									];
+									name = "R04 exists ?";
+								}, 
+							];
+							name = "error";
+						}
+					];
+					name = "Check for errors";
+				}
+			];
+			name = "P0304";
+		}, 
+		GroupSerializer
+		{
+			contains = 
+			[
+				SetValue("0", XPath("$NumberOfElements")), 
+				GroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:C040/*s/R05"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:C040/*s/R05"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}, 
+						CalculateValue("$1 +1", [XPath("$NumberOfElements")], XPath("$NumberOfElements"))
+					];
+					name = "R05 exists";
+				}, 
+				GroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:C040/*s/R06"))
+					];
+					contains = 
+					[
+						GroupSerializer
+						{
+							contains = 
+							[
+								WriteValue(XPath("/x12:C040/*s/R06"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+								EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+							];
+							name = "Check if element is present and not empty";
+						}, 
+						CalculateValue("$1 +1", [XPath("$NumberOfElements")], XPath("$NumberOfElements"))
+					];
+					name = "R06 exists";
+				}, 
+				AlternativeSerializers
+				{
+					options = 
+					[
+						EnsureCondition("$1 == 0", [XPath("$NumberOfElements")]), 
+						EnsureCondition("$1 == 2", [XPath("$NumberOfElements")]), 
+						GroupSerializer
+						{
+							contains = 
+							[
+								AlternativeSerializers<optional>
+								{
+									options = 
+									[
+										GroupSerializer
+										{
+											source = 
+											[
+												Locator(XPath("/x12:C040/*s/R05"))
+											];
+											contains = 
+											[
+												WriteValue(XPath("/x12:C040/*s/R05"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+												EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+											];
+										}, 
+										GroupSerializer
+										{
+											target = 
+											[
+												Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+
+									Locator(XPath("/x12:C040/*s/R05"))
+											];
+											contains = 
+											[
+												SetValue("2", XPath("/x12:C040/*s/R05/@errorCd")), 
+												SetValue("5", XPath("$CompositeElementIndex"), [], "Set element index"), 
+												SyntaxNoteViolation
+											];
+											name = "syntax violation - set error codes";
+										}
+									];
+									name = "R05 exists ?";
+								}, 
+								AlternativeSerializers<optional>
+								{
+									options = 
+									[
+										GroupSerializer
+										{
+											source = 
+											[
+												Locator(XPath("/x12:C040/*s/R06"))
+											];
+											contains = 
+											[
+												WriteValue(XPath("/x12:C040/*s/R06"), OutputDataHolder(XPath("$ElementAsString")), [RemoveErrorTags]), 
+
+												EnsureCondition("$1 != \"\"", [XPath("$ElementAsString")])
+											];
+										}, 
+										GroupSerializer
+										{
+											target = 
+											[
+												Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+
+									Locator(XPath("/x12:C040/*s/R06"))
+											];
+											contains = 
+											[
+												SetValue("2", XPath("/x12:C040/*s/R06/@errorCd")), 
+												SetValue("6", XPath("$CompositeElementIndex"), [], "Set element index"), 
+												SyntaxNoteViolation
+											];
+											name = "syntax violation - set error codes";
+										}
+									];
+									name = "R06 exists ?";
+								}, 
+							];
+							name = "error";
+						}
+					];
+					name = "Check for errors";
+				}
+			];
+			name = "P0506";
+		}, 
+	];
+}
+instance C001_Composite_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:C001"))
+	];
+	contains = 
+	[
+		DelimitedSectionsSerializer<separator_position="between">
+		{
+			sections = 
+			[				
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:C001/*s/R01"), [], "R01"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R02"), [], "R02"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R03"), [], "R03"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R04"), [], "R04"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R05"), [], "R05"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R06"), [], "R06"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R07"), [], "R07"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R08"), [], "R08"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R09"), [], "R09"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R10"), [], "R10"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R11"), [], "R11"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R12"), [], "R12"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R13"), [], "R13"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R14"), [], "R14"), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:C001/*s/R15"), [], "R15"), 
+			];
+			separator = ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/composite_separator"));
+			name = "C001";
+		}
+	];
+}
+instance CompositeElementIndex = Variable(XSDTypeRef("xs:int"))
+instance DataElementIndex = Variable(XSDTypeRef("xs:int"))
+instance ElementAsString = Variable()
+instance RecordID = Variable()
+instance NumberOfElements = Variable(XSDTypeRef("xs:int"))
+instance SyntaxNoteViolation = GroupSerializer
+{
+	target = 
+	[
+		Locator(XPath("/x12:TS_Errors/*s/x12:Error"))
+	];
+	contains = 
+	[
+		SetValue("2", XPath("/x12:TS_Errors/*s/x12:Error/@Code"), [], "Error Code"), 
+		SetValue("Conditional required data element missing", XPath("/x12:TS_Errors/*s/x12:Error/@Description"), [], "Description"), 
+		Map(XPath("$SegmentCount"), XPath("/x12:TS_Errors/*s/x12:Error/*s/SegmentIndex"), [], "Line Index"), 
+		Map(XPath("$RecordID"), XPath("/x12:TS_Errors/*s/x12:Error/*s/SegmentIdentifier"), [], "Identifier"), 
+		Map<optional>(XPath("$CompositeElementIndex"), XPath("/x12:TS_Errors/*s/x12:Error/*s/ElementInCompositeIndex"), [], "Data Element in Composite Index"), 
+		Map(XPath("$DataElementIndex"), XPath("/x12:TS_Errors/*s/x12:Error/*s/DataElementIndex"), [], "Data Element Index"), 
+		SetValue("true", XPath("$ErrorsFoundFlag"), [], "Errors Found")
+	];
+}
+instance SyntaxNoteViolation_RelationE = GroupSerializer
+{
+	contains = 
+	[
+		SetValue("10", XPath("/x12:TS_Errors/*s/x12:Error/@Code"), [], "Error Code"), 
+		SetValue("Exclusion Condition Violated", XPath("/x12:TS_Errors/*s/x12:Error/@Description"), [], "Description"), 
+		Map(XPath("$SegmentCount"), XPath("/x12:TS_Errors/*s/x12:Error/*s/SegmentIndex"), [], "Line Index"), 
+		Map(XPath("$RecordID"), XPath("/x12:TS_Errors/*s/x12:Error/*s/SegmentIdentifier"), [], "Identifier"), 
+		Map<optional>(XPath("$CompositeElementIndex"), XPath("/x12:TS_Errors/*s/x12:Error/*s/ElementInCompositeIndex"), [], "Data Element in Composite Index"), 
+		Map(XPath("$DataElementIndex"), XPath("/x12:TS_Errors/*s/x12:Error/*s/DataElementIndex"), [], "Data Element Index"), 
+		SetValue("true", XPath("$ErrorsFoundFlag"), [], "Errors Found")
+	];
+}
+instance PopulateError = GroupMapping
+{
+	contains = 
+	[
+		Map(XPath("$SegmentCount"), XPath("/x12:TS_Errors/*s/x12:Error/*s/SegmentIndex"), [], "Line Index"), 
+		Map(XPath("$RecordID"), XPath("/x12:TS_Errors/*s/x12:Error/*s/SegmentIdentifier"), [], "Identifier"), 
+		Map<optional>(XPath("$CompositeElementIndex"), XPath("/x12:TS_Errors/*s/x12:Error/*s/ElementInCompositeIndex"), [], "Data Element in Composite Index"), 
+		Map(XPath("$DataElementIndex"), XPath("/x12:TS_Errors/*s/x12:Error/*s/DataElementIndex"), [], "Data Element Index"), 
+		SetValue("true", XPath("$ErrorsFoundFlag"), [], "Errors Found")
+	];
+}
+instance DataElementTooLong = GroupMapping
+{
+	contains = 
+	[
+		SetValue("5", XPath("/x12:TS_Errors/*s/x12:Error/@Code"), [], "Error Code"), 
+		SetValue("Data element too long", XPath("/x12:TS_Errors/*s/x12:Error/@Description"), [], "Description"), 
+		Map<optional>(XPath("$VarNotificationDetails/*s/Value"), XPath("/x12:TS_Errors/*s/x12:Error/*s/DataElementValue"), [], "Data Element Value"), 
+		PopulateError
+	];
+}
+instance ElementTooLong = Notification()
+instance RemoveErrorTags = TransformerPipeline
+{
+	transformers = 
+	[
+		RegularExpression("(<R[^>]+>)(.*)(</R[0-9]+>)", "$2"), 
+		RemoveMarginSpace()
+	];
+}

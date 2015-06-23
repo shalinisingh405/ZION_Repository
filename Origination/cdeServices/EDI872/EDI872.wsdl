@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soae="http://www.intel.com/soae/wsdl/wsdl11-2007a/" xmlns:tns="http://www.example.com/Origination/cde/EDI872" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd0="http://www.example.com/Origination/cde/EDI872/schemas" name="EDI872" targetNamespace="http://www.example.com/Origination/cde/EDI872">
+  <plnk:partnerLinkType name="EDI872PartnerLinkType">
+    <plnk:role name="EDI872Provider" portType="tns:EDI872PortType"/>
+  </plnk:partnerLinkType>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.com/Origination/cde/EDI872/schemas"/>
+  </wsdl:types>
+  <wsdl:message name="InputData">
+    <wsdl:part name="body" type="xsd:base64Binary"/>
+  </wsdl:message>
+  <wsdl:message name="OutputData">
+    <wsdl:part name="body" type="xsd:anyType"/>
+  </wsdl:message>
+  <wsdl:portType name="EDI872PortType">
+    <wsdl:operation name="dataMapping">
+      <wsdl:input message="tns:InputData"/>
+      <wsdl:output message="tns:OutputData"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EDI872CDEBinding" type="tns:EDI872PortType">
+    <soae:binding transport="http://www.intel.com/soae/localservice/builtin"/>
+    <wsdl:operation name="dataMapping">
+      <wsdl:input>
+        <soae:content type="application/octet-stream"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soae:content part="body" type="text/xml"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EDI872">
+    <wsdl:port binding="tns:EDI872CDEBinding" name="EDI872Port">
+      <soae:address location="soae-local://builtin/informatica-cde?service=EDI872"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

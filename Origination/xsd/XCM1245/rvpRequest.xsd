@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.0 U (http://www.xmlspy.com) by Radian Guaranty Inc (Radian Guaranty Inc) -->
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Suresh Manik (JP Morgan Chase Bank) -->
+<!--Please email any revisions to the Steward of the Master Model & Mapping artifacts -->
+<xsd:schema xmlns="http://www.radian.com/mi/RVP/RequestMessage" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.radian.com/mi/RVP/RequestMessage" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:element name="REQUEST">
+		<xsd:complexType>
+			<xsd:annotation>
+				<xsd:documentation>
+							11Apr2007-Initial Version-V1.00-Created by Suresh Manik
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:sequence>
+				<xsd:element ref="JRULES_EXT" minOccurs="0"/>
+				<xsd:element ref="MI_REQUEST"/>
+				<xsd:element ref="LOAN_APPLICATION"/>
+				<xsd:element ref="MI_EXTEND" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JRULES_EXT">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MESSAGE_HANDLER" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attribute name="ID" type="xsd:ID" use="optional"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MESSAGE_HANDLER">
+		<xsd:complexType>
+			<xsd:attribute name="RequestID" type="xsd:ID" use="optional"/>
+			<xsd:attribute name="RequestName" type="xsd:string"/>
+			<xsd:attribute name="RequestDescription" type="xsd:string"/>
+			<xsd:attribute name="RequestStatus" type="xsd:string"/>
+			<xsd:attribute name="RequestMessage" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MI_REQUEST">
+		<xsd:complexType>
+			<xsd:attribute name="MIApplicationType">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Delegated"/>
+						<xsd:enumeration value="Prequalification"/>
+						<xsd:enumeration value="StandardApplication"/>
+						<xsd:enumeration value="RateQuote"/>
+						<xsd:enumeration value="Other"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="MICertificateIdentifier" type="xsd:string"/>
+			<xsd:attribute name="MIDurationType">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Annual"/>
+						<xsd:enumeration value="NotApplicable"/>
+						<xsd:enumeration value="PeriodicMonthly"/>
+						<xsd:enumeration value="SingleLifeOfLoan"/>
+						<xsd:enumeration value="SingleSpecific"/>
+						<xsd:enumeration value="Simplified_EXT"/>
+						<xsd:enumeration value="Other"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="MILenderIdentifier" type="xsd:string"/>
+			<xsd:attribute name="MITransactionIdentifier" type="xsd:string"/>
+			<xsd:attribute name="DealIdentifier_EXT" type="xsd:string"/>
+			<xsd:attribute name="UserIdentifier_EXT" type="xsd:string"/>
+			<xsd:attribute name="ProgramSchemaPricing_EXT" type="xsd:string"/>
+			<xsd:attribute name="ProgramSchemaEligibility_EXT" type="xsd:string"/>
+			<xsd:attribute name="PricingFixVarRateCode_EXT" type="xsd:string"/>
+			<xsd:attribute name="MILenderSpecialProgramType" type="xsd:string"/>
+			<xsd:attribute name="PaymentOptionIndicator" type="xsd:boolean"/>
+			<xsd:attribute name="MIPremiumPaymentType">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="BorrowerPaid"/>
+						<xsd:enumeration value="BothBorrowerAndLenderPaid"/>
+						<xsd:enumeration value="Financed"/>
+						<xsd:enumeration value="LenderPaid"/>
+						<xsd:enumeration value="PaidFromEscrow"/>
+						<xsd:enumeration value="Prepaid"/>
+						<xsd:enumeration value="Other"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="MIPremiumRefundableType">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="NotRefundable"/>
+						<xsd:enumeration value="Refundable"/>
+						<xsd:enumeration value="RefundableWithLimits"/>
+						<xsd:enumeration value="Other"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="MIRelocationLoanIndicator" type="xsd:boolean"/>
+			<xsd:attribute name="MIRenewalCalculationType">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Constant"/>
+						<xsd:enumeration value="Declining"/>
+						<xsd:enumeration value="NoRenewals"/>
+						<xsd:enumeration value="NotApplicable"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="MISpecialPricingType" type="xsd:string"/>
+			<xsd:attribute name="MIPremiumRatePlanType">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="BackLoaded"/>
+						<xsd:enumeration value="Level">
+							<xsd:annotation>
+								<xsd:documentation>First premium is at same rate as subsequent renewals.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="ModifiedFrontLoaded">
+							<xsd:annotation>
+								<xsd:documentation>MI premium collected from borrower.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="StandardFrontLoaded">
+							<xsd:annotation>
+								<xsd:documentation>First premium is at a higher rate than subsequent renewals.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="Other"/>
+						<xsd:enumeration value="SplitPremium1"/>
+						<xsd:enumeration value="SplitPremium2"/>
+						<xsd:enumeration value="SplitPremium3"/>
+						<xsd:enumeration value="SplitPremium4"/>
+						<xsd:enumeration value="SplitPremium5"/>
+						<xsd:enumeration value="SplitPremium6"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="MISubPrimeProgramType" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Expected to be blank or AMinus. Changed from enumeration by SGS on 02Dec08</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="MICaptiveReinsuranceIndicator" type="xsd:boolean"/>
+			<xsd:attribute name="AUSResponse_EXT" type="xsd:string"/>
+			<xsd:attribute name="AltAIndicator_EXT" type="xsd:boolean"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="LOAN_APPLICATION">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="AFFORDABLE_LENDING" minOccurs="0"/>
+				<xsd:element ref="INTERVIEWER_INFORMATION" minOccurs="0"/>
+				<xsd:element ref="LOAN_PRODUCT_DATA" minOccurs="0"/>
+				<xsd:element ref="ADDITIONAL_CASE_DATA" minOccurs="0"/>
+				<xsd:element ref="LOAN_PURPOSE" minOccurs="0"/>
+				<xsd:element ref="MORTGAGE_TERMS" minOccurs="0"/>
+				<xsd:element ref="PROPERTY" minOccurs="0"/>
+				<xsd:element ref="CREDIT_SCORE" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="BORROWER" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="ApplicationDate_EXT" type="xsd:date"/>
+			<xsd:attribute name="FICOProxy_EXT" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ADDITIONAL_CASE_DATA">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="TRANSMITTAL_DATA" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="TRANSMITTAL_DATA">
+		<xsd:complexType>
+			<xsd:attribute name="PropertyAppraisedValueAmount" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:99B-040 Money</xsd:documentation>
+					<xsd:documentation>Statement of property's value from a valid property valuation source.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="LoanOriginatorType" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="BORROWER">
+		<xsd:complexType>
+			<xsd:attribute name="BorrowerID" type="xsd:ID"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="CREDIT_SCORE">
+		<xsd:complexType>
+			<xsd:attribute name="BorrowerID" type="xsd:IDREFS"/>
+			<xsd:attribute name="_Value" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Numeric credit score resulting from credit evaluation model.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="CreditReportType">
+				<xsd:annotation>
+					<xsd:documentation>The type of credit report that was requested or produced. Most common types are Merged report (data from credit data repositories is merged), and RMCR (Residential Mortgage Credit Report - contains verified liabilities, employment, etc.)</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Error"/>
+						<xsd:enumeration value="Merge"/>
+						<xsd:enumeration value="MergePlus"/>
+						<xsd:enumeration value="NonTraditional"/>
+						<xsd:enumeration value="Other"/>
+						<xsd:enumeration value="RiskScoresOnly"/>
+						<xsd:enumeration value="RMCR"/>
+						<xsd:enumeration value="RMCRForeign"/>
+						<xsd:enumeration value="Status"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="LOAN_PRODUCT_DATA">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="LOAN_FEATURES" minOccurs="0"/>
+				<xsd:element ref="ARM" minOccurs="0"/>
+				<xsd:element ref="BUYDOWN" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="RATE_ADJUSTMENT" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="LOAN_FEATURES">
+		<xsd:complexType>
+			<xsd:attribute name="GSEPropertyType_EXT">
+				<xsd:annotation>
+					<xsd:documentation>GSEPropertyType attribute was deprecated in AUS 2.4. An extension was created to match Radian's current fields.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Attached"/>
+						<xsd:enumeration value="Condominium"/>
+						<xsd:enumeration value="Cooperative"/>
+						<xsd:enumeration value="Detached"/>
+						<xsd:enumeration value="HighRiseCondominium"/>
+						<xsd:enumeration value="ManufacturedHousing"/>
+						<xsd:enumeration value="Modular"/>
+						<xsd:enumeration value="PUD"/>
+						<xsd:enumeration value="ManufacturedHousingSingleWide"/>
+						<xsd:enumeration value="ManufacturedHousingDoubleWide"/>
+						<xsd:enumeration value="DetachedCondominium"/>
+						<xsd:enumeration value="ManufacturedHomeCondominium"/>
+						<xsd:enumeration value="ManufacturedHousingMultiWide"/>
+						<xsd:enumeration value="ManufacturedHomeCondominiumOrPUDOrCooperative"/>
+						<xsd:enumeration value="CondominiumHotel_EXT"/>
+						<xsd:enumeration value="any"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="InterestOnlyIndicator_EXT" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation>Indicates whether or not a loan is interest only.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="InterestOnlyTerm" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation>added to AUS 2.2.  Numeric</xsd:documentation>
+					<xsd:documentation>The number of payments the loan remains interest only.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="LoanDocumentationType">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:LNC-030 Enumerated
+added enumeration to AUS 2.3.1</xsd:documentation>
+					<xsd:documentation>Specifies the extent or level of the documentation being collected to process and underwrite the loan.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Alternative"/>
+						<xsd:enumeration value="FullDocumentation"/>
+						<xsd:enumeration value="NoDepositVerification"/>
+						<xsd:enumeration value="NoDepositVerificationEmploymentVerificationOrIncomeVerification"/>
+						<xsd:enumeration value="NoDocumentation"/>
+						<xsd:enumeration value="NoEmploymentVerificationOrIncomeVerification">
+							<xsd:annotation>
+								<xsd:documentation>A verification of employment is a form that requests and secures documentation on a mortgage applicants work history and /or occupation to assist in the lenders credit investigation.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="Reduced"/>
+						<xsd:enumeration value="StreamlineRefinance"/>
+						<xsd:enumeration value="NoRatio"/>
+						<xsd:enumeration value="NoIncomeNoEmploymentNoAssetsOn1003"/>
+						<xsd:enumeration value="NoIncomeOn1003"/>
+						<xsd:enumeration value="NoVerificationOfStatedIncomeEmploymentOrAssets"/>
+						<xsd:enumeration value="NoVerificationOfStatedIncomeOrAssests"/>
+						<xsd:enumeration value="NoVerificationOfStatedAssets"/>
+						<xsd:enumeration value="NoVerificationOfStatedIncomeOrEmployment"/>
+						<xsd:enumeration value="NoVerificationOfStatedIncome"/>
+						<xsd:enumeration value="VerbalVerificationOfEmployment"/>
+						<xsd:enumeration value="OnePaystub"/>
+						<xsd:enumeration value="OnePaystubAndVerbalVerificationOfEmployment"/>
+						<xsd:enumeration value="OnePaystubAndOneW2AndVerbalVerificationOfEmploymentOrOneYear1040"/>
+						<xsd:enumeration value="Other"/>
+						<xsd:enumeration value="NINA_EXT"/>
+						<xsd:enumeration value="SIVA_EXT"/>
+						<xsd:enumeration value="SISA_EXT"/>
+						<xsd:enumeration value="NotProvided_EXT"/>
+						<xsd:enumeration value="any"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="LoanRepaymentType">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:PCH-070 Enumerated</xsd:documentation>
+					<xsd:documentation>Specifies whether the loan payment schedule has been calculated to fully repay the loan over the mortgage term and if negative amortization is possible for the loan whether it is scheduled or potential. Negative amortization is unpaid interest added to the mortgage principal. This applies to loans where the principal balance increases because the payments do not cover the interest.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="NoNegativeAmortization"/>
+						<xsd:enumeration value="PotentialNegativeAmortization"/>
+						<xsd:enumeration value="ScheduledAmortization"/>
+						<xsd:enumeration value="ScheduledNegativeAmortization"/>
+						<xsd:enumeration value="PrincipalPaymentOption"/>
+						<xsd:enumeration value="ConstantPrincipal"/>
+						<xsd:enumeration value="Other"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="MICoveragePercent" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:LNC-210 Numeric</xsd:documentation>
+					<xsd:documentation>The percentage of the loan amount to be insured.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="PaymentFrequencyType">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Biweekly"/>
+						<xsd:enumeration value="Other"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="BalloonIndicator" type="xsd:boolean"/>
+			<xsd:attribute name="BalloonLoanMaturityTermMonths" type="xsd:int"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ARM">
+		<xsd:complexType>
+			<xsd:attribute name="RateAdjustmentLifetimeCapPercent" type="xsd:double"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="BUYDOWN">
+		<xsd:complexType>
+			<xsd:attribute name="_ID_EXT" type="xsd:int"/>
+			<xsd:attribute name="_DurationMonths" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:BUA-030 Numeric</xsd:documentation>
+					<xsd:documentation>The total number of months during which any buydown is in effect. This represents the accumulation of all of the buydown periods.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="_IncreaseRatePercent" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:BUA-040 Numeric</xsd:documentation>
+					<xsd:documentation>The amount by which the interest rate can increase at each adjustment period within the buydown duration.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="_PermanentIndicator" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:BUA-070 Boolean</xsd:documentation>
+					<xsd:documentation>Indicates whether the buydown is permanent.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="_ID" type="xsd:ID"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="RATE_ADJUSTMENT">
+		<xsd:complexType>
+			<xsd:attribute name="FirstRateAdjustmentMonths" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:RAJ-080 Numeric</xsd:documentation>
+					<xsd:documentation>The number of months after origination in which the first interest rate adjustment occurs, if the interest rate on the subject loan can change.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="_InitialCapPercent" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>The MI Work Group added the additional attribute, _InitialCapPercent, to the RATE_ADJUSTMENT container element used in the MI_AUS_REQUEST2_1.DTD. To be used when applicable.
+Deprecated in v2.4.  Added to the MI_REQUEST container</xsd:documentation>
+					<xsd:documentation>The maximum allowed increase in the interest rate (cap) at the initial adjustment.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="LOAN_PURPOSE">
+		<xsd:complexType>
+			<xsd:attribute name="_Type">
+				<xsd:annotation>
+					<xsd:documentation>AUS 2.3 Mark valid values ConstructionOnly and ConstructionToPermanent for deprecation
+in future non-backwardly compatible release
+#DOCUMENTATION:02B-030 Enumerated
+Added enumeration in AUS 2.4.</xsd:documentation>
+					<xsd:documentation>Specifies the purpose for which the loan proceeds will be used.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="ConstructionOnly">
+							<xsd:annotation>
+								<xsd:documentation>A short term, interim loan for financing the cost of construction. The lender advances funds to the builder at periodic intervals as work progresses.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="ConstructionToPermanent">
+							<xsd:annotation>
+								<xsd:documentation>The subject loan will be used for construction financing and then be converted to permanent financing.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="Other"/>
+						<xsd:enumeration value="Purchase">
+							<xsd:annotation>
+								<xsd:documentation>A loan made in association with the original purchase of a piece of property.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="Refinance">
+							<xsd:annotation>
+								<xsd:documentation>The repayment of a debt from proceeds of a new loan using the same property as security  or a mortgage secured by a property previously owned free and clear by the Borrower.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="Unknown">
+							<xsd:annotation>
+								<xsd:documentation>Loan Purpose has not been reported or is not known.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="RefinanceCashOut_EXT">
+							<xsd:annotation>
+								<xsd:documentation>Refinance Cash Out.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="RefinanceRateTerm_EXT">
+							<xsd:annotation>
+								<xsd:documentation>Refinance Rate Term.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="ConstructionToRefinance_EXT">
+							<xsd:annotation>
+								<xsd:documentation>Construction to refinance.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="any"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="PropertyUsageType">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:02B-050 Enumerated
+Mark valid value Investor for deprecation in AUS 2.4. Use Investment.
+Added enumeration in AUS 2.4.</xsd:documentation>
+					<xsd:documentation>Specifies intended use by the borrower of the property.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Investor"/>
+						<xsd:enumeration value="PrimaryResidence"/>
+						<xsd:enumeration value="SecondHome"/>
+						<xsd:enumeration value="Other"/>
+						<xsd:enumeration value="Investment"/>
+						<xsd:enumeration value="any"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MORTGAGE_TERMS">
+		<xsd:complexType>
+			<xsd:attribute name="BaseLoanAmount" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION: Money</xsd:documentation>
+					<xsd:documentation>The base loan amount to be loaned to the borrower not including PMI, MIP, or Funding Fee. Collected on the URLA in Section VII line m.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="LenderCaseIdentifier" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:01A-050 String</xsd:documentation>
+					<xsd:documentation>Number used by the Lender to identify a loan. Collected on the URLA in Section I (Lender Case Number).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="LoanAmortizationTermMonths" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:01A-080 Numeric</xsd:documentation>
+					<xsd:documentation>The number of months used to compute the fully amortized payment.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="LoanAmortizationType">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:01A-090 Enumerated
+Deprecate valid values DailySimpleInterest and RuleOf78s in AUS 2.4. Not valid in this attribute.
+Added enumerations in AUS 2.4.</xsd:documentation>
+					<xsd:documentation>Describes the cash flows associated with the loan.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="AdjustableRate">
+							<xsd:annotation>
+								<xsd:documentation>A mortgage that allows the lender to adjust the interest rate in accordance with a specified index periodically.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="Fixed">
+							<xsd:annotation>
+								<xsd:documentation>A mortgage in which the interest rate and payments remain the same for the life of the loan.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="GraduatedPaymentMortgage">
+							<xsd:annotation>
+								<xsd:documentation>GPM - A type of flexible payment mortgage where the payments increase for a specified period of time and then level off. Usually involves negative amortization.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="GrowingEquityMortgage">
+							<xsd:annotation>
+								<xsd:documentation>GEM - A graduated payment mortgage in which increases in a borrowers mortgage payments are used to accelerate reduction of principal on the mortgage. Due to increased payment, the borrower acquires equity more rapidly and retires the debt earlier.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="OtherAmortizationType">
+							<xsd:annotation>
+								<xsd:documentation>Used to describe the amortization type if it is other than those specified in the enumerated list of Loan Amortization Types.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="DailySimpleInterest">
+							<xsd:annotation>
+								<xsd:documentation>The interest is calculated as a per diem multiplied by the actual number of days between effective dates.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="GraduatedPaymentARM">
+							<xsd:annotation>
+								<xsd:documentation>Periodic payments/rate changes with additional specified principal and interest changes as documented in the Security Instruments.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="RateImprovementMortgage">
+							<xsd:annotation>
+								<xsd:documentation>A type of flexible mortgage where the interest rate may decrease based on payment history.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="ReverseMortgage">
+							<xsd:annotation>
+								<xsd:documentation>A mortgage which uses present equity in the property to fund payments from the lender to the borrower-in lieu of the borrower receiving the proceeds of the loan in a lump sum. As a general rule no payments are made from the borrower to the lender and inte</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="Ruleof78s"/>
+						<xsd:enumeration value="Step">
+							<xsd:annotation>
+								<xsd:documentation>Fixed periodic payment/rate changes up to 5 years without subsidy or negative amortization.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="LoanToValuePercent_EXT" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>LTV of the Loan</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="TotalDebtToIncomeRatio_EXT" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>DTI of the loan</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="RequestedInterestRatePercent" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>Used for Note Rate</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PROPERTY">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="_IDENTIFICATION" minOccurs="0"/>
+			</xsd:sequence>
+		<xsd:attribute name="_City" type="xsd:string">
+			<xsd:annotation>
+				<xsd:documentation>#DOCUMENTATION:02A-030 String</xsd:documentation>
+				<xsd:documentation>The city in which the subject property is located.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+			<xsd:attribute name="_State" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:02A-040 String</xsd:documentation>
+					<xsd:documentation>The state in which the subject property is located.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="_FinancedNumberOfUnits" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:02A-070 Numeric</xsd:documentation>
+					<xsd:documentation>The number of individual family dwelling units being financed in the subject property.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="_PostalCode" type="xsd:string"/>
+			<xsd:attribute name="_OwnershipType">
+				<xsd:annotation>
+					<xsd:documentation>Added in AUS 2.4</xsd:documentation>
+					<xsd:documentation>Describes the type of ownership associated with a property.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Condominium">
+							<xsd:annotation>
+								<xsd:documentation>A type of real estate ownership in which each unit owner has title to a unit in a 	building, an undivided interest in the common areas of the project as well as the basic structure, and sometimes the exclusive use 	of certain limited common areas.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="CondominiumHotel">
+							<xsd:annotation>
+								<xsd:documentation>Condo project with rental/registration desks, short-term rental, food &amp; phone services &amp; daily cleaning; operated as hotel even though units are individually owned.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="Cooperative">
+							<xsd:annotation>
+								<xsd:documentation>A type of multiple ownership in which the residents of a multiunit housing complex own shares in the cooperative corporation that owns the property, giving each resident the right to occupy a specific apartment or 	unit.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="Other"/>
+						<xsd:enumeration value="Timeshare">
+							<xsd:annotation>
+								<xsd:documentation>An arrangement under which a purchaser receives an interest in real estate and the right to	use an accommodation or amenities, or both, for a specified period and on a recurring basis.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="any"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="_OwnershipTypeOtherDescription" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Added in AUS 2.4</xsd:documentation>
+					<xsd:documentation>A free form text field used to collect additional information when Other is selected for Property Ownership Type. FOR RADIAN, ResortCondo WILL BE A VALUE USED IN THIS FIELD.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="DecliningMarketsApplied_EXT" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="INTERVIEWER_INFORMATION">
+		<xsd:complexType>
+			<xsd:attribute name="InterviewerApplicationSignedDate" type="xsd:date"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="AFFORDABLE_LENDING">
+		<xsd:complexType>
+			<xsd:attribute name="MSAIdentifier" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="_IDENTIFICATION">
+		<xsd:complexType>
+			<xsd:attribute name="CountyFIPSCode" type="xsd:string"/>
+			<xsd:attribute name="StateFIPSCode" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MI_EXTEND">
+		<xsd:complexType>
+			<xsd:annotation>
+				<xsd:documentation>
+					23Jun2008-Added by S.Schneider
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:sequence>
+				<xsd:element ref="FINDINGS_EXT" minOccurs="0"/>
+				<xsd:element ref="ELIGIBILITY_PRICING" minOccurs="0"/>
+				<xsd:element ref="MODIFICATION_DETAIL" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attribute name="MIDecisionType_EXT" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+						Current request version (also found one level down in FINDINGS_EXT element).
+						Referred to as PolicyStatusCode at Radian.
+						Part of MISMO response, although MISMO response has a small enumeration.
+						We will receive a two character numeric field.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="RVPEligibilityPriceDate_EXT" type="xsd:date"/>
+			<xsd:attribute name="CurrentProgramSchemaPricing_EXT" type="xsd:string"/>
+			<xsd:attribute name="CurrentProgramSchemaEligibility_EXT" type="xsd:string"/>
+			<xsd:attribute name="LenderGroupIdentifier_EXT" type="xsd:string"/>
+			<xsd:attribute name="DecliningMarketsOFHEO_EXT" type="xsd:string"/>
+			<xsd:attribute name="CombinedLoanToValuePercent_EXT" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>CLTV of the Loan</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="LenderSuppliedApplicationType_EXT">
+				<xsd:annotation>
+					<xsd:documentation>
+						Supplied by the lender.  Similar to MIApplicationType, but this is determined by the lender.
+						They should follow our guidelines.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Delegated"/>
+						<xsd:enumeration value="Prequalification"/>
+						<xsd:enumeration value="StandardApplication"/>
+						<xsd:enumeration value="RateQuote"/>
+						<xsd:enumeration value="Other"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="UserType_EXT" type="xsd:string"/>
+			<xsd:attribute name="SourceSystem_EXT" type="xsd:string"/>
+			<xsd:attribute name="FCRAStatusType_EXT" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Fair Credit Reporting Act - To support identification of borrowers who did not receive the best price due to their credit scores. 
+					Expected values are:
+						00 - FCRA Has Not Run
+						01 - Not FCRA Eligible
+						02 - FCRA Eligible but No Letter was Sent,
+						03 - FCRA Eligible and Letter was Sent</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="LenderDelegatedAuthIndicator" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Indicates whether or not a lender is delegated.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="HouseToIncomeRatio" type="xsd:double"/>
+			<xsd:attribute name="FinancedPremiumAmount_EXT" type="xsd:double"/>
+			<xsd:attribute name="TotalValuePercent_EXT" type="xsd:double"/>
+			<xsd:attribute name="DeferredPremiumIndicator_EXT" type="xsd:string"/>
+			<xsd:attribute name="LenderSubmittedAppType_EXT" type="xsd:string"/>
+			<xsd:attribute name="LegalEntityIdentifier" type="xsd:string"/>
+			<xsd:attribute name="LegalEntityIdentifierVersion" type="xsd:string"/>
+			<xsd:attribute name="EntityOnlyRequestIndicator" type="xsd:string"/>
+			<xsd:attribute name="UWEdgeIndicator" type="xsd:string"/>
+			<xsd:attribute name="AppSource" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>This is used for logging and tracking purposes. It shows where requests came from.
+					For example, Mobile will be the value for request from the iPhone or iPad app.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="CalcBlendedRatesIndicator" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FINDINGS_EXT">
+		<xsd:complexType>
+			<xsd:annotation>
+				<xsd:documentation>
+					23Jun2008-Added by S.Schneider
+					This represents a historical copy of the most recent historical run of the transaction.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:sequence>
+				<xsd:element ref="AFFORDABLE_LENDING" minOccurs="0"/>
+				<xsd:element ref="LOAN_PURPOSE" minOccurs="0"/>
+				<xsd:element ref="MORTGAGE_TERMS" minOccurs="0"/>
+				<xsd:element ref="PROPERTY" minOccurs="0"/>
+				<xsd:element ref="CREDIT_SCORE" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="BORROWER" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="LOAN_FEATURES" minOccurs="0"/>
+				<xsd:element ref="RATE_ADJUSTMENT" minOccurs="0"/>
+				<xsd:element ref="MI_REQUEST" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attribute name="MIDecisionType_EXT" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+						Historical version (also found at one level up).
+						Referred to as PolicyStatusCode at Radian.
+						Part of MISMO response, although MISMO response has a small enumeration.
+						We will receive a two character numeric field.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ELIGIBILITY_PRICING">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PROFILE_PROGRAM" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PROFILE_PROGRAM">
+		<xsd:complexType>
+			<xsd:attribute name="ProgramDateType">
+				<xsd:annotation>
+					<xsd:documentation/>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="PriceEligibleDate"/>
+						<xsd:enumeration value="CurrentDate"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="ProductType">
+				<xsd:annotation>
+					<xsd:documentation/>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="A"/>
+						<xsd:enumeration value="ALT"/>
+						<xsd:enumeration value="AMINUS"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="ProgramCategoryType">
+				<xsd:annotation>
+					<xsd:documentation/>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="BorrowerPaid"/>
+						<xsd:enumeration value="LenderPaid"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="ProgramType">
+				<xsd:annotation>
+					<xsd:documentation/>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Eligibility"/>
+						<xsd:enumeration value="Pricing"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="ProgramName" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MODIFICATION_DETAIL">
+		<xsd:complexType>
+			<xsd:attribute name="ReplacementTypeIndicator" type="xsd:string"/>
+			<xsd:attribute name="ModificationTypeIndicator" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

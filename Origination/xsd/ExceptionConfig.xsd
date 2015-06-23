@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited  by Aditya (Radian Guaranty, Inc.) -->
+<xs:schema xmlns="http://www.radian.biz/ClientConnectivity/zion/Origination/ExceptionConfig" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.radian.biz/ClientConnectivity/zion/Origination/ExceptionConfig" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="EXCEPTIONS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EXCEPTION" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="RequestUUID" type="xs:string"/>
+							<xs:element name="TransactionID" type="xs:string"/>
+							<xs:element name="CertificateNumber" type="xs:string"/>
+							<xs:element name="DateTimeStamp" type="xs:string"/>
+							<xs:element name="ApplicationName" type="xs:string"/>
+							<xs:element name="ExceptionCode" type="xs:string"/>
+							<xs:element name="ExceptionName" type="xs:string"/>
+							<xs:element name="Description" type="xs:string"/>
+							<xs:element name="LogLevel" type="xs:string"/>
+							<xs:element name="Priority" type="xs:string"/>
+							<xs:element name="Severity" type="xs:string"/>
+							<xs:element name="AdditionalInfo" type="xs:string"/>
+							<xs:element name="ProviderName" type="xs:string"/>
+							<xs:element name="ResponseName" type="xs:string" minOccurs="0"/>
+							<xs:element name="ResponseCondition" type="xs:string" minOccurs="0"/>
+							<xs:element name="ResponseCode" type="xs:string" minOccurs="0"/>
+							<xs:element name="ResponseDescription" type="xs:string" minOccurs="0"/>
+							<xs:element name="IncomingFileName" type="xs:string" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

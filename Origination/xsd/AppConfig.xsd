@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+	xmlns="http://www.radian.biz/ClientConnectivity/zion/Origination/AppConfig"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.radian.biz/ClientConnectivity/zion/Origination/AppConfig"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="AppConfig">
+		<xs:complexType>
+			<xs:sequence>
+				<!-- Element for decrypt values -->
+				<xs:element name="SaltText" type="xs:string" />
+				<!-- Path for writing the alarm-point exception logs -->
+				<xs:element name="ErrorLogPath" type="xs:string" />
+				<!-- TAlogs enabled/disabled flag -->
+				<xs:element name="WriteTALogsEnabled" type="xs:string" />
+				<!-- Path for writing the transaction activity logs -->
+				<xs:element name="TransactionActivityPath" type="xs:string" />
+				<!-- SFTP URL for SFTP connections -->
+				<xs:element name="SFTPURL" type="xs:string" />
+				<!-- Flag to determine if requests/responses need to be archived -->
+				<xs:element name="RequestResponseArchivalEnabled" type="xs:string" />
+				<!-- SFTP Path where the request must be written to -->
+				<xs:element name="RequestArchivalPath" type="xs:string" />
+				<!-- ESG local folder Path to archive  the requests on fault/failure while processing the request -->
+				<xs:element name="ESGRequestArchivalPath" type="xs:string" />
+				<!-- SFTP Path where the response must be written to -->
+				<xs:element name="ResponseArchivalPath" type="xs:string" />
+				<!--
+					Flag to determine if intermediate transformations need to be
+					archived for the QA team
+				-->
+				<xs:element name="ArchiveIntermediateXSLEnabled" type="xs:string" />
+				<!--
+					SFTP Path where the intermediate transformations must be written to
+				-->
+				<xs:element name="ArchiveIntermediateXSLPath" type="xs:string" />
+				<!--
+					HASH Digest generation algorithm to use within workflow Applicable
+					values: http://www.w3.org/2000/09/xmldsig#sha1
+					http://www.w3.org/2001/04/xmlenc#sha256
+					http://www.w3.org/2001/04/xmlenc#sha512
+				-->
+				<xs:element name="HASHDigestAlgorithm" type="xs:string" />
+				<!--  Transform MISMO to Canonical form flag enabled/disabled flag-->
+				<xs:element name="TransformtoCanonicalFlag" type="xs:string" />
+				<!-- Web Server URL for retrieving XSL/configuration files -->
+				<xs:element name="WebServerURL" type="xs:string" />
+				<!--
+					This setting shall denote the file URL on the ESG server from which
+					configuration/XSL files needed by the application should be
+					retrieved from.
+				-->
+				<xs:element name="FileURL" type="xs:string" />
+				<xs:element name="SecurePassPhrase" type="xs:string"
+					minOccurs="0" />
+				<xs:element name="TransformtoCanonicalFileFormatVersion" type="xs:string" />
+				<xs:element name="ValidRequestFileFormatVersions" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FileFormatVersion" type="xs:string" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SymmetrickeyName" type="xs:string" />
+				<xs:element name="PostbackSFTPArchivalPath" type="xs:string"/>
+				<xs:element name="ValidServiceEndpointFormatVersions" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ServiceEndpointFormatVersion" type="xs:string" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ValidEDIFileExtensionFormats" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EDIFileExtensionFormat" type="xs:string" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--Request Format Versions for Clean up the incoming request-->
+				<xs:element name="CleanupFormats" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FormatVersion" type="xs:string" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EnvironmentName" type="xs:string" />
+				
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"  xmlns:tns="http://www.radian.biz/ClientConnectivity/zion/http/OriginationAsyncPostBackService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd0="http://www.radian.biz/ClientConnectivity/zion/http/OriginationService/schemas" name="OriginationAsyncPostBackService" targetNamespace="http://www.radian.biz/ClientConnectivity/zion/http/OriginationAsyncPostBackService" >
+	<plnk:partnerLinkType name="OriginationPostBackServicePartnerLinkType">
+		<plnk:role name="OriginationAsyncPostBackServiceProvider" portType="tns:OriginationAsyncPostBackServicePortType" />
+	</plnk:partnerLinkType>
+	<wsdl:types>
+		<xsd:schema
+			targetNamespace="http://www.radian.biz/ClientConnectivity/zion/http/OriginationService/schemas">
+			<xsd:import schemaLocation="../xsd/OriginationResponse.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="GetOriginationAsyncPostBackResponseInput">
+		<wsdl:part element="OriginationResponse" name="body"/>
+	</wsdl:message>
+	<wsdl:message name="GetOriginationAsyncPostBackResponseOutput">
+		<wsdl:part element="OriginationResponse" name="body"/>
+	</wsdl:message>
+	<wsdl:portType name="OriginationAsyncPostBackServicePortType">
+		<wsdl:operation name="GetOriginationAsyncPostBackResponse">
+			<wsdl:input message="tns:GetOriginationAsyncPostBackResponseInput"/>
+			<wsdl:output message="tns:GetOriginationAsyncPostBackResponseOutput"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="OriginationAsyncPostBackServiceSOAPBinding" type="tns:OriginationAsyncPostBackServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="GetOriginationAsyncPostBackResponse">
+			<soap:operation soapAction="GetOriginationAsyncPostBackResponse"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="OriginationAsyncPostBackServiceSOAP12Binding" type="tns:OriginationAsyncPostBackServicePortType">
+		<soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="GetOriginationAsyncPostBackResponse">
+			<soap12:operation soapAction="GetOriginationAsyncPostBackResponse"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="OriginationAsyncPostBackService">
+		<wsdl:port binding="tns:OriginationAsyncPostBackServiceSOAPBinding" name="OriginationAsyncPostBackServiceSOAP">
+			<soap:address location="https://b2bint.radianmi.biz:8883/OriginationAsyncPostBackResponse"/>
+		</wsdl:port>
+		<wsdl:port binding="tns:OriginationAsyncPostBackServiceSOAP12Binding" name="OriginationAsyncPostBackServiceSOAP12">
+			<soap12:address location="https://b2bint.radianmi.biz:8883/OriginationAsyncPostBackResponse"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

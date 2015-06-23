@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><wssec:webServiceSecurityDefinition xmlns:wssec="http://www.intel.com/soae/localService/wssecDefinition-2007a/" bindingType="SOAP" samlTokenVersion="1.1" samlVersion="2.0" soapVersion="1.1" tokenType="x509" usage="decrypt" wssecVersion="2004-01">
+  <dataEncryptionAcceptMethods>
+    <des3/>
+  </dataEncryptionAcceptMethods>
+  <keyEncryptionAcceptMethods>
+    <rsaV1.5/>
+  </keyEncryptionAcceptMethods>
+  <processingInstructions stripEncryption="true"/>
+  <securityTokens>
+    <token name="origination_pub_priv_key_pair" type="x509KeyPair" use="static"/>
+  </securityTokens>
+</wssec:webServiceSecurityDefinition>

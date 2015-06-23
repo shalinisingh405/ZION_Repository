@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soae="http://www.intel.com/soae/wsdl/wsdl11-2007a/" xmlns:tns="http://www.example.com/Origination/file/bin/OriginationProcess/WriteResponseAtGFHFailure" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd0="http://www.example.com/Origination/file/bin/OriginationProcess/WriteResponseAtGFHFailure/schemas" targetNamespace="http://www.example.com/Origination/file/bin/OriginationProcess/WriteResponseAtGFHFailure">
+  <plnk:partnerLinkType name="WriteResponseAtGFHFailureServicePartnerLinkType">
+    <plnk:role name="role" portType="tns:WriteResponseAtGFHFailureServicePortType"/>
+  </plnk:partnerLinkType>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.com/Origination/file/bin/OriginationProcess/WriteResponseAtGFHFailure/schemas"/>
+  </wsdl:types>
+  <wsdl:message name="WriteResponseAtGFHFailureInput">
+    <wsdl:part name="body" type="xsd:base64Binary"/>
+  </wsdl:message>
+  <wsdl:portType name="WriteResponseAtGFHFailureServicePortType">
+    <wsdl:operation name="WriteResponseAtGFHFailureOperation">
+      <wsdl:input message="tns:WriteResponseAtGFHFailureInput"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WriteResponseAtGFHFailureServiceBinding" type="tns:WriteResponseAtGFHFailureServicePortType">
+    <soae:binding transport="http://www.intel.com/soae/transport/file"/>
+    <wsdl:operation name="WriteResponseAtGFHFailureOperation">
+      <wsdl:input>
+        <soae:content part="body" type="application/octet-stream"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WriteResponseAtGFHFailureService">
+    <wsdl:port binding="tns:WriteResponseAtGFHFailureServiceBinding" name="WriteResponseAtGFHFailurePort">
+      <soae:address location="file:///opt/xion/transactionlogs/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

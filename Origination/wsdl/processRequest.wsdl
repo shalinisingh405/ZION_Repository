@@ -1,0 +1,99 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://radian.esb.services/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" name="BizTalkServiceInstance" targetNamespace="http://radian.esb.services/">
+<wsdl:documentation>
+<CreationInfo Created="2014-02-20 12:27:47Z"/>
+</wsdl:documentation>
+<wsdl:types>
+<xs:schema xmlns="http://schemas.radian.biz/esb/common/schemas/sch_itineraryservicesoapheader_xml/1.0.0.0" xmlns:b="http://schemas.microsoft.com/BizTalk/2003" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://schemas.radian.biz/esb/common/schemas/sch_itineraryservicesoapheader_xml/1.0.0.0">
+<xs:element name="Header">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Request_Service" type="xs:string"/>
+<xs:element name="Request_Method" type="xs:string"/>
+<xs:element name="Request_Version" type="xs:string"/>
+<xs:element name="Request_MessageID" type="xs:string"/>
+<xs:element name="ReplyTo_Service" type="xs:string"/>
+<xs:element name="ReplyTo_Method" type="xs:string"/>
+<xs:element name="ReplyTo_Version" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/Message" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/Message">
+<xs:complexType name="MessageBody">
+<xs:sequence>
+<xs:any minOccurs="0" maxOccurs="unbounded" namespace="##any"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns="http://Radian.MortgageIns.Services.Schemas" xmlns:b="http://schemas.microsoft.com/BizTalk/2003" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://Radian.MortgageIns.Services.Schemas">
+<xs:element name="ESBMessage">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Status" type="xs:string"/>
+<xs:element name="ErrorCode" type="xs:string"/>
+<xs:element name="ErrorDescription" type="xs:string"/>
+<xs:element minOccurs="0" maxOccurs="1" name="AdditionalInformation">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="1" maxOccurs="1" name="Items">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="1" maxOccurs="unbounded" name="Item">
+<xs:complexType>
+<xs:attribute name="Key" type="xs:string"/>
+<xs:attribute name="Value" type="xs:string"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Payload">
+<xs:complexType>
+<xs:sequence>
+<xs:any processContents="lax"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>
+</wsdl:types>
+<wsdl:message name="Header">
+<wsdl:part xmlns:q1="http://schemas.radian.biz/esb/common/schemas/sch_itineraryservicesoapheader_xml/1.0.0.0" name="Header" element="q1:Header"/>
+</wsdl:message>
+<wsdl:message name="ProcessRequest_Submit_InputMessage">
+<wsdl:part xmlns:q2="http://Radian.MortgageIns.Services.Schemas" name="part" element="q2:ESBMessage"/>
+</wsdl:message>
+<wsdl:message name="ProcessRequest_Submit_OutputMessage"/>
+<wsdl:portType name="ProcessRequest">
+<wsdl:documentation/>
+<wsdl:operation name="Submit">
+<wsdl:documentation/>
+<wsdl:input message="tns:ProcessRequest_Submit_InputMessage"/>
+<wsdl:output message="tns:ProcessRequest_Submit_OutputMessage"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="BasicHttpBinding_ITwoWayAsyncVoid" type="tns:ProcessRequest">
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="Submit">
+<wsdl:documentation/>
+<soap:operation soapAction="Submit" style="document"/>
+<wsdl:input>
+<soap:header use="literal" part="Header" message="tns:Header"/>
+<soap:body use="literal" encodingStyle="http://www.w3.org/2003/05/soap-encoding"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="BizTalkServiceInstance">
+<wsdl:port name="BasicHttpBinding_ITwoWayAsyncVoid" binding="tns:BasicHttpBinding_ITwoWayAsyncVoid">
+<soap:address location="https://dev-esb-service/SubmitRequestOneway/ProcessRequest.svc"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

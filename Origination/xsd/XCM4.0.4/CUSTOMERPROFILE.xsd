@@ -1,0 +1,589 @@
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by SureshB (Radian Guaranty, Inc.) -->
+<xsd:schema xmlns="http://Radian.Services.Schemas" xmlns:b="http://schemas.microsoft.com/BizTalk/2003" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://Radian.Services.Schemas" elementFormDefault="qualified">
+	<xsd:include schemaLocation="SharedTypes.xsd"/>
+	<xsd:complexType name="ACCOUNT">
+		<xsd:sequence>
+			<xsd:element name="AccountNumber" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ParentAccountNumber" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Name" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Type" type="AccountTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="TypeOtherDescription" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ActiveIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="INDIVIDUAL" type="INDIVIDUAL" minOccurs="0">
+					<xsd:annotation/>
+				</xsd:element>
+				<xsd:element name="LEGAL_ENTITY" type="LEGAL_ENTITY" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>This is additional information that describes or identifies a legal entity.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:element name="ADDRESSES" type="ADDRESSES" minOccurs="0">
+				<xsd:annotation/>
+			</xsd:element>
+			<xsd:element name="TAXPAYER_IDENTIFIERS" type="TAXPAYER_IDENTIFIERS" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The collection of TAXPAYER_IDENTIFICATION elments</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="USER" type="USER" minOccurs="0"/>
+			<xsd:element name="AGREEMENTS" type="AGREEMENTS" minOccurs="0"/>
+			<xsd:element name="CUSTOMER" type="CUSTOMER" minOccurs="0"/>
+			<xsd:element name="TRADING_PARTNERS" type="TRADING_PARTNERS" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AGREEMENT">
+		<xsd:sequence>
+			<xsd:element name="ID" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Name" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="EffectiveDate" type="xsd:dateTime" nillable="true" minOccurs="0"/>
+			<xsd:element name="ExpirationDate" type="xsd:dateTime" nillable="true" minOccurs="0"/>
+			<xsd:element name="Type" type="AgreementTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="TypeOtherDescription" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ProductOfferingName" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="DelegatedAuthIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="UWEdgeCertificationIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="VersionNumber" type="xsd:integer" nillable="true" minOccurs="0"/>
+			<xsd:element name="ConfidentCoverageOptInIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="LENDER_SPECIAL_PROGRAMS" type="LENDER_SPECIAL_PROGRAMS" minOccurs="0"/>
+			<xsd:element name="PRICINGPROFILES" type="AGREEMENTPRICINGPROFILES" minOccurs="0"/>
+			<xsd:element name="ELIGIBILITYPROFILES" type="AGREEMENTELIGIBILITYPROFILES" minOccurs="0"/>
+			<xsd:element name="LOSSPROFILES" type="LOSSPROFILES" minOccurs="0"/>
+			<xsd:element name="UWRESOURCES" type="UWRESOURCES" minOccurs="0"/>
+			<xsd:element name="GUIDELINEEXCEPTIONS" type="GUIDELINEEXCEPTIONS" minOccurs="0"/>
+			<xsd:element name="SUBMISSIONPRIVILEGES" type="SUBMISSIONPRIVILEGES" minOccurs="0"/>
+			<xsd:element name="SUBMISSIONCONSTRAINTS" type="AGREEMENTSUBMISSIONCONSTRAINTS" minOccurs="0"/>
+			<xsd:element name="AUTHORITY" type="AUTHORITY" minOccurs="0"/>
+			<xsd:element name="DOCUMENTS" type="AGREEMENTDOCUMENTS" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AGREEMENTCOMPONENT">
+		<xsd:sequence>
+			<xsd:element name="ID" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="EffectiveStartDate" type="xsd:dateTime" nillable="true" minOccurs="0"/>
+			<xsd:element name="EffectiveEndDate" type="xsd:dateTime" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AGREEMENTDOCUMENT">
+		<xsd:sequence>
+			<xsd:element name="ID" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="DocType" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Description" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Comment" type="xsd:string" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AGREEMENTDOCUMENTS">
+		<xsd:sequence>
+			<xsd:element name="DOCUMENT" type="AGREEMENTDOCUMENT" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AGREEMENTELIGIBILITYPROFILE" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="AGREEMENTCOMPONENT">
+				<xsd:sequence>
+					<xsd:element name="ELIGIBILITYPROFILE" type="ELIGIBILITYPROFILE" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AGREEMENTELIGIBILITYPROFILES">
+		<xsd:sequence>
+			<xsd:element name="AGREEMENTELIGIBILITYPROFILE" type="AGREEMENTELIGIBILITYPROFILE" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AGREEMENTPRICINGPROFILE" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="AGREEMENTCOMPONENT">
+				<xsd:sequence>
+					<xsd:element name="PRICINGPROFILE" type="PRICINGPROFILE" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AGREEMENTPRICINGPROFILES">
+		<xsd:sequence>
+			<xsd:element name="AGREEMENTPRICINGPROFILE" type="AGREEMENTPRICINGPROFILE" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AGREEMENTS">
+		<xsd:sequence>
+			<xsd:element name="AGREEMENT" type="AGREEMENT" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AGREEMENTSUBMISSIONCONSTRAINT" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="AGREEMENTCOMPONENT">
+				<xsd:sequence>
+					<xsd:element name="SUBMISSIONCONSTRAINT" type="SUBMISSIONCONSTRAINT" minOccurs="0"/>
+					<xsd:element name="ReasonText" type="xsd:string" nillable="true" minOccurs="0"/>
+					<xsd:element name="RequestSourceType" type="xsd:string" nillable="true" minOccurs="0"/>
+					<xsd:element name="RequestedDate" type="xsd:dateTime" nillable="true" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AGREEMENTSUBMISSIONCONSTRAINTS">
+		<xsd:sequence>
+			<xsd:element name="CONSTRAINT" type="AGREEMENTSUBMISSIONCONSTRAINT" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AUTHORITY">
+		<xsd:sequence>
+			<xsd:element name="AuthorityType" type="MIAgreementAuthorityTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:choice>
+				<xsd:element name="SERVICER_AUTHORITY" type="SERVICER_AUTHORITY" minOccurs="0"/>
+				<xsd:element name="INSURED_AUTHORITY" type="INSURED_AUTHORITY" minOccurs="0"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CUSTOMER">
+		<xsd:sequence>
+			<xsd:element name="AccountNumber" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="AlternateName" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="InstitutionType" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="QualityRatingType" type="QualityRatingTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="ApprovedCUWInvestorIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="TYPE" type="CUSTOMERTYPE" minOccurs="0"/>
+			<xsd:element name="BranchYN" type="xsd:boolean" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DOCUMENTDELIVERYPROFILE">
+		<xsd:sequence>
+			<xsd:element name="AttentionToText" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="VMSDOCUMENTTYPE" type="VMSDOCUMENTTYPE" minOccurs="0"/>
+			<xsd:element name="RECIPIENTS" type="RECIPIENTS" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DOCUMENTDELIVERYPROFILES">
+		<xsd:sequence>
+			<xsd:element name="DOCUMENTDELIVERYPROFILE" type="DOCUMENTDELIVERYPROFILE" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ELIGIBILITYPROFILE">
+		<xsd:sequence>
+			<xsd:element name="ID" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Name" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ProductOfferingName" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="LevelType" type="LevelTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="ActiveIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="PROFILEPROGRAMS" type="ELIGIBILITYPROFILEPROGRAMS" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ELIGIBILITYPROFILEPROGRAM">
+		<xsd:sequence>
+			<xsd:element name="ELIGIBILITYPROGRAM" type="ELIGIBILITYPROGRAM" minOccurs="0"/>
+			<xsd:element name="RiskClassType" type="ProductTypeCodeEnumerated" nillable="true" minOccurs="0"/>
+			<xsd:element name="PremiumPayeeType" type="PremiumPayeeTypeCodeEnumerated" nillable="true" minOccurs="0"/>
+			<xsd:element name="PricingPlanID" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="UseCurrentIndicator" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="VERSION" type="VERSION" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ELIGIBILITYPROFILEPROGRAMS">
+		<xsd:sequence>
+			<xsd:element name="ELIGIBILITYPROFILEPROGRAM" type="ELIGIBILITYPROFILEPROGRAM" minOccurs="0" maxOccurs="6"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ELIGIBILITYPROGRAM">
+		<xsd:sequence>
+			<xsd:element name="ID" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Name" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Description" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ProductType" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="LevelType" type="LevelTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="RVPSchemaName" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="VERSIONS" type="VERSIONS" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ELIGIBILITYPROGRAMS">
+		<xsd:sequence>
+			<xsd:element name="ELIGIBILITYPROFILEPROGRAM" type="ELIGIBILITYPROFILEPROGRAM" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="GUIDELINEEXCEPTION" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="AGREEMENTCOMPONENT">
+				<xsd:sequence>
+					<xsd:element name="FindingText" type="xsd:string" nillable="true" minOccurs="0"/>
+					<xsd:element name="Comment" type="xsd:string" nillable="true" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="GUIDELINEEXCEPTIONS">
+		<xsd:sequence>
+			<xsd:element name="GUIDELINEEXCEPTION" type="GUIDELINEEXCEPTION" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="INSURED_AUTHORITY">
+		<xsd:sequence>
+			<xsd:element name="HoldingPeriodLimitDaysCount" type="xsd:integer" nillable="true" minOccurs="0"/>
+			<xsd:element name="HoldingPeriodLimitIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LENDER_SPECIAL_PROGRAM">
+		<xsd:sequence>
+			<xsd:element name="SpecialProgramName" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ProductOfferingName" type="xsd:string" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LENDER_SPECIAL_PROGRAMS" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="AGREEMENTCOMPONENT">
+				<xsd:sequence>
+					<xsd:element name="LENDER_SPECIAL_PROGRAM" type="LENDER_SPECIAL_PROGRAM" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="LOSSPROFILE">
+		<xsd:sequence>
+			<xsd:element name="DiscoveryPeriodYearCount" type="xsd:integer" nillable="true" minOccurs="0"/>
+			<xsd:element name="RecoursePeriodYearCount" type="xsd:integer" nillable="true" minOccurs="0"/>
+			<xsd:element name="RemedyCapAmount" type="xsd:decimal" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LOSSPROFILES">
+		<xsd:complexContent>
+			<xsd:extension base="AGREEMENTCOMPONENT">
+				<xsd:sequence>
+					<xsd:element name="LOSSPROFILE" type="LOSSPROFILE" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PRICINGPROFILE">
+		<xsd:sequence>
+			<xsd:element name="ID" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Name" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ProductOfferingName" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="LevelType" type="LevelTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="ActiveIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="PRICINGPROGRAMS" type="PRICINGPROGRAMS" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PRICINGPROFILEPROGRAM">
+		<xsd:sequence>
+			<xsd:element name="PRICINGPROGRAM" type="PRICINGPROGRAM" minOccurs="0"/>
+			<xsd:element name="RiskClassType" type="ProductTypeCodeEnumerated" nillable="true" minOccurs="0"/>
+			<xsd:element name="PremiumPayeeType" type="PremiumPayeeTypeCodeEnumerated" nillable="true" minOccurs="0"/>
+			<xsd:element name="PricingPlanID" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="UseCurrentIndicator" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="VERSION" type="VERSION" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PRICINGPROGRAM">
+		<xsd:sequence>
+			<xsd:element name="ID" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Name" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Description" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ProductType" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="LevelType" type="LevelTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="RVPSchemaName" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="VERSIONS" type="VERSIONS" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PRICINGPROGRAMS">
+		<xsd:sequence>
+			<xsd:element name="PRICINGPROFILEPROGRAM" type="PRICINGPROFILEPROGRAM" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RECIPIENT">
+		<xsd:sequence>
+			<xsd:element name="EmailAddress" type="xsd:string" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RECIPIENTS">
+		<xsd:sequence>
+			<xsd:element name="RECIPIENT" type="RECIPIENT" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SECURITYROLE">
+		<xsd:sequence>
+			<xsd:element name="SystemName" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="PermissionType" type="xsd:string" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SECURITYROLES">
+		<xsd:sequence>
+			<xsd:element name="SECURITYROLE" type="SECURITYROLE" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SERVICER_ACCOUNT">
+		<xsd:sequence>
+			<xsd:element name="ServicerProducerCode" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ServicerAuthorityIdentifier" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ServicerAgreementIdentifier" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="SUB_SERVICING_RELATIONSHIP" type="SUB_SERVICING_RELATIONSHIP" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SERVICER_AUTHORITY">
+		<xsd:sequence>
+			<xsd:element name="ServicingTransferStatus" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ProvidesSubServicingIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="SERVICER_ACCOUNT" type="SERVICER_ACCOUNT" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SUB_SERVICING_RELATIONSHIP">
+		<xsd:sequence>
+			<xsd:element name="SubServicerProducerCode" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="SubServicerAuthorityIdentifier" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="SubServicerAgreementIdentifier" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ServicerRoleType" type="ServicerRoleTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="FullPortfolioIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="PrivateLabelServicingIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SUBMISSIONCONSTRAINT">
+		<xsd:sequence>
+			<xsd:element name="ID" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Name" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="RuleText" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ProductOfferingName" type="xsd:string" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SUBMISSIONPRIVILEGE">
+		<xsd:sequence>
+			<xsd:element name="RadianCompanyID" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="ProducerCode" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Comments" type="xsd:string" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SUBMISSIONPRIVILEGES">
+		<xsd:sequence>
+			<xsd:element name="PRIVILEGE" type="SUBMISSIONPRIVILEGE" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UNDERWRITINGPROFILE">
+		<xsd:sequence>
+			<xsd:element name="UnderwritingRoleType" type="UnderwritingRoleTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="UWApprovalLimitAmount" type="xsd:decimal" nillable="true" minOccurs="0"/>
+			<xsd:element name="CUWApprovalLimitAmount" type="xsd:decimal" nillable="true" minOccurs="0"/>
+			<xsd:element name="AuthorityOverrideIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="UWEdgeCertificationIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="VMSRepNumber" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="DepartmentNumber" type="xsd:string" nillable="true" minOccurs="0"/>
+			<!--<xsd:element name="VMSRepCode" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="CostCenterCode" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="BackupUserIdentifier" type="xsd:string" nillable="true" minOccurs="0"/>
+			  -->
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="USER">
+		<xsd:sequence>
+			<xsd:element name="UserLoginName" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="UserPassword" type="xsd:string" nillable="true" minOccurs="0"/>
+			<!-- <xsd:element name="VacationStatusType" type="VacationStatusEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="ActiveIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="LockedIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/> -->
+			<xsd:element name="USERGROUPS" type="USERGROUPS" minOccurs="0"/>
+			<xsd:element name="SECURITYROLES" type="SECURITYROLES" minOccurs="0"/>
+			<xsd:element name="UNDERWRITINGPROFILE" type="UNDERWRITINGPROFILE" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="USERGROUP">
+		<xsd:sequence>
+			<xsd:element name="GroupIdentifier" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="GroupName" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="GroupDescription" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="LoanFactorPercent" type="xsd:decimal" nillable="true" minOccurs="0"/>
+			<xsd:element name="ManagerIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="USERGROUPS">
+		<xsd:sequence>
+			<xsd:element name="USERGROUP" type="USERGROUP" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UWPRICING_PER_DIEM_FEE">
+		<xsd:sequence>
+			<xsd:element name="PerDayFeeAmount" type="xsd:decimal" nillable="true" minOccurs="0"/>
+			<xsd:element name="PremiumRateFeeAmount" type="xsd:decimal" nillable="true" minOccurs="0"/>
+			<xsd:element name="DailyMinimumFeeAmount" type="xsd:decimal" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UWPRICING_PER_FILE_FEE">
+		<xsd:sequence>
+			<xsd:element name="FileFeeAmount" type="xsd:decimal" nillable="true" minOccurs="0"/>
+			<xsd:element name="FileAUSFeeAmount" type="xsd:decimal" nillable="true" minOccurs="0"/>
+			<xsd:element name="CUWServiceType" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="AutomatedUnderwritingSystemType" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="LienPriorityType" type="xsd:string" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UWPRICINGFEE">
+		<xsd:sequence>
+			<xsd:element name="FeeType" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="PerFileMICreditAmount" type="xsd:decimal" nillable="true" minOccurs="0"/>
+			<xsd:choice>
+				<xsd:element name="UWPRICING_PER_DIEM_FEE" type="UWPRICING_PER_DIEM_FEE" minOccurs="0"/>
+				<xsd:element name="UWPRICING_PER_FILE_FEE" type="UWPRICING_PER_FILE_FEE" minOccurs="0"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UWRESOURCE">
+		<xsd:sequence>
+			<xsd:element name="ResourceLocationType" type="UnderwritingResourceLocationTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="LocationAccountNumber" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="UnderwritingRoleType" type="UnderwritingRoleTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="UnderwritingResourcingLevelType" type="UnderwritingResourcingLevelTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="DoNotBillIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="UseAgreementPricingIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="UnderwritingFeeType" type="UnderwritingFeeTypeEnum" nillable="true" minOccurs="0"/>
+			<xsd:element name="CostCenterNumber" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="Comment" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="UWPRICINGFEE" type="UWPRICINGFEE" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UWRESOURCES">
+		<xsd:complexContent>
+			<xsd:extension base="AGREEMENTCOMPONENT">
+				<xsd:sequence>
+					<xsd:element name="UWRESOURCE" type="UWRESOURCE" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VERSION">
+		<xsd:sequence>
+			<xsd:element name="VersionIdentifier" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="VersionNumber" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="StartEffDate" type="xsd:dateTime" nillable="true" minOccurs="0"/>
+			<xsd:element name="EndEffDate" type="xsd:dateTime" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VERSIONS">
+		<xsd:sequence>
+			<xsd:element name="VERSION" type="VERSION" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VMSDOCUMENTTYPE">
+		<xsd:sequence>
+			<xsd:element name="DocumentType" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="MIResponseActiveIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="AttentionToText" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="PrintSuppressionIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="ActiveIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="SortOrderNumber" type="xsd:integer" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VMSSETUP">
+		<xsd:sequence>
+			<xsd:element name="LastFinancialsDate" type="xsd:date" nillable="true" minOccurs="0"/>
+			<xsd:element name="FNMADisclouseAgreementIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="FNMADisclouseAgreementEffectiveDate" type="xsd:date" nillable="true" minOccurs="0"/>
+			<xsd:element name="FNMADisclouseAgreementEndDate" type="xsd:date" nillable="true" minOccurs="0"/>
+			<xsd:element name="FMACDisclouseAgreementIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="FMACDisclouseAgreementEffectiveDate" type="xsd:date" nillable="true" minOccurs="0"/>
+			<xsd:element name="FMACDisclouseAgreementEndDate" type="xsd:date" nillable="true" minOccurs="0"/>
+			<xsd:element name="DeferredMonthlyPremiumIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="NonTraditionalCreditIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="CaptiveParticipantIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="PaperBillIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="AutomatedBillIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="MIResponseActiveIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="MIResponseFaxNumber" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="BorrowerRejectNoticeIndicator" type="xsd:boolean" nillable="true" minOccurs="0"/>
+			<xsd:element name="PrimaryMarketCode" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="RadianSoftGuidelineExceptionIndicator" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="LenderSoftGuidelineAuthorityIndicator" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="PremiumRenewalAmortizationCode" type="xsd:string" nillable="true" minOccurs="0"/>
+			<xsd:element name="DOCUMENTDELIVERYPROFILES" type="DOCUMENTDELIVERYPROFILES" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="AccountTypeEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Group"/>
+			<xsd:enumeration value="Customer"/>
+			<xsd:enumeration value="CustomerBranch"/>
+			<xsd:enumeration value="Vendor"/>
+			<xsd:enumeration value="Other"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AgreementTypeEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="MasterPolicy"/>
+			<xsd:enumeration value="URA"/>
+			<xsd:enumeration value="StructuredDeal"/>
+			<xsd:enumeration value="Other"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CUSTOMERTYPE">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="CUSTOMER"/>
+			<xsd:enumeration value="BRANCH"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LevelTypeEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Custom"/>
+			<xsd:enumeration value="Published"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MIAgreementAuthorityTypeEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="BeneficiaryAuthority"/>
+			<xsd:enumeration value="SubmitterAuthority"/>
+			<xsd:enumeration value="InsuredAuthority"/>
+			<xsd:enumeration value="ServicerAuthority"/>
+			<xsd:enumeration value="DelgatedUnderwriting"/>
+			<xsd:enumeration value="CertifiedUnderwriting"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="QualityRatingTypeEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Eligible"/>
+			<xsd:enumeration value="Ineligible"/>
+			<xsd:enumeration value="Watchlist"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ServicerRoleTypeEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ClaimServicer"/>
+			<xsd:enumeration value="DefaultServicer"/>
+			<xsd:enumeration value="PremiumServicer"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UnderwritingFeeTypeEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Credit"/>
+			<xsd:enumeration value="PerDiem"/>
+			<xsd:enumeration value="PerFile"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UnderwritingResourceLocationTypeEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Lender"/>
+			<xsd:enumeration value="Other"/>
+			<xsd:enumeration value="Radian"/>
+			<xsd:enumeration value="Remote"/>
+			<xsd:enumeration value="Vendor"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UnderwritingResourcingLevelTypeEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Dedicated"/>
+			<xsd:enumeration value="Lender"/>
+			<xsd:enumeration value="Onsite"/>
+			<xsd:enumeration value="ServiceCenter"/>
+			<xsd:enumeration value="Other"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UnderwritingRoleTypeEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="AssistantUnderwriter"/>
+			<xsd:enumeration value="LoanTech"/>
+			<xsd:enumeration value="Underwriter"/>
+			<xsd:enumeration value="Other"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="VacationStatusEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="AtWork"/>
+			<xsd:enumeration value="Inactive"/>
+			<xsd:enumeration value="OnVacation"/>
+			<xsd:enumeration value="Other"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

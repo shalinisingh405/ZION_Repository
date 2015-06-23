@@ -1,0 +1,39 @@
+// syntaxVersion = 4.00.10
+// engineVersion = 9.5.0(Build:16)
+instance ServiceConfig = ServiceConfigProf<use_log_file=false, disable_auto_output, add_required_xml_elements, add_required_xml_attributes, xml_output_mode="Compact">
+{
+	instance_to_execute = "interchange_Parser";
+	script_files = 
+	[
+		LocalDocument(FilePath("X12_4010_872_parser_segments.tgp")), 
+		LocalDocument(FilePath("X12_4010_872_parser_CMLIBEDI.tgp"))
+	];
+	xsd_files = 
+	[
+		XsdFile("http://www.informatica.com/B2B/X12", LocalDocument(FilePath("X12_4010_872_schema.xsd")))
+	];
+	additional_xsd_files = 
+	[
+		XsdFile("http://www.informatica.com/B2B/X12", LocalDocument(FilePath("X12_4010_872_schema_segments.xsd")))
+	];
+	alias_table = NamespaceAliasTable
+	{
+		alias_table = 
+		[
+			NamespaceAlias("x12", "http://www.informatica.com/B2B/X12"), 
+			NamespaceAlias("xsi", "http://www.w3.org/2001/XMLSchema-instance"), 
+			NamespaceAlias("xml", "http://www.w3.org/XML/1998/namespace"), 
+			NamespaceAlias("var", "www.Local-Project.com/Variables")
+		];
+	};
+	encode_settings = ProjectEncodingSettings<use_working_encoding_for_output=false>
+	{
+		output_encoding = OutputEncodingSettings<process_instruction="UseOutputCodePage">(Encoding(UTF8));
+	};
+	root_element = "interchanges";
+	authorization = AuthorizationInfo();
+	files_for_input_ports = 
+	[
+		ExecDataForPort("interchange_Parser", "PHH_41231162_02182014073451.872")
+	];
+}

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.radian.biz/ClientConnectivity/zion/TransactionActivity" targetNamespace="http://www.radian.biz/ClientConnectivity/zion/TransactionActivity" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:element name="TRANSACTIONACTIVITY" type="TRANSACTIONACTIVITY">
+		<xsd:annotation>
+			<xsd:documentation>Each transaction will have one TransactionActivty root element.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:complexType name="TRANSACTIONACTIVITY">
+		<xsd:sequence>
+			<xsd:element name="HEADER" type="HEADER" minOccurs="1"/>
+			<xsd:element name="ACTIVITIES" type="ACTIVITIES" minOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="HEADER">
+		<xsd:sequence>
+			<xsd:element name="TransId" type="xsd:string" minOccurs="1"/>
+			<xsd:element name="NodeName" type="xsd:string" minOccurs="1"/>
+			<xsd:element name="SourceApplicationName" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="SourceFileIdentifier" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="BatchIdentifier" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CertificateIdentifier" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="SourceFileName" type="xsd:string" minOccurs="0" />
+			<xsd:element name="TotalRecordCount" type="xsd:integer" minOccurs="0"/>
+			<xsd:element name="TotalMessageCount" type="xsd:integer" minOccurs="0"/>
+			<xsd:element name="TotalTransTimeInSecs" type="xsd:decimal" minOccurs="1"/>
+			<xsd:element name="Status" type="StatusEnumerated" minOccurs="1"/>
+			<xsd:element name="MESSAGES" type="MESSAGES" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ACTIVITIES">
+		<xsd:sequence>
+			<xsd:element name="ACTIVITY" type="ACTIVITY" minOccurs="1" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ACTIVITY">
+		<xsd:sequence>
+			<xsd:element name="DateTime" type="xsd:string"/>
+			<xsd:element name="Code" type="xsd:string" />
+			<xsd:element name="Description" type="xsd:string"/>
+			<xsd:element name="MessageID" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="Status" type="StatusEnumerated"/>
+	</xsd:complexType>
+	<xsd:element name="MessageIdentifier" type="xsd:string"/>
+	<xsd:simpleType name="StatusEnumerated">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SUCCESS"/>
+			<xsd:enumeration value="FAIL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="MESSAGES">
+		<xsd:sequence>
+			<xsd:element name="MESSAGE" type="MESSAGE" minOccurs="1" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MESSAGE">
+		<xsd:sequence>
+			<xsd:element name="MessageIdentifier" type="xsd:string"/>
+			<xsd:element name="RecordCount" type="xsd:integer"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

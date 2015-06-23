@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.0 U (http://www.xmlspy.com) by Radian Guaranty Inc (Radian Guaranty Inc) -->
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Suresh Manik (Radian Guaranty Inc) -->
+<!--Please email any revisions to the Steward of the Master Model & Mapping artifacts -->
+<xsd:schema targetNamespace="http://www.radian.com/mi/RVP/ResponseMessage" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.radian.com/mi/RVP/ResponseMessage" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:element name="RESPONSE">
+	<xsd:complexType >
+		<xsd:annotation>
+			<xsd:documentation>
+							11Apr2007-Initial Version-V1.00-Created by Suresh Manik
+				</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element ref="MI_RESPONSE" minOccurs="0"/>
+			<xsd:element ref="LOAN_DATA" minOccurs="0"/>
+			<xsd:element ref="MI_RESPONSE_EXT" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MI_RESPONSE">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PROGRAM_EXT" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="STATUS" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="KEY" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="LenderCaseIdentifier" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>#DOCUMENTATION:01A-050 String</xsd:documentation>
+					<xsd:documentation>Number used by the Lender to identify a loan. Collected on the URLA in Section I (Lender Case Number).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="MICertificateIdentifier" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>The number assigned by a mortgage insurer to track a loan.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="MILoanLevelCreditScoreValue" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Used when a lender wants to send only one credit score per loan and the mortgage insurer does not want to associate the score with an individual borrower.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="RateAdjustmentInitialCapPercent" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>The MI Work Group added the additional attribute, _InitialCapPercent, to the RATE_ADJUSTMENT container element used in the MI_AUS_REQUEST2_1.DTD. To be used when applicable.</xsd:documentation>
+					<xsd:documentation>The maximum allowed increase in the interest rate (cap) at the initial adjustment.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="MILenderIdentifier" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>The unique number assigned by the private mortgage insurer identifying the lender entity.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="MITransactionIdentifier" type="xsd:string"/>
+			<xsd:attribute name="UserIdentifier_EXT" type="xsd:string"/>
+			<xsd:attribute name="ProgramSchemaPricing_EXT" type="xsd:string"/>
+			<xsd:attribute name="ProgramSchemaEligibility_EXT" type="xsd:string"/>
+			<xsd:attribute name="MILenderSpecialProgramType" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>To convey information describing a certain class of lender loans. Not to be confused with Mortgage Insurance Special Pricing Type.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="MIRelocationLoanIndicator" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation>Indicates if the loan is part of a corporate relocation program.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="PricingFixVarRateCode_EXT" type="xsd:string"/>
+			<xsd:attribute name="CalcPricingFixVarRateCode_EXT" type="xsd:string"/>
+			<xsd:attribute name="ProductCreditRiskClassificationCode_EXT" type="xsd:string"/>
+			<xsd:attribute name="SpecialDesignation_EXT" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="STATUS">
+		<xsd:complexType>
+			<xsd:attribute name="_Condition" type="xsd:string"/>
+			<xsd:attribute name="_Code" type="xsd:string"/>
+			<xsd:attribute name="_Name" type="xsd:string"/>
+			<xsd:attribute name="_Description" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="KEY">
+		<xsd:complexType>
+			<xsd:attribute name="_Name" type="xsd:string"/>
+			<xsd:attribute name="_Value" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="LOAN_DATA">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="RATE_EXT" minOccurs="0" maxOccurs="4"/>
+				<xsd:element ref="ADJUSTMENTS_EXT" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="STATUS_EXT" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="BaseRate_EXT" type="xsd:double"/>
+			<xsd:attribute name="Eligibility_EXT" type="xsd:boolean"/>
+			<xsd:attribute name="CalcRate_EXT" type="xsd:double"/>
+			<xsd:attribute name="Note_EXT" type="xsd:string"/>
+			<xsd:attribute name="EligibilityResults_EXT" type="xsd:string"/>
+			<xsd:attribute name="PremiumDue_EXT" type="xsd:double"/>
+			<xsd:attribute name="CalcLTV_EXT" type="xsd:double"/>
+			<xsd:attribute name="TaxRate_EXT" type="xsd:double"/>
+			<xsd:attribute name="CountyTaxRate_EXT" type="xsd:double"/>
+			<xsd:attribute name="CityTaxRate_EXT" type="xsd:double"/>
+			<xsd:attribute name="StateTaxRate_EXT" type="xsd:double"/>
+			<xsd:attribute name="CalcRateWithTax_EXT" type="xsd:double"/>
+			<xsd:attribute name="TaxAmount_EXT" type="xsd:double"/>
+			<xsd:attribute name="CountyTaxAmount_EXT" type="xsd:double"/>
+			<xsd:attribute name="CityTaxAmount_EXT" type="xsd:double"/>
+			<xsd:attribute name="StateTaxAmount_EXT" type="xsd:double"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="RATE_EXT">
+		<xsd:complexType>
+			<xsd:sequence/>
+			<xsd:attribute name="_Sequence">
+				<xsd:annotation>
+					<xsd:documentation>Relates the tiers of rate charged for specific coverage term</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="First">
+							<xsd:annotation>
+								<xsd:documentation>First set of MI premium rate.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="Second">
+							<xsd:annotation>
+								<xsd:documentation>Second set of MI premium rate.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="Third">
+							<xsd:annotation>
+								<xsd:documentation>Third set of MI premium rate.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="Fourth">
+							<xsd:annotation>
+								<xsd:documentation>Fourth set of MI premium rate.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="_Rate" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>MI premium rate applied for the timeframe indicated in _RateDurationYears.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="_RateWithTax" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>MI premium rate with tax applied for the timeframe indicated in _RateDurationYears.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="_RateDurationYears" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation>The number of years for which a given occurrence of a MI premium rate applies.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="_PremiumDue" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>MI premium due applied for the timeframe indicated.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="_PremiumDueWithTax" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>MI premium due with tax applied for the timeframe indicated.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ADJUSTMENTS_EXT">
+		<xsd:complexType>
+			<xsd:attribute name="Name_EXT" type="xsd:string"/>
+			<xsd:attribute name="Value_EXT" type="xsd:double"/>
+			<xsd:attribute name="Type_EXT">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="General"/>
+						<xsd:enumeration value="Binary"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="STATUS_EXT">
+		<xsd:complexType>
+			<xsd:attribute name="_Code" type="xsd:string"/>
+			<xsd:attribute name="_Description" type="xsd:string"/>
+			<xsd:attribute name="_Name">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Rejection"/>
+						<xsd:enumeration value="Suspension"/>
+						<xsd:enumeration value="Other"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="_Sequence" type="xsd:string"/>
+			<xsd:attribute name="_Condition" type="xsd:string"/>
+			<xsd:attribute name="_Type"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PROGRAM_EXT">
+		<xsd:complexType>
+			<xsd:attribute name="_Type" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Indicates program type. Should be one of Eligibility, Pricing and Exception.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="_Name" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Indicates name of the program.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="_Version" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Indicates version of the program.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="_Status" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation>Indicates false or true. For Pricing if no base rate is found, will return false.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MI_RESPONSE_EXT">
+		<xsd:complexType>
+			<xsd:attribute name="RVPEligibilityPriceDate_EXT" type="xsd:date"/>
+			<xsd:attribute name="UpfrontFee_EXT" type="xsd:double"/>
+			<xsd:attribute name="UpfrontFeeRate_EXT" type="xsd:double"/>
+			<xsd:attribute name="UpfrontFeeWithTax_EXT" type="xsd:double"/>
+			<xsd:attribute name="UpfrontFeeRateWithTax_EXT" type="xsd:double"/>
+			<xsd:attribute name="DecliningMarketsApplied_EXT" type="xsd:string"/>
+			<xsd:attribute name="DecliningMarketsOFHEO_EXT" type="xsd:string"/>
+			<xsd:attribute name="FCRAStatusType_EXT" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Fair Credit Reporting Act - To support identification of borrowers who did not receive the best price due to their credit scores. 
+					Expected values are:
+						00 - FCRA Has Not Run
+						01 - Not FCRA Eligible
+						02 - FCRA Eligible but No Letter was Sent,
+						03 - FCRA Eligible and Letter was Sent</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="RateDescription1_EXT" type="xsd:string"/>
+			<xsd:attribute name="RateDescription2_EXT" type="xsd:string"/>
+			<xsd:attribute name="RateDescription3_EXT" type="xsd:string"/>
+			<xsd:attribute name="LenderDelegatedAuthIndicator" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Indicates whether or not a lender is delegated.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="RapidReview_EXT" type="xsd:string"/>
+			<xsd:attribute name="UploadEligible_EXT" type="xsd:string"/>
+			<xsd:attribute name="LegalEntityIdentifier" type="xsd:string"/>
+			<xsd:attribute name="LegalEntityIdentifierVersion" type="xsd:string"/>
+			<xsd:attribute name="EntityOnlyRequestIndicator" type="xsd:string"/>
+			<xsd:attribute name="AppSource" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>This is used for logging and tracking purposes. It shows where requests came from.
+					For example, Mobile will be the value for request from the iPhone or iPad app.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

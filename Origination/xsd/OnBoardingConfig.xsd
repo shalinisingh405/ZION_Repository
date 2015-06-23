@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+	xmlns="http://www.radian.biz/ClientConnectivity/zion/Origination/OnBoardingConfig"
+	targetNamespace="http://www.radian.biz/ClientConnectivity/zion/Origination/OnBoardingConfig"
+	attributeFormDefault="unqualified" elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="OnBoarding_Config">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:sequence>
+					<xs:sequence>
+						<xs:element name="Providers">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element maxOccurs="unbounded" name="Provider">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ProviderCode" type="xs:string" />
+												<xs:element name="ProviderName" type="xs:string" />
+												<xs:element name="WriteACKFile" type="xs:string" />
+												<xs:element name="SFTPDownstreamsystemPath" type="xs:string" />
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:sequence>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

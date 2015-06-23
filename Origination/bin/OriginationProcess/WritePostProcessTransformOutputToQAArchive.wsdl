@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soae="http://www.intel.com/soae/wsdl/wsdl11-2007a/" xmlns:tns="http://www.example.com/Origination/sftp/bin/OriginationProcess/WritePostProcessTransformOutputToQAArchive" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd0="http://www.example.com/Origination/sftp/bin/OriginationProcess/WritePostProcessTransformOutputToQAArchive/schemas" targetNamespace="http://www.example.com/Origination/sftp/bin/OriginationProcess/WritePostProcessTransformOutputToQAArchive">
+  <plnk:partnerLinkType name="WritePostProcessTransformOutputToQAArchiveServicePartnerLinkType">
+    <plnk:role name="role" portType="tns:WritePostProcessTransformOutputToQAArchiveServicePortType"/>
+  </plnk:partnerLinkType>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.com/Origination/sftp/bin/OriginationProcess/WritePostProcessTransformOutputToQAArchive/schemas"/>
+  </wsdl:types>
+  <wsdl:message name="WritePostProcessTransformOutputToQAArchiveInput">
+    <wsdl:part name="body" type="xsd:anyType"/>
+  </wsdl:message>
+  <wsdl:portType name="WritePostProcessTransformOutputToQAArchiveServicePortType">
+    <wsdl:operation name="WritePostProcessTransformOutputToQAArchiveOperation">
+      <wsdl:input message="tns:WritePostProcessTransformOutputToQAArchiveInput"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WritePostProcessTransformOutputToQAArchiveServiceBinding" type="tns:WritePostProcessTransformOutputToQAArchiveServicePortType">
+    <soae:binding transport="http://www.intel.com/soae/transport/sftp"/>
+    <wsdl:operation name="WritePostProcessTransformOutputToQAArchiveOperation">
+      <wsdl:input>
+        <soae:content part="body" type="text/xml"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WritePostProcessTransformOutputToQAArchiveService">
+    <wsdl:port binding="tns:WritePostProcessTransformOutputToQAArchiveServiceBinding" name="WritePostProcessTransformOutputToQAArchivePort">
+      <soae:address location="sftp://intconnect.datacenter.radiangroupinc.net:22//origination/archive/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

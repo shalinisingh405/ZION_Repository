@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soae="http://www.intel.com/soae/wsdl/wsdl11-2007a/" xmlns:tns="http://www.example.com/Origination/file/bin/OriginationProcess/WriteTALogGFH" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd0="http://www.example.com/Origination/file/bin/OriginationProcess/WriteTALogGFH/schemas" targetNamespace="http://www.example.com/Origination/file/bin/OriginationProcess/WriteTALogGFH">
+  <plnk:partnerLinkType name="WriteTALogGFHServicePartnerLinkType">
+    <plnk:role name="role" portType="tns:WriteTALogGFHServicePortType"/>
+  </plnk:partnerLinkType>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.com/Origination/file/bin/OriginationProcess/WriteTALogGFH/schemas"/>
+  </wsdl:types>
+  <wsdl:message name="WriteTALogGFHInput">
+    <wsdl:part name="body" type="xsd:anyType"/>
+  </wsdl:message>
+  <wsdl:portType name="WriteTALogGFHServicePortType">
+    <wsdl:operation name="WriteTALogGFHOperation">
+      <wsdl:input message="tns:WriteTALogGFHInput"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WriteTALogGFHServiceBinding" type="tns:WriteTALogGFHServicePortType">
+    <soae:binding transport="http://www.intel.com/soae/transport/file"/>
+    <wsdl:operation name="WriteTALogGFHOperation">
+      <wsdl:input>
+        <soae:content part="body" type="text/xml"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WriteTALogGFHService">
+    <wsdl:port binding="tns:WriteTALogGFHServiceBinding" name="WriteTALogGFHPort">
+      <soae:address location="file:///opt/xion/transactionlogs/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

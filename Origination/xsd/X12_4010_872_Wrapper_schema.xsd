@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.informatica.com/B2B/X12Wrapper" targetNamespace="http://www.informatica.com/B2B/X12Wrapper" xmlns:Q1="http://www.informatica.com/B2B/X12">
+    <xsd:import schemaLocation="../cdeServices/EDI872/X12_4010_872_schema.xsd" namespace="http://www.informatica.com/B2B/X12"></xsd:import>
+    <xsd:element name="interchanges">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Q1:interchange" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="Q1:Errors" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="ErrorsFound" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

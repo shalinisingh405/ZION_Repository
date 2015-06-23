@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soae="http://www.intel.com/soae/wsdl/wsdl11-2007a/" xmlns:tns="http://www.example.com/Origination/file/bin/OriginationProcess/ArchivetoESGFolderFailed" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd0="http://www.example.com/Origination/file/bin/OriginationProcess/ArchivetoESGFolderFailed/schemas" targetNamespace="http://www.example.com/Origination/file/bin/OriginationProcess/ArchivetoESGFolderFailed">
+  <plnk:partnerLinkType name="ArchivetoESGFolderFailedServicePartnerLinkType">
+    <plnk:role name="role" portType="tns:ArchivetoESGFolderFailedServicePortType"/>
+  </plnk:partnerLinkType>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.com/Origination/file/bin/OriginationProcess/ArchivetoESGFolderFailed/schemas"/>
+  </wsdl:types>
+  <wsdl:message name="ArchivetoESGFolderFailedInput">
+    <wsdl:part name="body" type="xsd:base64Binary"/>
+  </wsdl:message>
+  <wsdl:portType name="ArchivetoESGFolderFailedServicePortType">
+    <wsdl:operation name="ArchivetoESGFolderFailedOperation">
+      <wsdl:input message="tns:ArchivetoESGFolderFailedInput"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ArchivetoESGFolderFailedServiceBinding" type="tns:ArchivetoESGFolderFailedServicePortType">
+    <soae:binding transport="http://www.intel.com/soae/transport/file"/>
+    <wsdl:operation name="ArchivetoESGFolderFailedOperation">
+      <wsdl:input>
+        <soae:content part="body" type="application/octet-stream"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ArchivetoESGFolderFailedService">
+    <wsdl:port binding="tns:ArchivetoESGFolderFailedServiceBinding" name="ArchivetoESGFolderFailedPort">
+      <soae:address location="file:///opt/xion/transactionlogs/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

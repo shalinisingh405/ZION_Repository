@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soae="http://www.intel.com/soae/wsdl/wsdl11-2007a/" xmlns:tns="http://www.example.com/OriginationService/http/bin/OriginationServiceSecureSOAP12Process/Receive" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd0="http://www.example.com/OriginationService/http/bin/OriginationServiceSecureSOAP12Process/Receive/schemas" targetNamespace="http://www.example.com/OriginationService/http/bin/OriginationServiceSecureSOAP12Process/Receive">
+  <plnk:partnerLinkType name="ReceiveServicePartnerLinkType">
+    <plnk:role name="role" portType="tns:ReceiveServicePortType"/>
+  </plnk:partnerLinkType>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.com/OriginationService/http/bin/OriginationServiceSecureSOAP12Process/Receive/schemas"/>
+  </wsdl:types>
+  <wsdl:message name="ReceiveInput">
+    <wsdl:part name="body" type="xsd:base64Binary"/>
+  </wsdl:message>
+  <wsdl:message name="ReceiveOutput">
+    <wsdl:part name="body" type="xsd:base64Binary"/>
+  </wsdl:message>
+  <wsdl:portType name="ReceiveServicePortType">
+    <wsdl:operation name="ReceiveOperation">
+      <wsdl:input message="tns:ReceiveInput"/>
+      <wsdl:output message="tns:ReceiveOutput"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ReceiveServiceBinding" type="tns:ReceiveServicePortType">
+    <soae:binding transport="http://www.intel.com/soae/transport/http"/>
+    <wsdl:operation name="ReceiveOperation">
+      <wsdl:input>
+        <soae:content part="body" type="application/octet-stream"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soae:content part="body" type="application/octet-stream"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ReceiveService">
+    <wsdl:port binding="tns:ReceiveServiceBinding" name="ReceivePort">
+      <soae:address location="http://"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><wssec:webServiceSecurityDefinition xmlns:wssec="http://www.intel.com/soae/localService/wssecDefinition-2007a/" bindingType="SOAP" operationPrefix="sign_x509_" samlTokenVersion="1.1" samlVersion="1.1" soapVersion="1.2" tokenType="x509" usage="sign" wssecVersion="2004-01">
+  <signatureGenerationMethod method="rsaWithSha1"/>
+  <digestGenerationMethod method="sha1"/>
+  <canonicalGenerationMethod method="C14N_exclusive"/>
+  <keyInfo format="Certificate"/>
+  <targetElements>
+    <namespaces>
+      <namespace prefix="soap" uri="http://www.w3.org/2003/05/soap-envelope"/>
+      <namespace prefix="wsse" uri="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"/>
+    </namespaces>
+    <xpath includingTags="true">/soap:Envelope/soap:Body</xpath>
+  </targetElements>
+  <securityTokens>
+    <token name="origination_pub_priv_key_pair" type="x509KeyPair" use="static"/>
+  </securityTokens>
+</wssec:webServiceSecurityDefinition>

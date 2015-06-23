@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soae="http://www.intel.com/soae/wsdl/wsdl11-2007a/" xmlns:tns="http://www.example.com/Origination/sftp/bin/OriginationProcess/ArchiveInboundRequestToSFTP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd0="http://www.example.com/Origination/sftp/bin/OriginationProcess/ArchiveInboundRequestToSFTP/schemas" targetNamespace="http://www.example.com/Origination/sftp/bin/OriginationProcess/ArchiveInboundRequestToSFTP">
+  <plnk:partnerLinkType name="ArchiveInboundRequestToSFTPServicePartnerLinkType">
+    <plnk:role name="role" portType="tns:ArchiveInboundRequestToSFTPServicePortType"/>
+  </plnk:partnerLinkType>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.com/Origination/sftp/bin/OriginationProcess/ArchiveInboundRequestToSFTP/schemas"/>
+  </wsdl:types>
+  <wsdl:message name="ArchiveInboundRequestToSFTPInput">
+    <wsdl:part name="body" type="xsd:anyType"/>
+  </wsdl:message>
+  <wsdl:portType name="ArchiveInboundRequestToSFTPServicePortType">
+    <wsdl:operation name="ArchiveInboundRequestToSFTPOperation">
+      <wsdl:input message="tns:ArchiveInboundRequestToSFTPInput"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ArchiveInboundRequestToSFTPServiceBinding" type="tns:ArchiveInboundRequestToSFTPServicePortType">
+    <soae:binding transport="http://www.intel.com/soae/transport/sftp"/>
+    <wsdl:operation name="ArchiveInboundRequestToSFTPOperation">
+      <wsdl:input>
+        <soae:content part="body" type="text/xml"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ArchiveInboundRequestToSFTPService">
+    <wsdl:port binding="tns:ArchiveInboundRequestToSFTPServiceBinding" name="ArchiveInboundRequestToSFTPPort">
+      <soae:address location="sftp://intconnect.datacenter.radiangroupinc.net:22/origination/archive/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:x12="http://www.informatica.com/B2B/X12" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.informatica.com/B2B/X12" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="X12_4010_263_schema_segments.xsd"/>
+	<xs:element name="interchange">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="delimiters" type="x12:delimiters_Schema" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="ISA" type="x12:ISA_Schema" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:sequence maxOccurs="unbounded">
+					<xs:element name="GS" type="x12:GS_Schema" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:group ref="x12:Transaction" maxOccurs="unbounded"/>
+					<xs:element name="GE" type="x12:GE_Schema" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:element name="IEA" type="x12:IEA_Schema" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="TSErrorCd" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TS_263">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ST" type="x12:ST_Schema" minOccurs="0"/>
+				<xs:element name="BGN" type="x12:BGN_Schema" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="N1" type="x12:N1_Schema" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="LOOP_LX" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+				<xs:element name="LX" type="x12:LX_Schema" minOccurs="0"/>
+				<xs:element name="N1" type="x12:N1_Schema" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="LOOP_REF" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+				<xs:element name="REF" type="x12:REF_Schema" minOccurs="0"/>
+				<xs:element name="N1" type="x12:N1_Schema" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="MIR" type="x12:MIR_Schema" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="TXI" type="x12:TXI_Schema" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="N9" type="x12:N9_Schema" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="LOOP_G63" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+				<xs:element name="G63" type="x12:G63_Schema" minOccurs="0"/>
+				<xs:element name="PCT" type="x12:PCT_Schema" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+				</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				</xs:element>
+				<xs:element name="SE" type="x12:SE_Schema" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+<xs:attribute name="TSErrorCd" use="optional"/>
+</xs:complexType>
+</xs:element>
+<xs:group name="Transaction">
+	<xs:choice>
+		<xs:element ref="x12:TS_263"/>
+	</xs:choice>
+</xs:group>
+	<xs:element name="Errors" type="x12:ErrorsType"/>
+	<xs:complexType name="ErrorsType">
+		<xs:sequence>
+			<xs:element name="Interchange" maxOccurs="1" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="x12:ISA"/>
+						<xs:element name="FunctionalGroup" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="x12:GS"/>
+										<xs:element ref="x12:TS_Errors" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element ref="x12:GE" minOccurs="0"/>
+										<xs:element name="FunctionalGroupError" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="code"/>
+												<xs:attribute name="description"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element ref="x12:IEA"/>
+							<xs:element name="InterchangeError" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="code"/>
+									<xs:attribute name="description"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			<xs:element name="XmlValidationError" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ErrorDescription" type="xs:string"/>
+						<xs:element name="LineIndex" type="xs:string"/>
+						<xs:element name="AdditionalData" type="xs:string"/>
+			</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+			<xs:attribute name="fieldSeparator"/>
+			<xs:attribute name="segmentSeparator"/>
+		</xs:complexType>
+	<xs:element name="TS_Errors" type="x12:TS_ErrorsType"/>
+	<xs:element name="Error">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SegmentIndex" type="xs:int" minOccurs="0"/>
+				<xs:element name="SegmentIdentifier" type="xs:string" minOccurs="0"/>
+				<xs:element name="LoopIdentifier" type="xs:string" minOccurs="0"/>
+				<xs:element name="LoopCount" type="xs:string" minOccurs="0"/>
+				<xs:element name="DataElementIndex" type="xs:int" minOccurs="0"/>
+				<xs:element name="ElementInCompositeIndex" type="xs:int" minOccurs="0"/>
+				<xs:element name="RepetitionIndex" type="xs:string" minOccurs="0"/>
+				<xs:element name="DataElementRefNumber" type="xs:string" minOccurs="0"/>
+				<xs:element name="DataElementValue" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="Code"/>
+			<xs:attribute name="internal_path"/>
+			<xs:attribute name="Description"/>
+			<xs:attribute name="internal_validation_type"/>
+			<xs:attribute name="internal_rule_key"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="TS_ErrorsType">
+		<xs:sequence>
+			<xs:element ref="x12:Error" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="TransactionSetError" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="code" type="xs:string"/>
+					<xs:attribute name="description" type="xs:string"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="TransactionSetIdentifier" type="xs:string"/>
+		<xs:attribute name="TransactionSetControlNumber" type="xs:string"/>
+		<xs:attribute name="StartingSegmentIndex" type="xs:integer"/>
+	</xs:complexType>
+</xs:schema>

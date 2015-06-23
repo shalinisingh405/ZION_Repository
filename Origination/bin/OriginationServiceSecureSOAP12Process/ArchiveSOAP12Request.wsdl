@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soae="http://www.intel.com/soae/wsdl/wsdl11-2007a/" xmlns:tns="http://www.example.com/Origination/sftp/bin/OriginationServiceSecureSOAP12Process/ArchiveSOAP12Request" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd0="http://www.example.com/Origination/sftp/bin/OriginationServiceSecureSOAP12Process/ArchiveSOAP12Request/schemas" targetNamespace="http://www.example.com/Origination/sftp/bin/OriginationServiceSecureSOAP12Process/ArchiveSOAP12Request">
+  <plnk:partnerLinkType name="ArchiveSOAP12RequestServicePartnerLinkType">
+    <plnk:role name="role" portType="tns:ArchiveSOAP12RequestServicePortType"/>
+  </plnk:partnerLinkType>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.com/Origination/sftp/bin/OriginationServiceSecureSOAP12Process/ArchiveSOAP12Request/schemas"/>
+  </wsdl:types>
+  <wsdl:message name="ArchiveSOAP12RequestInput">
+    <wsdl:part name="body" type="xsd:anyType"/>
+  </wsdl:message>
+  <wsdl:portType name="ArchiveSOAP12RequestServicePortType">
+    <wsdl:operation name="ArchiveSOAP12RequestOperation">
+      <wsdl:input message="tns:ArchiveSOAP12RequestInput"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ArchiveSOAP12RequestServiceBinding" type="tns:ArchiveSOAP12RequestServicePortType">
+    <soae:binding transport="http://www.intel.com/soae/transport/sftp"/>
+    <wsdl:operation name="ArchiveSOAP12RequestOperation">
+      <wsdl:input>
+        <soae:content part="body" type="text/xml"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ArchiveSOAP12RequestService">
+    <wsdl:port binding="tns:ArchiveSOAP12RequestServiceBinding" name="ArchiveSOAP12RequestPort">
+      <soae:address location="sftp://intconnect.datacenter.radiangroupinc.net:22//origination/archive/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

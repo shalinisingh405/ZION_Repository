@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><wssec:webServiceSecurityDefinition xmlns:wssec="http://www.intel.com/soae/localService/wssecDefinition-2007a/" bindingType="SOAP" samlTokenVersion="1.1" samlVersion="1.1" soapVersion="1.2" tokenType="x509" usage="verify" wssecVersion="2004-01">
+  <signatureAcceptMethods>
+    <rsaWithSha1/>
+  </signatureAcceptMethods>
+  <digestAcceptMethods>
+    <sha1/>
+  </digestAcceptMethods>
+  <canonicalAcceptMethods>
+    <C14N_exclusive/>
+  </canonicalAcceptMethods>
+  <processingInstructions saveSignatureConfirmationData="true" stripSignature="true"/>
+  <incomingKeyinfoSaveTarget>true</incomingKeyinfoSaveTarget>
+  <keyInfoAcceptType>Certificate</keyInfoAcceptType>
+  <securityTokens>
+    <token type="x509Certificate" use="incoming-message"/>
+    <token name="origination_ws_auth_policy" type="authenticationPolicy" use="static"/>
+  </securityTokens>
+</wssec:webServiceSecurityDefinition>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions name="BizTalkServiceInstance" targetNamespace="http://Radian.Matrix.MortgageIns.Origination.RateQuote" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://Radian.Matrix.MortgageIns.Origination.RateQuote" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata">
+	<wsdl:documentation>
+		<CreationInfo Created="2013-11-25 08:32:49Z"/>
+	</wsdl:documentation>
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://Radian.Matrix.MortgageIns.Origination.RateQuote/Imports">
+			<xsd:import schemaLocation="../xsd/XCM4.0.4/rvpRequest.xsd" namespace="http://www.radian.com/mi/RVP/RequestMessage"/>
+			<xsd:import schemaLocation="../xsd/XCM4.0.4/rvpResponse.xsd" namespace="http://www.radian.com/mi/RVP/ResponseMessage"/>
+			<xsd:import schemaLocation="../xsd/XCM4.0.4/MESSAGE.xsd" namespace="http://Radian.Services.Schemas"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="RateQuote_GetRateQuotes_InputMessage">
+		<wsdl:part name="part" element="q1:MESSAGE" xmlns:q1="http://Radian.Services.Schemas"/>
+	</wsdl:message>
+	<wsdl:message name="RateQuote_GetRateQuotes_OutputMessage">
+		<wsdl:part name="part" element="q2:MESSAGE" xmlns:q2="http://Radian.Services.Schemas"/>
+	</wsdl:message>
+	<wsdl:portType name="RateQuote">
+		<wsdl:documentation/>
+		<wsdl:operation name="GetRateQuotes">
+			<wsdl:documentation/>
+			<wsdl:input message="tns:RateQuote_GetRateQuotes_InputMessage"/>
+			<wsdl:output message="tns:RateQuote_GetRateQuotes_OutputMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="BasicHttpBinding_ITwoWayAsync" type="tns:RateQuote">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="GetRateQuotes">
+			<wsdl:documentation/>
+			<soap:operation soapAction="GetRateQuotes" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="BizTalkServiceInstance">
+		<wsdl:port name="BasicHttpBinding_ITwoWayAsync" binding="tns:BasicHttpBinding_ITwoWayAsync">
+			<soap:address location="http://oh01imta10.datacenter.radiangroupinc.net/RateQuote/RateQuote.svc"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

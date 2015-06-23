@@ -1,0 +1,1138 @@
+// syntaxVersion = 4.00.10
+// engineVersion = 9.5.0(Build:16)
+instance interchange_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:interchange")), 
+		Locator(XPath("/x12:interchange/*s/delimiters"))
+	];
+	target = 
+	[
+		Locator(XPath("/x12:Errors")), 
+		Locator(XPath("/x12:Errors/*s/Interchange"))
+	];
+	contains = 
+	[
+		SetValue("false", XPath("$ErrorsFoundFlag")), 
+		GroupSerializer
+		{
+			contains = 
+			[
+				AlternativeSerializers
+				{
+					options = 
+					[
+						GroupSerializer<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:interchange/*s/delimiters/*s/field_separator"))
+							];
+							contains = 
+							[
+								EnsureCondition("$1 != \"\"", [XPath("/x12:interchange/*s/delimiters/*s/field_separator")])
+							];
+							name = "from XMLDefault";
+						}, 
+						SetValue<disabled>("*", XPath("/x12:interchange/*s/delimiters/*s/field_separator"), [], "default"), 
+						GroupSerializer<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:interchange/*s/delimiters/*s/field_separator"))
+							];
+							contains = 
+							[
+								EnsureCondition("$1 == \"\"", [XPath("/x12:interchange/*s/delimiters/*s/field_separator")]), 
+								SetValue("\030", XPath("/x12:interchange/*s/delimiters/*s/field_separator"))
+							];
+							name = "from XMLEnhancedforPHH";
+						}
+					];
+					name = "field separator";
+					remark = "Set statically if not present";
+				}, 
+				AlternativeSerializers
+				{
+					options = 
+					[
+						GroupSerializer<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:interchange/*s/delimiters/*s/segment_separator"))
+							];
+							contains = 
+							[
+								EnsureCondition("$1 != \"\"", [XPath("/x12:interchange/*s/delimiters/*s/segment_separator")])
+							];
+							name = "from XMLDefault";
+						}, 
+						SetValue<disabled>("~", XPath("/x12:interchange/*s/delimiters/*s/segment_separator"), [], "default"), 
+						GroupSerializer<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:interchange/*s/delimiters/*s/segment_separator"))
+							];
+							contains = 
+							[
+								EnsureCondition("$1 == \"\"", [XPath("/x12:interchange/*s/delimiters/*s/segment_separator")]), 
+								SetValue("\029", XPath("/x12:interchange/*s/delimiters/*s/segment_separator"), [], "default")
+							];
+							name = "from XMLEnhancedforPHH";
+						}
+					];
+					name = "segment separator";
+					remark = "Set statically if not present";
+				}, 
+				AlternativeSerializers
+				{
+					options = 
+					[
+						GroupSerializer
+						{
+							source = 
+							[
+								Locator(XPath("/x12:interchange/*s/delimiters/*s/composite_separator"))
+							];
+							contains = 
+							[
+								EnsureCondition("$1 != \"'\"", [XPath("/x12:interchange/*s/delimiters/*s/composite_separator")])
+							];
+							name = "from XML";
+						}, 
+						SetValue("^", XPath("/x12:interchange/*s/delimiters/*s/composite_separator"), [], "default")
+					];
+					name = "composite separator";
+					remark = "Set statically if not present";
+				}, 
+				AlternativeSerializers
+				{
+					options = 
+					[
+						GroupSerializer
+						{
+							source = 
+							[
+								Locator(XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix"))
+							];
+							contains = 
+							[
+								EnsureCondition("$1 != \"'\"", [XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix")])
+							];
+							name = "from XML";
+						}, 
+						SetValue("CRLF", XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix"), [], "default")
+					];
+					name = "segment separator suffix";
+					remark = "Set statically if not present";
+				}
+			];
+			name = "Delimiters";
+		}, 
+		GroupSerializer<optional>
+		{
+			source = 
+			[
+				Locator(XPath("/x12:interchange/*s/ISA"))
+			];
+			target = 
+			[
+				Locator(XPath("/x12:Errors/*s/Interchange/*s/x12:ISA"))
+			];
+			contains = 
+			[
+				StringSerializer("ISA"), 
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:interchange/*s/delimiters/*s/field_separator")), 
+				IncrementLineCount, 
+				EmbeddedSerializer
+				{
+					serializer = ISA_Segment_Serializer;
+					schema_connections = 
+					[
+						Connect(XPath("/x12:interchange/*s/ISA"), XPath("/x12:ISA")), 
+						Connect(XPath("/x12:interchange/*s/delimiters"), XPath("/x12:delimiters"))
+					];
+				}, 
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:interchange/*s/delimiters/*s/segment_separator")), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix")), 
+				Map(XPath("/x12:interchange/*s/ISA"), XPath("/x12:Errors/*s/Interchange/*s/x12:ISA"))
+			];
+			name = "ISA";
+		}, 
+		RepeatingGroupSerializer<optional>
+		{
+			source = 
+			[
+				Locator(XPath("/x12:interchange/*s/*s1"))
+			];
+			target = 
+			[
+				Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup"))
+			];
+			contains = 
+			[
+				GroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:interchange/*s/*s1/GS"))
+					];
+					target = 
+					[
+						Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS"))
+					];
+					contains = 
+					[
+						StringSerializer("GS"), 
+						ContentSerializer<allow_empty_values>("", "", XPath("/x12:interchange/*s/delimiters/*s/field_separator")), 
+						IncrementLineCount, 
+						EmbeddedSerializer
+						{
+							serializer = GS_Segment_Serializer;
+							schema_connections = 
+							[
+								Connect(XPath("/x12:interchange/*s/*s1/GS"), XPath("/x12:GS")), 
+								Connect(XPath("/x12:interchange/*s/delimiters"), XPath("/x12:delimiters"))
+							];
+						}, 
+						ContentSerializer<allow_empty_values>("", "", XPath("/x12:interchange/*s/delimiters/*s/segment_separator")), 
+						ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix")), 
+						Map(XPath("/x12:interchange/*s/*s1/GS"), XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS"))
+					];
+					name = "GS";
+				}, 
+				RepeatingGroupSerializer
+				{
+					source = 
+					[
+						Locator(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_263"))
+					];
+					target = 
+					[
+						Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors"))
+					];
+					contains = 
+					[
+						EmbeddedSerializer
+						{
+							serializer = TS_263_Residential_Mortgage_Insurance_Application_Respons_Serializer;
+							schema_connections = 
+							[
+								Connect(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_263"), XPath("/x12:TS_263")), 
+								Connect(XPath("/x12:interchange/*s/delimiters"), XPath("/x12:delimiters")), 
+								Connect(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+								Connect(XPath("$TSControlNumber2"), XPath("$TSControlNumber2")), 
+								Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+								Connect(XPath("$NumberOfSegments"), XPath("$NumberOfSegments"))
+							];
+						}
+					];
+					current_iteration = XPath("$TransactionSetCount");
+					name = "LOOP_TS";
+				}, 
+				GroupSerializer<optional>
+				{
+					target = 
+					[
+						Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE")), 
+						Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE/*s/R01")), 
+						Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE/*s/R02"))
+					];
+					contains = 
+					[
+						IncrementLineCount, 
+						StringSerializer("GE"), 
+						ContentSerializer<allow_empty_values>("", "", XPath("/x12:interchange/*s/delimiters/*s/field_separator")), 
+						AlternativeSerializers
+						{
+							options = 
+							[
+								GroupSerializer
+								{
+									source = 
+									[
+										Locator(XPath("/x12:interchange/*s/*s1/GE"))
+									];
+									contains = 
+									[
+										EmbeddedSerializer
+										{
+											serializer = GE_Segment_Serializer;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:interchange/*s/*s1/GE"), XPath("/x12:GE")), 
+												Connect(XPath("/x12:interchange/*s/delimiters"), XPath("/x12:delimiters"))
+											];
+										}, 
+										Map(XPath("/x12:interchange/*s/*s1/GE"), XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE"))
+									];
+									name = "From XML";
+								}, 
+								GroupSerializer
+								{
+									contains = 
+									[
+										ContentSerializer("", "", XPath("$TransactionSetCount")), 
+										ContentSerializer("", "", XPath("/x12:interchange/*s/delimiters/*s/field_separator")), 
+										ContentSerializer("", "", XPath("/x12:interchange/*s/*s1/GS/*s/R06")), 
+										Map(XPath("$TransactionSetCount"), XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE/*s/R01")), 
+										Map(XPath("/x12:interchange/*s/*s1/GS/*s/R06"), XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE/*s/R02"))
+									];
+									name = "Auto-generate";
+								}
+							];
+						}, 
+						ContentSerializer<allow_empty_values>("", "", XPath("/x12:interchange/*s/delimiters/*s/segment_separator")), 
+						ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix")), 
+						GroupSerializer<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS")), 
+								Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE"))
+							];
+							contains = 
+							[
+								GroupSerializer<optional>
+								{
+									target = 
+									[
+										Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"))
+									];
+									contains = 
+									[
+										EnsureCondition
+										{
+											condition = "$1.indexOf(\";\" + $2 + \";\") == -1";
+											params = 
+											[
+												XPath("$FunctionalGroupsSupported"), 
+												XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R01")
+											];
+										}, 
+										SetValue("1", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code")), 
+										SetValue("Functional Group Not Supported", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@description")), 
+										SetValue("true", XPath("$ErrorsFoundFlag"))
+									];
+									name = "Functional Group Not Supported";
+								}, 
+								GroupSerializer<optional>
+								{
+									target = 
+									[
+										Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"))
+									];
+									contains = 
+									[
+										EnsureCondition
+										{
+											condition = "$1.indexOf(\";\" + $2 + \";\") == -1";
+											params = 
+											[
+												XPath("$FunctionalGroupVersionsSupported"), 
+												XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R08")
+											];
+										}, 
+										SetValue("2", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code")), 
+										SetValue("Functional Group Version Not Supported", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@description")), 
+										SetValue("true", XPath("$ErrorsFoundFlag"))
+									];
+									name = "Functional Group Version Not Supported";
+								}, 
+								GroupSerializer<optional>
+								{
+									target = 
+									[
+										Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"))
+									];
+									contains = 
+									[
+										Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R06"), XPath("$temp1"), [Replace<optional>(PatternSearch("\\b0*"))]), 
+										Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE/*s/R02"), XPath("$temp2"), [Replace<optional>(PatternSearch("\\b0*"))]), 
+										EnsureCondition
+										{
+											condition = "$1 != $2";
+											params = 
+											[
+												XPath("$temp1"), 
+												XPath("$temp2")
+											];
+										}, 
+										SetValue("4", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code")), 
+										SetValue("Group Control Number in the Functional Group Header and Trailer Do Not Agree", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@description"))
+									];
+									name = "Group Control Number in the Functional Group Header and Trailer Do Not Agree";
+								}, 
+								GroupSerializer<optional>
+								{
+									target = 
+									[
+										Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"))
+									];
+									contains = 
+									[
+										EnsureCondition
+										{
+											condition = "$1 != $2";
+											params = 
+											[
+												XPath("$TransactionSetCount"), 
+												XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE/*s/R01")
+											];
+										}, 
+										SetValue("5", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code")), 
+										SetValue("Number of Included Transaction Sets Does Not Match Actual Count", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@description")), 
+										SetValue("true", XPath("$ErrorsFoundFlag"))
+									];
+									name = "Number of Included Transaction Sets Does Not Match Actual Count";
+								}, 
+								GroupSerializer<optional>
+								{
+									contains = 
+									[
+										AlternativeSerializers
+										{
+											options = 
+											[
+												Map
+												{
+													source = XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R06");
+													target = XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R06");
+													validators = 
+													[
+														ValidateByPattern
+														{
+															expression = "[0-9]{1,9}";
+															notify = UnrecognizedRecord;
+														}
+													];
+												}, 
+												GroupSerializer
+												{
+													contains = 
+													[
+														SetValue("6", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code")), 
+														SetValue("Group Control Number Violates Syntax", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@description")), 
+														SetValue("true", XPath("$ErrorsFoundFlag"))
+													];
+												}
+											];
+										}
+									];
+									name = "Group Control Number Violates Syntax";
+								}
+							];
+							name = "Functional Group Validations";
+						}
+					];
+					name = "GE";
+				}
+			];
+			current_iteration = XPath("$FunctionalGroupCount");
+			name = "LOOP_GS";
+		}, 
+		GroupSerializer<optional>
+		{
+			target = 
+			[
+				Locator(XPath("/x12:Errors/*s/Interchange/*s/x12:IEA")), 
+				Locator(XPath("/x12:Errors/*s/Interchange/*s/x12:IEA/*s/R01")), 
+				Locator(XPath("/x12:Errors/*s/Interchange/*s/x12:IEA/*s/R02"))
+			];
+			contains = 
+			[
+				StringSerializer("IEA"), 
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:interchange/*s/delimiters/*s/field_separator")), 
+				AlternativeSerializers
+				{
+					options = 
+					[
+						GroupSerializer
+						{
+							source = 
+							[
+								Locator(XPath("/x12:interchange/*s/IEA"))
+							];
+							contains = 
+							[
+								EmbeddedSerializer
+								{
+									serializer = IEA_Segment_Serializer;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:interchange/*s/IEA"), XPath("/x12:IEA")), 
+										Connect(XPath("/x12:interchange/*s/delimiters"), XPath("/x12:delimiters"))
+									];
+								}, 
+								Map(XPath("/x12:interchange/*s/IEA"), XPath("/x12:Errors/*s/Interchange/*s/x12:IEA"))
+							];
+							name = "From XML";
+						}, 
+						GroupSerializer
+						{
+							contains = 
+							[
+								ContentSerializer("", "", XPath("$FunctionalGroupCount")), 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/delimiters/*s/field_separator")), 
+								ContentSerializer("", "", XPath("/x12:interchange/*s/ISA/*s/R13")), 
+								Map(XPath("$FunctionalGroupCount"), XPath("/x12:Errors/*s/Interchange/*s/x12:IEA/*s/R01")), 
+								Map(XPath("/x12:interchange/*s/ISA/*s/R13"), XPath("/x12:Errors/*s/Interchange/*s/x12:IEA/*s/R02"))
+							];
+							name = "Auto-generate";
+						}
+					];
+				}, 
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:interchange/*s/delimiters/*s/segment_separator")), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix")), 
+				IncrementLineCount
+			];
+			name = "IEA";
+		}, 
+		GroupSerializer<optional>
+		{
+			contains = 
+			[
+				EnsureCondition("$1 == \"true\"", [XPath("$restricted")]), 
+				Map(XPath("/x12:interchange/*s/delimiters/*s/field_separator"), XPath("/x12:Errors/@fieldSeparator")), 
+				Map
+				{
+					source = XPath("/x12:interchange/*s/delimiters/*s/segment_separator");
+					target = XPath("/x12:Errors/@segmentSeparator");
+					transformers = 
+					[
+						AddString<optional>(StaticString(), DynamicString(XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix")))
+					];
+				}, 
+				WriteValue(XPath("/x12:Errors"), OutputDataHolder(XPath("$ElementAsString"))), 
+				ContentSerializer("", "", XPath("$ElementAsString"))
+			];
+			name = "return <Errors> XML to restricted parser";
+		}
+	];
+	remark = "Vertical Content Version: 9.1.0.125";
+}
+instance TS_263_Residential_Mortgage_Insurance_Application_Respons_Serializer = Serializer
+{
+	source = 
+	[
+		Locator(XPath("/x12:TS_263"))
+	];
+	target = 
+	[
+		Locator(XPath("/x12:TS_Errors"))
+	];
+	contains = 
+	[
+		SetValue("0", XPath("$SegmentCount")), 
+		SetValue("false", XPath("$ErrorsFoundFlag")), 
+		RepeatingGroupSerializer<optional>
+		{
+			source = 
+			[
+				Locator(XPath("/x12:TS_263/*s/ST"))
+			];
+			contains = 
+			[
+				StringSerializer("ST"), 
+				SetValue("ST", XPath("$RecordID")), 
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator")), 
+				IncrementLineCount, 
+				Map(XPath("/x12:TS_263/*s/ST/*s/R01"), XPath("/x12:TS_Errors/@TransactionSetIdentifier")), 
+				Map(XPath("/x12:TS_263/*s/ST/*s/R02"), XPath("/x12:TS_Errors/@TransactionSetControlNumber")), 
+				Map(XPath("$LineIndex"), XPath("/x12:TS_Errors/@StartingSegmentIndex")), 
+				EmbeddedSerializer
+				{
+					serializer = ST_Segment_Serializer;
+					schema_connections = 
+					[
+						Connect(XPath("/x12:TS_263/*s/ST"), XPath("/x12:ST")), 
+						Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+						Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+						Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+						Connect(XPath("$RecordID"), XPath("$RecordID")), 
+						Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+					];
+				}, 
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator")), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator_suffix"))
+			];
+			name = "ST";
+		}, 
+		RepeatingGroupSerializer<optional>
+		{
+			source = 
+			[
+				Locator(XPath("/x12:TS_263/*s/BGN"))
+			];
+			contains = 
+			[
+				StringSerializer("BGN"), 
+				SetValue("BGN", XPath("$RecordID")), 
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator")), 
+				IncrementLineCount, 
+				EmbeddedSerializer
+				{
+					serializer = BGN_Segment_Serializer;
+					schema_connections = 
+					[
+						Connect(XPath("/x12:TS_263/*s/BGN"), XPath("/x12:BGN")), 
+						Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+						Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+						Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+						Connect(XPath("$RecordID"), XPath("$RecordID")), 
+						Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+					];
+				}, 
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator")), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator_suffix"))
+			];
+			name = "BGN";
+		}, 
+		RepeatingGroupSerializer<optional>
+		{
+			source = 
+			[
+				Locator(XPath("/x12:TS_263/*s/N1"))
+			];
+			contains = 
+			[
+				StringSerializer("N1"), 
+				SetValue("N1", XPath("$RecordID")), 
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator")), 
+				IncrementLineCount, 
+				EmbeddedSerializer
+				{
+					serializer = N1_Segment_Serializer;
+					schema_connections = 
+					[
+						Connect(XPath("/x12:TS_263/*s/N1"), XPath("/x12:N1")), 
+						Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+						Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+						Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+						Connect(XPath("$RecordID"), XPath("$RecordID")), 
+						Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+					];
+				}, 
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator")), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator_suffix"))
+			];
+			name = "N1";
+		}, 
+		RepeatingGroupSerializer<optional>
+		{
+			source = 
+			[
+				Locator(XPath("/x12:TS_263/*s/LOOP_LX"))
+			];
+			contains = 
+			[
+				RepeatingGroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:TS_263/*s/LOOP_LX/*s/LX"))
+					];
+					contains = 
+					[
+						StringSerializer("LX"), 
+						SetValue("LX", XPath("$RecordID")), 
+						ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator")), 
+						IncrementLineCount, 
+						EmbeddedSerializer
+						{
+							serializer = LX_Segment_Serializer;
+							schema_connections = 
+							[
+								Connect(XPath("/x12:TS_263/*s/LOOP_LX/*s/LX"), XPath("/x12:LX")), 
+								Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+								Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+								Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+								Connect(XPath("$RecordID"), XPath("$RecordID")), 
+								Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+							];
+						}, 
+						ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator")), 
+						ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator_suffix"))
+					];
+					name = "LX";
+				}, 
+				RepeatingGroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:TS_263/*s/LOOP_LX/*s/N1"))
+					];
+					contains = 
+					[
+						StringSerializer("N1"), 
+						SetValue("N1", XPath("$RecordID")), 
+						ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator")), 
+						IncrementLineCount, 
+						EmbeddedSerializer
+						{
+							serializer = N1_Segment_Serializer;
+							schema_connections = 
+							[
+								Connect(XPath("/x12:TS_263/*s/LOOP_LX/*s/N1"), XPath("/x12:N1")), 
+								Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+								Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+								Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+								Connect(XPath("$RecordID"), XPath("$RecordID")), 
+								Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+							];
+						}, 
+						ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator")), 
+						ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator_suffix"))
+					];
+					name = "N1";
+				}, 
+				RepeatingGroupSerializer<optional>
+				{
+					source = 
+					[
+						Locator(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF"))
+					];
+					contains = 
+					[
+						RepeatingGroupSerializer<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/REF"))
+							];
+							contains = 
+							[
+								StringSerializer("REF"), 
+								SetValue("REF", XPath("$RecordID")), 
+								ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator")), 
+								IncrementLineCount, 
+								EmbeddedSerializer
+								{
+									serializer = REF_Segment_Serializer;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/REF"), XPath("/x12:REF")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+										Connect(XPath("$RecordID"), XPath("$RecordID")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+									];
+								}, 
+								ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator")), 
+								ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator_suffix"))
+							];
+							name = "REF";
+						}, 
+						RepeatingGroupSerializer<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/N1"))
+							];
+							contains = 
+							[
+								StringSerializer("N1"), 
+								SetValue("N1", XPath("$RecordID")), 
+								ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator")), 
+								IncrementLineCount, 
+								EmbeddedSerializer
+								{
+									serializer = N1_Segment_Serializer;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/N1"), XPath("/x12:N1")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+										Connect(XPath("$RecordID"), XPath("$RecordID")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+									];
+								}, 
+								ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator")), 
+								ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator_suffix"))
+							];
+							name = "N1";
+						}, 
+						RepeatingGroupSerializer<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/MIR"))
+							];
+							contains = 
+							[
+								StringSerializer("MIR"), 
+								SetValue("MIR", XPath("$RecordID")), 
+								ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator")), 
+								IncrementLineCount, 
+								EmbeddedSerializer
+								{
+									serializer = MIR_Segment_Serializer;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/MIR"), XPath("/x12:MIR")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+										Connect(XPath("$RecordID"), XPath("$RecordID")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+									];
+								}, 
+								ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator")), 
+								ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator_suffix"))
+							];
+							name = "MIR";
+						}, 
+						RepeatingGroupSerializer<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/TXI"))
+							];
+							contains = 
+							[
+								StringSerializer("TXI"), 
+								SetValue("TXI", XPath("$RecordID")), 
+								ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator")), 
+								IncrementLineCount, 
+								EmbeddedSerializer
+								{
+									serializer = TXI_Segment_Serializer;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/TXI"), XPath("/x12:TXI")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+										Connect(XPath("$RecordID"), XPath("$RecordID")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+									];
+								}, 
+								ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator")), 
+								ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator_suffix"))
+							];
+							name = "TXI";
+						}, 
+						RepeatingGroupSerializer<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/N9"))
+							];
+							contains = 
+							[
+								StringSerializer("N9"), 
+								SetValue("N9", XPath("$RecordID")), 
+								ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator")), 
+								IncrementLineCount, 
+								EmbeddedSerializer
+								{
+									serializer = N9_Segment_Serializer;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/N9"), XPath("/x12:N9")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+										Connect(XPath("$RecordID"), XPath("$RecordID")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+									];
+								}, 
+								ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator")), 
+								ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator_suffix"))
+							];
+							name = "N9";
+						}, 
+						RepeatingGroupSerializer<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/LOOP_G63"))
+							];
+							contains = 
+							[
+								RepeatingGroupSerializer<optional>
+								{
+									source = 
+									[
+										Locator(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/LOOP_G63/*s/G63"))
+									];
+									contains = 
+									[
+										StringSerializer("G63"), 
+										SetValue("G63", XPath("$RecordID")), 
+										ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator")), 
+										IncrementLineCount, 
+										EmbeddedSerializer
+										{
+											serializer = G63_Segment_Serializer;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/LOOP_G63/*s/G63"), XPath("/x12:G63")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+												Connect(XPath("$RecordID"), XPath("$RecordID")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+											];
+										}, 
+										ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator")), 
+										ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator_suffix"))
+									];
+									name = "G63";
+								}, 
+								RepeatingGroupSerializer<optional>
+								{
+									source = 
+									[
+										Locator(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/LOOP_G63/*s/PCT"))
+									];
+									contains = 
+									[
+										StringSerializer("PCT"), 
+										SetValue("PCT", XPath("$RecordID")), 
+										ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator")), 
+										IncrementLineCount, 
+										EmbeddedSerializer
+										{
+											serializer = PCT_Segment_Serializer;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_263/*s/LOOP_LX/*s/LOOP_REF/*s/LOOP_G63/*s/PCT"), XPath("/x12:PCT")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+												Connect(XPath("$RecordID"), XPath("$RecordID")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+											];
+										}, 
+										ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator")), 
+										ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator_suffix"))
+									];
+									name = "PCT";
+								}
+							];
+							name = "LOOP_G63";
+						}
+					];
+					name = "LOOP_REF";
+				}
+			];
+			name = "LOOP_LX";
+		}, 
+		GroupSerializer<optional>
+		{
+			contains = 
+			[
+				StringSerializer("SE"), 
+				SetValue("SE", XPath("$RecordID")), 
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/field_separator")), 
+				IncrementLineCount, 
+				AlternativeSerializers
+				{
+					options = 
+					[
+						GroupSerializer
+						{
+							source = 
+							[
+								Locator(XPath("/x12:TS_263/*s/SE"))
+							];
+							contains = 
+							[
+								EmbeddedSerializer
+								{
+									serializer = SE_Segment_Serializer;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_263/*s/SE"), XPath("/x12:SE")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+										Connect(XPath("$RecordID"), XPath("$RecordID")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag"))
+									];
+								}
+							];
+							name = "From XML";
+						}, 
+						GroupSerializer
+						{
+							contains = 
+							[
+								ContentSerializer("", "", XPath("$SegmentCount")), 
+								ContentSerializer("", "", XPath("/x12:delimiters/*s/field_separator")), 
+								ContentSerializer("", "", XPath("/x12:TS_263/*s/ST/*s/R02"))
+							];
+							name = "Auto-generate";
+						}
+					];
+				}, 
+				GroupSerializer<optional>
+				{
+					contains = 
+					[
+						GroupSerializer<optional>
+						{
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/TransactionSetError"))
+							];
+							contains = 
+							[
+								EnsureCondition
+								{
+									condition = "$1 != $2";
+									params = 
+									[
+										XPath("/x12:TS_263/*s/ST/*s/R02"), 
+										XPath("/x12:TS_263/*s/SE/*s/R02")
+									];
+								}, 
+								SetValue("3", XPath("/x12:TS_Errors/*s/TransactionSetError/@code")), 
+								SetValue("Transaction Set Control Number in Header and Trailer Do Not Match", XPath("/x12:TS_Errors/*s/TransactionSetError/@description"))
+							];
+							name = "Transaction Set Control Number in Header and Trailer Do Not Match";
+						}, 
+						GroupSerializer<optional>
+						{
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/TransactionSetError"))
+							];
+							contains = 
+							[
+								EnsureCondition
+								{
+									condition = "$1 != $2";
+									params = 
+									[
+										XPath("/x12:TS_263/*s/SE/*s/R01"), 
+										XPath("$SegmentCount")
+									];
+								}, 
+								SetValue("4", XPath("/x12:TS_Errors/*s/TransactionSetError/@code")), 
+								SetValue("Number of Included Segments Does Not Match Actual Count", XPath("/x12:TS_Errors/*s/TransactionSetError/@description"))
+							];
+							name = "Number of Included Segments Does Not Match Actual Count";
+						}, 
+						GroupSerializer<optional>
+						{
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/TransactionSetError"))
+							];
+							contains = 
+							[
+								EnsureCondition("$1 != false", [XPath("$ErrorsFoundFlag")]), 
+								SetValue("5", XPath("/x12:TS_Errors/*s/TransactionSetError/@code")), 
+								SetValue("One or more Segments in Error", XPath("/x12:TS_Errors/*s/TransactionSetError/@description"))
+							];
+							name = "One or more Segments in Error";
+						}, 
+						GroupSerializer<optional>
+						{
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/TransactionSetError"))
+							];
+							contains = 
+							[
+								EnsureCondition("$1 != 263", [XPath("/x12:TS_263/*s/ST/*s/R01")]), 
+								SetValue("18", XPath("/x12:TS_Errors/*s/TransactionSetError/@code")), 
+								SetValue("Transaction Set not in Functional Group", XPath("/x12:TS_Errors/*s/TransactionSetError/@description"))
+							];
+							name = "Transaction Set not in Functional Group";
+						}, 
+						GroupSerializer<optional>
+						{
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/TransactionSetError"))
+							];
+							contains = 
+							[
+								AlternativeSerializers
+								{
+									options = 
+									[
+										GroupSerializer
+										{
+											contains = 
+											[
+												EnsureCondition
+												{
+													condition = "$1.indexOf(\";\" + $2 + \";\") == -1";
+													params = 
+													[
+														XPath("$TSControlNumber2"), 
+														XPath("/x12:TS_263/*s/ST/*s/R02")
+													];
+												}, 
+												CalculateValue
+												{
+													expression = "$1 + \";\" + $2 + \";\"";
+													params = 
+													[
+														XPath("$TSControlNumber2"), 
+														XPath("/x12:TS_263/*s/ST/*s/R02")
+													];
+													result = XPath("$TSControlNumber2");
+												}
+											];
+											name = "if unique, add to list";
+										}, 
+										GroupSerializer
+										{
+											contains = 
+											[
+												SetValue("23", XPath("/x12:TS_Errors/*s/TransactionSetError/@code")), 
+												SetValue("Transaction Set Control Number Not Unique within the Functional Group", XPath("/x12:TS_Errors/*s/TransactionSetError/@description"))
+											];
+											name = "not unique - error";
+										}
+									];
+								}
+							];
+							name = "Transaction Set Control Number Not Unique within the Functional Group";
+						}
+					];
+					name = "TransactionSet Validation";
+				}, 
+				ContentSerializer<allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator")), 
+				ContentSerializer<optional, allow_empty_values>("", "", XPath("/x12:delimiters/*s/segment_separator_suffix"))
+			];
+			name = "SE";
+		}
+	];
+}
+instance LineIndex = Variable(XSDTypeRef("xs:int"), InitialValue("0"))
+instance ErrorsFoundFlag = Variable(XSDTypeRef("xs:boolean"))
+instance FunctionalGroupCount = Variable(XSDTypeRef("xs:integer"))
+instance TransactionSetCount = Variable(XSDTypeRef("xs:integer"))
+instance SegmentCount = Variable(XSDTypeRef("xs:integer"), InitialValue("0"))
+instance IncrementLineCount = GroupSerializer
+{
+	contains = 
+	[
+		CalculateValue("$1 + 1", [XPath("$LineIndex")], XPath("$LineIndex")), 
+		CalculateValue("$1 + 1", [XPath("$SegmentCount")], XPath("$SegmentCount"))
+	];
+}
+instance NumberOfSegments = Variable(XSDTypeRef("xs:integer"), InitialValue("0"))
+instance TSControlNumber = Variable(XSDTypeRef("xs:integer"), InitialValue("-1"))
+instance checkLength = Variable()
+instance temp1 = Variable()
+instance temp2 = Variable()
+instance TSControlNumber2 = Variable()
+instance restricted = Variable(XSDTypeRef("xs:string"), InitialValue("false"))
+instance FunctionalGroupVersionsSupported = Variable(XSDTypeRef("xs:string"), InitialValue(";004010;"))
+instance FunctionalGroupsSupported = Variable(XSDTypeRef("xs:string"), InitialValue(";ME;"))
+instance transactionSetStartingSegmentIndex = Variable(XSDTypeRef("xs:integer"))
+instance Errors = AdditionalOutputPort<disabled>()
+instance ErrorsFound = AdditionalOutputPort<disabled>()
+instance errors = Variable(XSDTypeRef("cde:validationErrors"))

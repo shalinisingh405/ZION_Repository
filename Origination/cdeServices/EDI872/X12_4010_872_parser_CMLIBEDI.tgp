@@ -1,0 +1,3435 @@
+// syntaxVersion = 4.00.10
+// engineVersion = 9.5.0(Build:16)
+instance interchange_Parser = Parser
+{
+	target = 
+	[
+		Locator(XPath("/x12:interchange")), 
+		Locator(XPath("/x12:interchange/*s/delimiters")), 
+		Locator(XPath("/x12:Errors")), 
+		Locator(XPath("$LoopIDLevel_Lookup"))
+	];
+	contains = 
+	[
+		Alternatives
+		{
+			options = 
+			[
+				Group<marking="none">
+				{
+					contains = 
+					[
+						Marker(TextSearch(StaticString("ISA"))), 
+						Content(null_searcher, OffsetSearch(StaticInt(1)), null_searcher, XPath("/x12:interchange/*s/delimiters/*s/field_separator")), 
+						Group<phase="final">
+						{
+							contains = 
+							[
+								Marker<direction="backward">
+								{
+									search = TextSearch(DynamicString(XPath("/x12:interchange/*s/delimiters/*s/field_separator")));
+								}, 
+								Content(null_searcher, OffsetSearch(StaticInt(1)), null_searcher, XPath("/x12:interchange/*s/delimiters/*s/composite_separator")), 
+								Content<ignore_default_transformers>(null_searcher, OffsetSearch(StaticInt(1)), null_searcher, XPath("/x12:interchange/*s/delimiters/*s/segment_separator")), 
+								Content<optional, ignore_default_transformers>(null_searcher, null_searcher, null_searcher, XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix"))
+							];
+							name = "composite and segment seperator";
+						}, 
+						Group<marking="begin position", on_partial_match="skip">
+						{
+							contains = 
+							[
+								Marker<phase="final", marking="none">
+								{
+									search = TextSearch(DynamicString(XPath("/x12:interchange/*s/delimiters/*s/field_separator")));
+									count = StaticInt(15);
+									name = "make sure we have 16 fields in ISA before this GS";
+									remark = "to prevent finding field ending with GS inside ISA";
+								}, 
+								Marker(TextSearch(StaticString("GS"))), 
+								Marker<adjacent>
+								{
+									search = TextSearch(DynamicString(XPath("/x12:interchange/*s/delimiters/*s/field_separator")));
+									name = "find GS with adjacent field delimiter ";
+									remark = "to prevent finding field containing GS inside ISA";
+								}
+							];
+							name = "GS";
+						}
+					];
+					name = "Find delimiters dynamicaly";
+				}, 
+				Group
+				{
+					contains = 
+					[
+						SetValue("*", XPath("/x12:interchange/*s/delimiters/*s/field_separator")), 
+						SetValue("~", XPath("/x12:interchange/*s/delimiters/*s/segment_separator")), 
+						SetValue("^", XPath("/x12:interchange/*s/delimiters/*s/composite_separator")), 
+						SetValue("\r\n", XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix"))
+					];
+					name = "Static delimiters";
+					remark = "enable this group if you are not using interchange envelope ";
+				}
+			];
+			name = "Delimiters";
+		}, 
+		Map(XPath("/x12:interchange/*s/delimiters"), XPath("/x12:delimiters")), 
+		SetValue("1", XPath("$LineIndex")), 
+		SetValue("false", XPath("$ErrorsFoundFlag")), 
+		Group
+		{
+			target = 
+			[
+				Locator(XPath("/x12:Errors/*s/Interchange"))
+			];
+			contains = 
+			[
+				StructureDefinition
+				{
+					target = XPath("/x12:interchange");
+					sub_elements = 
+					[
+						RecordStructureLocal
+						{
+							ids = 
+							[
+								"ISA"
+							];
+							target = XPath("/x12:interchange/*s/ISA");
+							contains = 
+							[
+								EmbeddedParser
+								{
+									parser = ISA_Segment_parser;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:interchange/*s/ISA"), XPath("/x12:ISA")), 
+										Connect(XPath("/x12:interchange/*s/delimiters"), XPath("/x12:delimiters"))
+									];
+								}, 
+								Map(XPath("/x12:interchange/*s/ISA"), XPath("/x12:Errors/*s/Interchange/*s/x12:ISA"))
+							];
+							name = "ISA";
+						}, 
+						SequenceStructureLocal
+						{
+							target = XPath("/x12:interchange/*s/*s1");
+							sub_elements = 
+							[
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"GS"
+									];
+									target = XPath("/x12:interchange/*s/*s1/GS");
+									contains = 
+									[
+										EmbeddedParser
+										{
+											parser = GS_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:interchange/*s/*s1/GS"), XPath("/x12:GS")), 
+												Connect(XPath("/x12:interchange/*s/delimiters"), XPath("/x12:delimiters"))
+											];
+										}, 
+										Map(XPath("/x12:interchange/*s/*s1/GS"), XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS"))
+									];
+									name = "GS";
+								}, 
+								ChoiceStructureLocal
+								{
+									target = XPath("/x12:interchange/*s/*s1/*c1");
+									sub_elements = 
+									[
+										EmbeddedStructure
+										{
+											target = XPath("/x12:interchange/*s/*s1/*c1/x12:TS_872");
+											ref = TS_872_Residential_Mortgage_Insurance_Application;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("/x12:interchange/*s/delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+												Connect(XPath("$LoopIDLevel_Lookup"), XPath("$LoopIDLevel_Lookup")), 
+												Connect(XPath("$TSControlNumber2"), XPath("$TSControlNumber2"))
+											];
+											name = "872";
+										}
+									];
+									action = GroupMapping
+									{
+										target = 
+										[
+											Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors"))
+										];
+										contains = 
+										[
+											SetValue("0", XPath("$NumberOfSegments")), 
+											CalculateValue("$1 + 1", [XPath("$TransactionSetActualCount")], XPath("$TransactionSetActualCount")), 
+											AlternativeMappings
+											{
+												options = 
+												[
+													GroupMapping
+													{
+														source = 
+														[
+															LocatorByKey(XPath("$ErrorInTransaction/*s/entry[key=$1]"), [DynamicString(XPath("$ErrorsFoundFlag"))])
+														];
+														contains = 
+														[
+															Map(XPath("$ErrorsFoundFlag"), XPath("$ErrorInTransaction/*s/entry/*s/value"))
+														];
+														name = "already exist";
+													}, 
+													GroupMapping
+													{
+														target = 
+														[
+															LocatorByKey(XPath("$ErrorInTransaction/*s/entry[key=$1]"), [DynamicString(XPath("$ErrorsFoundFlag"))])
+														];
+														contains = 
+														[
+															Map(XPath("$ErrorsFoundFlag"), XPath("$ErrorInTransaction/*s/entry/*s/value"))
+														];
+														name = "new";
+													}
+												];
+											}, 
+											SetValue("false", XPath("$ErrorsFoundFlag"))
+										];
+									};
+									name = "Transaction Set";
+									maxOccurs = -1;
+								}, 
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"GE"
+									];
+									target = XPath("/x12:interchange/*s/*s1/GE");
+									contains = 
+									[
+										EmbeddedParser
+										{
+											parser = GE_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:interchange/*s/*s1/GE"), XPath("/x12:GE")), 
+												Connect(XPath("/x12:interchange/*s/delimiters"), XPath("/x12:delimiters"))
+											];
+										}, 
+										Map(XPath("/x12:interchange/*s/*s1/GE"), XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE")), 
+										Group
+										{
+											contains = 
+											[
+												Group<optional>
+												{
+													source = 
+													[
+														Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS"))
+													];
+													target = 
+													[
+														Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"))
+													];
+													contains = 
+													[
+														EnsureCondition
+														{
+															condition = "$1.indexOf(\";\" + $2 + \";\") == -1";
+															params = 
+															[
+																XPath("$FunctionalGroupsSupported"), 
+																XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R01")
+															];
+														}, 
+														SetValue("1", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code")), 
+														SetValue("Functional Group Not Supported", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@description")), 
+														SetValue("true", XPath("$ErrorsFoundFlag"))
+													];
+													name = "Functional Group Not Supported";
+												}, 
+												Group<optional>
+												{
+													source = 
+													[
+														Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS"))
+													];
+													target = 
+													[
+														Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"))
+													];
+													contains = 
+													[
+														EnsureCondition
+														{
+															condition = "$1.indexOf(\";\" + $2 + \";\") == -1";
+															params = 
+															[
+																XPath("$FunctionalGroupVersionsSupported"), 
+																XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R08")
+															];
+														}, 
+														SetValue("2", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code")), 
+														SetValue("Functional Group Version Not Supported", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@description")), 
+														SetValue("true", XPath("$ErrorsFoundFlag"))
+													];
+													name = "Functional Group Version Not Supported";
+												}, 
+												Group<optional>
+												{
+													source = 
+													[
+														Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R06")), 
+														Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE/*s/R02"))
+													];
+													target = 
+													[
+														Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"))
+													];
+													contains = 
+													[
+														Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R06"), XPath("$temp1"), [Replace<optional>(PatternSearch("\\b0*"))]), 
+														Map(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE/*s/R02"), XPath("$temp2"), [Replace<optional>(PatternSearch("\\b0*"))]), 
+														EnsureCondition
+														{
+															condition = "$1 != $2";
+															params = 
+															[
+																XPath("$temp1"), 
+																XPath("$temp2")
+															];
+														}, 
+														SetValue("4", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code")), 
+														SetValue("Group Control Number in the Functional Group Header and Trailer Do Not Agree", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@description")), 
+														SetValue("true", XPath("$ErrorsFoundFlag"))
+													];
+													name = "Group Control Number in the Functional Group Header and Trailer Do Not Agree";
+												}, 
+												Group<optional>
+												{
+													source = 
+													[
+														Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE"))
+													];
+													target = 
+													[
+														Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"))
+													];
+													contains = 
+													[
+														EnsureCondition
+														{
+															condition = "$1 != $2";
+															params = 
+															[
+																XPath("$TransactionSetActualCount"), 
+																XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GE/*s/R01")
+															];
+														}, 
+														SetValue("5", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code")), 
+														SetValue("Number of Included Transaction Sets Does Not Match Actual Count", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@description")), 
+														SetValue("true", XPath("$ErrorsFoundFlag"))
+													];
+													name = "Number of Included Transaction Sets Does Not Match Actual Count";
+												}, 
+												Group<optional>
+												{
+													target = 
+													[
+														Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup"))
+													];
+													contains = 
+													[
+														Alternatives
+														{
+															options = 
+															[
+																Group
+																{
+																	source = 
+																	[
+																		Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS"))
+																	];
+																	contains = 
+																	[
+																		Map
+																		{
+																			source = XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R06");
+																			target = XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:GS/*s/R06");
+																			validators = 
+																			[
+																				ValidateByPattern
+																				{
+																					expression = "[0-9]{1,9}";
+																					notify = InvalidCharacter;
+																				}
+																			];
+																		}
+																	];
+																}, 
+																Group
+																{
+																	target = 
+																	[
+																		Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"))
+																	];
+																	contains = 
+																	[
+																		SetValue("6", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code")), 
+																		SetValue("Group Control Number Violates Syntax", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@description")), 
+																		SetValue("true", XPath("$ErrorsFoundFlag"))
+																	];
+																}
+															];
+														}
+													];
+													name = "Group Control Number Violates Syntax";
+												}, 
+												Alternatives
+												{
+													options = 
+													[
+														Group
+														{
+															source = 
+															[
+																LocatorByKey(XPath("$ErrorInTransaction/*s/entry[key=$1]"), [DynamicString(XPath("$ErrorsFoundFlag"))])
+															];
+															contains = 
+															[
+																Map(XPath("$ErrorsFoundFlag"), XPath("$ErrorInTransaction/*s/entry/*s/value"))
+															];
+															name = "already exist";
+														}, 
+														Group
+														{
+															target = 
+															[
+																LocatorByKey(XPath("$ErrorInTransaction/*s/entry[key=$1]"), [DynamicString(XPath("$ErrorsFoundFlag"))])
+															];
+															contains = 
+															[
+																Map(XPath("$ErrorsFoundFlag"), XPath("$ErrorInTransaction/*s/entry/*s/value"))
+															];
+															name = "new";
+														}
+													];
+													name = "set errorFoundFlag";
+												}
+											];
+											name = "Functional Group Validations";
+										}
+									];
+									name = "GE";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = MandatoryMissing;
+											target = 
+											[
+												Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError"))
+											];
+											actions = 
+											[
+												SetValue("3", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@code")), 
+												SetValue("Functional Group Trailer Missing", XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/FunctionalGroupError/@description"))
+											];
+										}
+									];
+								}
+							];
+							action = GroupMapping
+							{
+								target = 
+								[
+									Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup"))
+								];
+								contains = 
+								[
+									SetValue("", XPath("$TSControlNumber2")), 
+									SetValue("0", XPath("$TransactionSetActualCount"))
+								];
+							};
+							name = "Functional Group";
+							maxOccurs = -1;
+						}, 
+						RecordStructureLocal
+						{
+							ids = 
+							[
+								"IEA"
+							];
+							target = XPath("/x12:interchange/*s/IEA");
+							contains = 
+							[
+								EmbeddedParser
+								{
+									parser = IEA_Segment_parser;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:interchange/*s/IEA"), XPath("/x12:IEA")), 
+										Connect(XPath("/x12:interchange/*s/delimiters"), XPath("/x12:delimiters"))
+									];
+								}, 
+								Map(XPath("/x12:interchange/*s/IEA"), XPath("/x12:Errors/*s/Interchange/*s/x12:IEA"))
+							];
+							name = "IEA";
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = MandatoryStructureMissing;
+									name = "Mandatory Segment Missing";
+									actions = 
+									[
+										SetValue("023", XPath("/x12:Errors/*s/Interchange/*s/InterchangeError/@code")), 
+										SetValue("Improper (Premature) End-of-File (Transmission)", XPath("/x12:Errors/*s/Interchange/*s/InterchangeError/@description"), [], "Description"), 
+										SetValue("true", XPath("$ErrorsFoundFlag"))
+									];
+								}
+							];
+						}
+					];
+					format_definition = 
+					[
+						RepeatingGroup<separator_position="after">
+						{
+							contains = 
+							[
+								SetValue("", XPath("$transactionSetId")), 
+								Content(null_searcher, null_searcher, null_searcher, XPath("$segmentId")), 
+								Marker<optional, marking="begin position">
+								{
+									search = TextSearch(DynamicString(XPath("/x12:delimiters/*s/field_separator")));
+								}, 
+								Group<optional, marking="none">
+								{
+									contains = 
+									[
+										EnsureCondition("$1 == \"ST\"", [XPath("$segmentId")]), 
+										Marker
+										{
+											search = TextSearch(DynamicString(XPath("/x12:delimiters/*s/field_separator")));
+										}, 
+										Content(null_searcher, null_searcher, null_searcher, XPath("$transactionSetId")), 
+										Marker<optional>
+										{
+											search = TextSearch(DynamicString(XPath("/x12:delimiters/*s/field_separator")));
+										}
+									];
+								}, 
+								ExtractRecord("", "", false, false, "main", [DynamicString(XPath("$segmentId"))]), 
+								IncrementLineIndex
+							];
+							separator = Group
+							{
+								contains = 
+								[
+									Marker
+									{
+										search = TextSearch(DynamicString(XPath("/x12:delimiters/*s/segment_separator")));
+									}, 
+									Marker<optional, adjacent>
+									{
+										search = TextSearch(DynamicString(XPath("/x12:delimiters/*s/segment_separator_suffix")));
+									}
+								];
+							};
+						}
+					];
+					notifications = 
+					[
+						MandatorySegmentMissing, 
+						SegmentExceedsMaximumUse, 
+						UnexpectedSegment, 
+						UnrecognizedSegment, 
+						LoopOccursOverMaximumTimes, 
+						SegmentNotInProperSequence
+					];
+				}
+			];
+			name = "Structure Definition";
+		}, 
+		Map(XPath("/x12:interchange/*s/delimiters/*s/field_separator"), XPath("/x12:Errors/@fieldSeparator")), 
+		Map
+		{
+			source = XPath("/x12:interchange/*s/delimiters/*s/segment_separator");
+			target = XPath("/x12:Errors/@segmentSeparator");
+			transformers = 
+			[
+				AddString<optional>(StaticString(), DynamicString(XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix")))
+			];
+		}, 
+		Group<optional>
+		{
+			source = 
+			[
+				LocatorByKey(XPath("$ErrorInTransaction/*s/entry[key=$1]"), [StaticString("true")])
+			];
+			contains = 
+			[
+				SetValue("true", XPath("$ErrorsFoundFlag"))
+			];
+			name = "set errorFoundFlag";
+		}, 
+		WriteValue(XPath("/x12:Errors")), 
+		WriteValue<optional>(XPath("/x12:interchange")), 
+		WriteValue<no_tags>
+		{
+			input = XPath("$ErrorStringFlag");
+			transformers = 
+			[
+				Replace<optional>(TextSearch(StaticString("false")), DynamicString(XPath("$ErrorsFoundFlag")))
+			];
+		}
+	];
+	remark = "Vertical Content Version: 9.1.0.125";
+	notifications = 
+	[
+		NotificationHandler
+		{
+			notification = ErrorsFound_Notification;
+			actions = 
+			[
+				SetValue("true", XPath("$ErrorsFoundFlag")), 
+				SetValue("8", XPath("/x12:TS_872/@TSErrorCd"))
+			];
+		}
+	];
+}
+instance TransactionSet_Parser = Parser
+{
+	target = 
+	[
+		Locator(XPath("/x12:interchange")), 
+		Locator(XPath("/x12:interchange/*s/delimiters")), 
+		Locator(XPath("/x12:Errors"))
+	];
+	contains = 
+	[
+		Alternatives
+		{
+			options = 
+			[
+				Group<marking="none">
+				{
+					contains = 
+					[
+						Marker(TextSearch(StaticString("ISA"))), 
+						Content(null_searcher, OffsetSearch(StaticInt(1)), null_searcher, XPath("/x12:interchange/*s/delimiters/*s/field_separator")), 
+						Group<phase="final">
+						{
+							contains = 
+							[
+								Marker<direction="backward">
+								{
+									search = TextSearch(DynamicString(XPath("/x12:interchange/*s/delimiters/*s/field_separator")));
+								}, 
+								Content(null_searcher, OffsetSearch(StaticInt(1)), null_searcher, XPath("/x12:interchange/*s/delimiters/*s/composite_separator")), 
+								Content<ignore_default_transformers>(null_searcher, OffsetSearch(StaticInt(1)), null_searcher, XPath("/x12:interchange/*s/delimiters/*s/segment_separator")), 
+								Content<optional, ignore_default_transformers>(null_searcher, null_searcher, null_searcher, XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix"))
+							];
+							name = "composite and segment seperator";
+						}, 
+						Group<marking="begin position", on_partial_match="skip">
+						{
+							contains = 
+							[
+								Marker<phase="final", marking="none">
+								{
+									search = TextSearch(DynamicString(XPath("/x12:interchange/*s/delimiters/*s/field_separator")));
+									count = StaticInt(15);
+									name = "make sure we have 16 fields in ISA before this GS";
+									remark = "to prevent finding field ending with GS inside ISA";
+								}, 
+								Marker(TextSearch(StaticString("GS"))), 
+								Marker<adjacent>
+								{
+									search = TextSearch(DynamicString(XPath("/x12:interchange/*s/delimiters/*s/field_separator")));
+									name = "find GS with adjacent field delimiter ";
+									remark = "to prevent finding field containing GS inside ISA";
+								}
+							];
+							name = "GS";
+						}
+					];
+					name = "Find delimiters dynamicaly";
+				}, 
+				Group
+				{
+					contains = 
+					[
+						SetValue("*", XPath("/x12:interchange/*s/delimiters/*s/field_separator")), 
+						SetValue("~", XPath("/x12:interchange/*s/delimiters/*s/segment_separator")), 
+						SetValue("^", XPath("/x12:interchange/*s/delimiters/*s/composite_separator")), 
+						SetValue("\r\n", XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix"))
+					];
+					name = "Static delimiters";
+					remark = "enable this group if you are not using interchange envelope ";
+				}
+			];
+			name = "Delimiters";
+		}, 
+		Map(XPath("/x12:interchange/*s/delimiters"), XPath("/x12:delimiters")), 
+		SetValue("1", XPath("$LineIndex")), 
+		SetValue("false", XPath("$ErrorsFoundFlag")), 
+		Group
+		{
+			target = 
+			[
+				Locator(XPath("/x12:Errors/*s/Interchange"))
+			];
+			contains = 
+			[
+				StructureDefinition
+				{
+					target = XPath("/x12:interchange");
+					sub_elements = 
+					[
+						SequenceStructureLocal
+						{
+							target = XPath("/x12:interchange/*s/*s1");
+							sub_elements = 
+							[
+								ChoiceStructureLocal
+								{
+									target = XPath("/x12:interchange/*s/*s1/*c1");
+									sub_elements = 
+									[
+										EmbeddedStructure
+										{
+											target = XPath("/x12:interchange/*s/*s1/*c1/x12:TS_872");
+											ref = TS_872_Residential_Mortgage_Insurance_Application;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:interchange/*s/*s1/*c1/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("/x12:interchange/*s/delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$LineIndex"), XPath("$LineIndex")), 
+												Connect(XPath("$LoopIDLevel_Lookup"), XPath("$LoopIDLevel_Lookup")), 
+												Connect(XPath("$TSControlNumber2"), XPath("$TSControlNumber2"))
+											];
+											name = "872";
+										}
+									];
+									action = GroupMapping
+									{
+										target = 
+										[
+											Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors"))
+										];
+										contains = 
+										[
+											SetValue("0", XPath("$NumberOfSegments")), 
+											CalculateValue("$1 + 1", [XPath("$TransactionSetActualCount")], XPath("$TransactionSetActualCount")), 
+											AlternativeMappings
+											{
+												options = 
+												[
+													GroupMapping
+													{
+														source = 
+														[
+															LocatorByKey(XPath("$ErrorInTransaction/*s/entry[key=$1]"), [DynamicString(XPath("$ErrorsFoundFlag"))])
+														];
+														contains = 
+														[
+															Map(XPath("$ErrorsFoundFlag"), XPath("$ErrorInTransaction/*s/entry/*s/value"))
+														];
+														name = "already exist";
+													}, 
+													GroupMapping
+													{
+														target = 
+														[
+															LocatorByKey(XPath("$ErrorInTransaction/*s/entry[key=$1]"), [DynamicString(XPath("$ErrorsFoundFlag"))])
+														];
+														contains = 
+														[
+															Map(XPath("$ErrorsFoundFlag"), XPath("$ErrorInTransaction/*s/entry/*s/value"))
+														];
+														name = "new";
+													}
+												];
+											}, 
+											SetValue("false", XPath("$ErrorsFoundFlag"))
+										];
+									};
+									name = "Transaction Set";
+									maxOccurs = -1;
+								}
+							];
+							action = GroupMapping
+							{
+								contains = 
+								[
+									SetValue("", XPath("$TSControlNumber2")), 
+									SetValue("0", XPath("$TransactionSetActualCount"))
+								];
+							};
+							name = "Functional Group";
+							maxOccurs = -1;
+						}
+					];
+					format_definition = 
+					[
+						RepeatingGroup<separator_position="after">
+						{
+							contains = 
+							[
+								SetValue("", XPath("$transactionSetId")), 
+								Content(null_searcher, null_searcher, null_searcher, XPath("$segmentId")), 
+								Marker<optional, marking="begin position">
+								{
+									search = TextSearch(DynamicString(XPath("/x12:delimiters/*s/field_separator")));
+								}, 
+								Group<optional, marking="none">
+								{
+									contains = 
+									[
+										EnsureCondition("$1 == \"ST\"", [XPath("$segmentId")]), 
+										Marker
+										{
+											search = TextSearch(DynamicString(XPath("/x12:delimiters/*s/field_separator")));
+										}, 
+										Content(null_searcher, null_searcher, null_searcher, XPath("$transactionSetId")), 
+										Marker<optional>
+										{
+											search = TextSearch(DynamicString(XPath("/x12:delimiters/*s/field_separator")));
+										}
+									];
+								}, 
+								ExtractRecord("", "", false, false, "main", [DynamicString(XPath("$segmentId"))]), 
+								IncrementLineIndex
+							];
+							separator = Group
+							{
+								contains = 
+								[
+									Marker
+									{
+										search = TextSearch(DynamicString(XPath("/x12:delimiters/*s/segment_separator")));
+									}, 
+									Marker<optional, adjacent>
+									{
+										search = TextSearch(DynamicString(XPath("/x12:delimiters/*s/segment_separator_suffix")));
+									}
+								];
+							};
+						}
+					];
+					notifications = 
+					[
+						MandatorySegmentMissing, 
+						SegmentExceedsMaximumUse, 
+						UnexpectedSegment, 
+						UnrecognizedSegment, 
+						LoopOccursOverMaximumTimes, 
+						SegmentNotInProperSequence
+					];
+				}
+			];
+			name = "Structure Definition";
+		}, 
+		Map(XPath("/x12:interchange/*s/delimiters/*s/field_separator"), XPath("/x12:Errors/@fieldSeparator")), 
+		Map
+		{
+			source = XPath("/x12:interchange/*s/delimiters/*s/segment_separator");
+			target = XPath("/x12:Errors/@segmentSeparator");
+			transformers = 
+			[
+				AddString<optional>(StaticString(), DynamicString(XPath("/x12:interchange/*s/delimiters/*s/segment_separator_suffix")))
+			];
+		}, 
+		Group<optional>
+		{
+			source = 
+			[
+				LocatorByKey(XPath("$ErrorInTransaction/*s/entry[key=$1]"), [StaticString("true")])
+			];
+			contains = 
+			[
+				SetValue("true", XPath("$ErrorsFoundFlag"))
+			];
+			name = "set errorFoundFlag";
+		}, 
+		WriteValue
+		{
+			input = XPath("/x12:Errors");
+			transformers = 
+			[
+				Replace<optional>(TextSearch(StaticString("<err:Error>\r\n</x12:Error>\r\n"))), 
+				AddString(StaticString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"))
+			];
+		}, 
+		WriteValue<optional>(XPath("/x12:interchange")), 
+		WriteValue<no_tags>(XPath("$ErrorsFoundFlag"))
+	];
+	notifications = 
+	[
+		NotificationHandler
+		{
+			notification = ErrorsFound_Notification;
+			actions = 
+			[
+				SetValue("true", XPath("$ErrorsFoundFlag")), 
+				SetValue("8", XPath("/x12:TS_872/@TSErrorCd"))
+			];
+		}
+	];
+}
+instance TS_872_Residential_Mortgage_Insurance_Application = SequenceStructure
+{
+	target = XPath("/x12:TS_872");
+	sub_elements = 
+	[
+		RecordStructureLocal
+		{
+			ids = 
+			[
+				"ST"
+			];
+			target = XPath("/x12:TS_872/*s/ST");
+			contains = 
+			[
+				CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+				Map<phase="final">(XPath("/x12:TS_872/*s/ST/*s/R01"), XPath("/x12:TS_Errors/@TransactionSetIdentifier")), 
+				Map<phase="final">(XPath("/x12:TS_872/*s/ST/*s/R02"), XPath("/x12:TS_Errors/@TransactionSetControlNumber")), 
+				Map(XPath("$VarStructureDetails/*s/RecordIndex"), XPath("/x12:TS_Errors/@StartingSegmentIndex")), 
+				Map(XPath("$VarStructureDetails/*s/RecordIndex"), XPath("$transactionSetStartingSegmentIndex")), 
+				EmbeddedParser
+				{
+					parser = ST_Segment_parser;
+					schema_connections = 
+					[
+						Connect(XPath("/x12:TS_872/*s/ST"), XPath("/x12:ST")), 
+						Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+						Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+						Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+						Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+						Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+					];
+				}
+			];
+			name = "ST";
+			remark = "when parsing different types of transaction sets in the same parser, add the transaction set id (e.g. \"850\" as the second id of this record";
+			notifications = 
+			[
+				NotificationHandler
+				{
+					notification = MandatoryStructureMissing;
+					name = "Mandatory Segment Missing";
+					actions = 
+					[
+						SetValue("3", XPath("/x12:TS_872/*s/ST/@segErrorCd")), 
+						Notify(MandatoryStructureMissing)
+					];
+				}, 
+				NotificationHandler
+				{
+					notification = StructureExceedsMaxOccurs;
+					name = "Segment Exceeds Maximum Use";
+					actions = 
+					[
+						SetValue("5", XPath("/x12:TS_872/*s/ST/@segErrorCd")), 
+						Notify(SegmentExceedsMaximumUseNotification)
+					];
+				}
+			];
+		}, 
+		RecordStructureLocal
+		{
+			ids = 
+			[
+				"BGN"
+			];
+			target = XPath("/x12:TS_872/*s/BGN");
+			contains = 
+			[
+				CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+				EmbeddedParser
+				{
+					parser = BGN_Segment_parser;
+					schema_connections = 
+					[
+						Connect(XPath("/x12:TS_872/*s/BGN"), XPath("/x12:BGN")), 
+						Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+						Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+						Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+						Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+						Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+					];
+				}
+			];
+			name = "BGN";
+			notifications = 
+			[
+				NotificationHandler
+				{
+					notification = MandatoryStructureMissing;
+					name = "Mandatory Segment Missing";
+					actions = 
+					[
+						SetValue("3", XPath("/x12:TS_872/*s/BGN/@segErrorCd")), 
+						Notify(MandatoryStructureMissing)
+					];
+				}, 
+				NotificationHandler
+				{
+					notification = StructureExceedsMaxOccurs;
+					name = "Segment Exceeds Maximum Use";
+					actions = 
+					[
+						SetValue("5", XPath("/x12:TS_872/*s/BGN/@segErrorCd")), 
+						Notify(SegmentExceedsMaximumUseNotification)
+					];
+				}
+			];
+		}, 
+		RecordStructureLocal
+		{
+			ids = 
+			[
+				"N1"
+			];
+			target = XPath("/x12:TS_872/*s/N1");
+			contains = 
+			[
+				CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+				EmbeddedParser
+				{
+					parser = N1_Segment_parser;
+					schema_connections = 
+					[
+						Connect(XPath("/x12:TS_872/*s/N1"), XPath("/x12:N1")), 
+						Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+						Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+						Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+						Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+						Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+					];
+				}
+			];
+			name = "N1";
+			notifications = 
+			[
+				NotificationHandler
+				{
+					notification = MandatoryStructureMissing;
+					name = "Mandatory Segment Missing";
+					actions = 
+					[
+						SetValue("3", XPath("/x12:TS_872/*s/N1/@segErrorCd")), 
+						Notify(MandatoryStructureMissing)
+					];
+				}, 
+				NotificationHandler
+				{
+					notification = StructureExceedsMaxOccurs;
+					name = "Segment Exceeds Maximum Use";
+					actions = 
+					[
+						SetValue("5", XPath("/x12:TS_872/*s/N1/@segErrorCd")), 
+						Notify(SegmentExceedsMaximumUseNotification)
+					];
+				}
+			];
+			maxOccurs = 5;
+		}, 
+		SequenceStructureLocal
+		{
+			target = XPath("/x12:TS_872/*s/LOOP_LX");
+			notifications = 
+			[
+				NotificationHandler
+				{
+					notification = MandatoryMissing;
+					name = "Mandatory Loop Missing";
+					actions = 
+					[
+						SetValue("3", XPath("/x12:TS_872/*s/LOOP_LX/*s/LX/@segErrorCd")), 
+						Notify(MandatoryMissing)
+					];
+				}
+			];
+			sub_elements = 
+			[
+				RecordStructureLocal
+				{
+					ids = 
+					[
+						"LX"
+					];
+					target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LX");
+					contains = 
+					[
+						CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+						EmbeddedParser
+						{
+							parser = LX_Segment_parser;
+							schema_connections = 
+							[
+								Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LX"), XPath("/x12:LX")), 
+								Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+								Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+								Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+								Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+								Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+							];
+						}
+					];
+					name = "LX";
+					notifications = 
+					[
+						NotificationHandler
+						{
+							notification = StructureExceedsMaxOccurs;
+							name = "Segment Exceeds Maximum Use";
+							actions = 
+							[
+								SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LX/@segErrorCd")), 
+								Notify(SegmentExceedsMaximumUseNotification)
+							];
+						}
+					];
+				}, 
+				RecordStructureLocal
+				{
+					ids = 
+					[
+						"N1"
+					];
+					target = XPath("/x12:TS_872/*s/LOOP_LX/*s/N1");
+					contains = 
+					[
+						CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+						EmbeddedParser
+						{
+							parser = N1_Segment_parser;
+							schema_connections = 
+							[
+								Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/N1"), XPath("/x12:N1")), 
+								Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+								Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+								Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+								Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+								Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+							];
+						}
+					];
+					name = "N1";
+					notifications = 
+					[
+						NotificationHandler
+						{
+							notification = MandatoryStructureMissing;
+							name = "Mandatory Segment Missing";
+							actions = 
+							[
+								SetValue("3", XPath("/x12:TS_872/*s/LOOP_LX/*s/N1/@segErrorCd")), 
+								Notify(MandatoryStructureMissing)
+							];
+						}, 
+						NotificationHandler
+						{
+							notification = StructureExceedsMaxOccurs;
+							name = "Segment Exceeds Maximum Use";
+							actions = 
+							[
+								SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/N1/@segErrorCd")), 
+								Notify(SegmentExceedsMaximumUseNotification)
+							];
+						}
+					];
+				}, 
+				RecordStructureLocal
+				{
+					ids = 
+					[
+						"REF"
+					];
+					target = XPath("/x12:TS_872/*s/LOOP_LX/*s/REF");
+					contains = 
+					[
+						CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+						EmbeddedParser
+						{
+							parser = REF_Segment_parser;
+							schema_connections = 
+							[
+								Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/REF"), XPath("/x12:REF")), 
+								Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+								Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+								Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+								Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+								Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+							];
+						}
+					];
+					name = "REF";
+					notifications = 
+					[
+						NotificationHandler
+						{
+							notification = StructureExceedsMaxOccurs;
+							name = "Segment Exceeds Maximum Use";
+							actions = 
+							[
+								SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/REF/@segErrorCd")), 
+								Notify(SegmentExceedsMaximumUseNotification)
+							];
+						}
+					];
+					minOccurs = 0;
+					maxOccurs = 12;
+				}, 
+				SequenceStructureLocal
+				{
+					target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ");
+					notifications = 
+					[
+						NotificationHandler
+						{
+							notification = MandatoryMissing;
+							name = "Mandatory Loop Missing";
+							actions = 
+							[
+								SetValue("3", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LRQ/@segErrorCd")), 
+								Notify(MandatoryMissing)
+							];
+						}
+					];
+					sub_elements = 
+					[
+						RecordStructureLocal
+						{
+							ids = 
+							[
+								"LRQ"
+							];
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LRQ");
+							contains = 
+							[
+								CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+								EmbeddedParser
+								{
+									parser = LRQ_Segment_parser;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LRQ"), XPath("/x12:LRQ")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+										Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+									];
+								}
+							];
+							name = "LRQ";
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Segment Exceeds Maximum Use";
+									actions = 
+									[
+										SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LRQ/@segErrorCd")), 
+										Notify(SegmentExceedsMaximumUseNotification)
+									];
+								}
+							];
+						}, 
+						RecordStructureLocal
+						{
+							ids = 
+							[
+								"LN1"
+							];
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LN1");
+							contains = 
+							[
+								CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+								EmbeddedParser
+								{
+									parser = LN1_Segment_parser;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LN1"), XPath("/x12:LN1")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+										Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+									];
+								}
+							];
+							name = "LN1";
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = MandatoryStructureMissing;
+									name = "Mandatory Segment Missing";
+									actions = 
+									[
+										SetValue("3", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LN1/@segErrorCd")), 
+										Notify(MandatoryStructureMissing)
+									];
+								}, 
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Segment Exceeds Maximum Use";
+									actions = 
+									[
+										SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LN1/@segErrorCd")), 
+										Notify(SegmentExceedsMaximumUseNotification)
+									];
+								}
+							];
+						}, 
+						RecordStructureLocal
+						{
+							ids = 
+							[
+								"PRD"
+							];
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/PRD");
+							contains = 
+							[
+								CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+								EmbeddedParser
+								{
+									parser = PRD_Segment_parser;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/PRD"), XPath("/x12:PRD")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+										Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+									];
+								}
+							];
+							name = "PRD";
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = MandatoryStructureMissing;
+									name = "Mandatory Segment Missing";
+									actions = 
+									[
+										SetValue("3", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/PRD/@segErrorCd")), 
+										Notify(MandatoryStructureMissing)
+									];
+								}, 
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Segment Exceeds Maximum Use";
+									actions = 
+									[
+										SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/PRD/@segErrorCd")), 
+										Notify(SegmentExceedsMaximumUseNotification)
+									];
+								}
+							];
+						}, 
+						RecordStructureLocal
+						{
+							ids = 
+							[
+								"MIC"
+							];
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/MIC");
+							contains = 
+							[
+								CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+								EmbeddedParser
+								{
+									parser = MIC_Segment_parser;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/MIC"), XPath("/x12:MIC")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+										Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+									];
+								}
+							];
+							name = "MIC";
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = MandatoryStructureMissing;
+									name = "Mandatory Segment Missing";
+									actions = 
+									[
+										SetValue("3", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/MIC/@segErrorCd")), 
+										Notify(MandatoryStructureMissing)
+									];
+								}, 
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Segment Exceeds Maximum Use";
+									actions = 
+									[
+										SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/MIC/@segErrorCd")), 
+										Notify(SegmentExceedsMaximumUseNotification)
+									];
+								}
+							];
+							maxOccurs = 5;
+						}, 
+						RecordStructureLocal
+						{
+							ids = 
+							[
+								"PER"
+							];
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/PER");
+							contains = 
+							[
+								CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+								EmbeddedParser
+								{
+									parser = PER_Segment_parser;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/PER"), XPath("/x12:PER")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+										Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+									];
+								}
+							];
+							name = "PER";
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Segment Exceeds Maximum Use";
+									actions = 
+									[
+										SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/PER/@segErrorCd")), 
+										Notify(SegmentExceedsMaximumUseNotification)
+									];
+								}
+							];
+							minOccurs = 0;
+							maxOccurs = 5;
+						}, 
+						RecordStructureLocal
+						{
+							ids = 
+							[
+								"REF"
+							];
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/REF");
+							contains = 
+							[
+								CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+								EmbeddedParser
+								{
+									parser = REF_Segment_parser;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/REF"), XPath("/x12:REF")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+										Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+									];
+								}
+							];
+							name = "REF";
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Segment Exceeds Maximum Use";
+									actions = 
+									[
+										SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/REF/@segErrorCd")), 
+										Notify(SegmentExceedsMaximumUseNotification)
+									];
+								}
+							];
+							minOccurs = 0;
+							maxOccurs = 10;
+						}, 
+						RecordStructureLocal
+						{
+							ids = 
+							[
+								"PEX"
+							];
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/PEX");
+							contains = 
+							[
+								CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+								EmbeddedParser
+								{
+									parser = PEX_Segment_parser;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/PEX"), XPath("/x12:PEX")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+										Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+									];
+								}
+							];
+							name = "PEX";
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Segment Exceeds Maximum Use";
+									actions = 
+									[
+										SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/PEX/@segErrorCd")), 
+										Notify(SegmentExceedsMaximumUseNotification)
+									];
+								}
+							];
+							minOccurs = 0;
+							maxOccurs = 20;
+						}, 
+						RecordStructureLocal
+						{
+							ids = 
+							[
+								"RLD"
+							];
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/RLD");
+							contains = 
+							[
+								CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+								EmbeddedParser
+								{
+									parser = RLD_Segment_parser;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/RLD"), XPath("/x12:RLD")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+										Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+									];
+								}
+							];
+							name = "RLD";
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Segment Exceeds Maximum Use";
+									actions = 
+									[
+										SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/RLD/@segErrorCd")), 
+										Notify(SegmentExceedsMaximumUseNotification)
+									];
+								}
+							];
+							minOccurs = 0;
+							maxOccurs = 5;
+						}, 
+						RecordStructureLocal
+						{
+							ids = 
+							[
+								"PAY"
+							];
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/PAY");
+							contains = 
+							[
+								CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+								EmbeddedParser
+								{
+									parser = PAY_Segment_parser;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/PAY"), XPath("/x12:PAY")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+										Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+									];
+								}
+							];
+							name = "PAY";
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Segment Exceeds Maximum Use";
+									actions = 
+									[
+										SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/PAY/@segErrorCd")), 
+										Notify(SegmentExceedsMaximumUseNotification)
+									];
+								}
+							];
+							minOccurs = 0;
+						}, 
+						RecordStructureLocal
+						{
+							ids = 
+							[
+								"RAT"
+							];
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/RAT");
+							contains = 
+							[
+								CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+								EmbeddedParser
+								{
+									parser = RAT_Segment_parser;
+									schema_connections = 
+									[
+										Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/RAT"), XPath("/x12:RAT")), 
+										Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+										Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+										Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+										Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+										Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+									];
+								}
+							];
+							name = "RAT";
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Segment Exceeds Maximum Use";
+									actions = 
+									[
+										SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/RAT/@segErrorCd")), 
+										Notify(SegmentExceedsMaximumUseNotification)
+									];
+								}
+							];
+							minOccurs = 0;
+						}, 
+						SequenceStructureLocal
+						{
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_SCM_1");
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Loop Occurs Over Maximum Times";
+									actions = 
+									[
+										SetValue("4", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_SCM_1/*s/SCM/@segErrorCd")), 
+										Notify(LoopOccursOverMaximumTimesNotification)
+									];
+								}
+							];
+							sub_elements = 
+							[
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"SCM"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_SCM_1/*s/SCM");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = SCM_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_SCM_1/*s/SCM"), XPath("/x12:SCM")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "SCM";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_SCM_1/*s/SCM/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+								}, 
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"SCS"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_SCM_1/*s/SCS");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = SCS_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_SCM_1/*s/SCS"), XPath("/x12:SCS")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "SCS";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_SCM_1/*s/SCS/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+									minOccurs = 0;
+									maxOccurs = 5;
+								}
+							];
+							name = "LOOP_SCM_1";
+							minOccurs = 0;
+							maxOccurs = 10;
+						}, 
+						SequenceStructureLocal
+						{
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1");
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = MandatoryMissing;
+									name = "Mandatory Loop Missing";
+									actions = 
+									[
+										SetValue("3", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/NX1/@segErrorCd")), 
+										Notify(MandatoryMissing)
+									];
+								}, 
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Loop Occurs Over Maximum Times";
+									actions = 
+									[
+										SetValue("4", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/NX1/@segErrorCd")), 
+										Notify(LoopOccursOverMaximumTimesNotification)
+									];
+								}
+							];
+							sub_elements = 
+							[
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"NX1"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/NX1");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = NX1_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/NX1"), XPath("/x12:NX1")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "NX1";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/NX1/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+								}, 
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"NX2"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/NX2");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = NX2_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/NX2"), XPath("/x12:NX2")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "NX2";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = MandatoryStructureMissing;
+											name = "Mandatory Segment Missing";
+											actions = 
+											[
+												SetValue("3", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/NX2/@segErrorCd")), 
+												Notify(MandatoryStructureMissing)
+											];
+										}, 
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/NX2/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+									maxOccurs = 30;
+								}, 
+								SequenceStructureLocal
+								{
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS");
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Loop Occurs Over Maximum Times";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS/*s/PAS/@segErrorCd")), 
+												Notify(LoopOccursOverMaximumTimesNotification)
+											];
+										}
+									];
+									sub_elements = 
+									[
+										RecordStructureLocal
+										{
+											ids = 
+											[
+												"PAS"
+											];
+											target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS/*s/PAS");
+											contains = 
+											[
+												CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+												EmbeddedParser
+												{
+													parser = PAS_Segment_parser;
+													schema_connections = 
+													[
+														Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS/*s/PAS"), XPath("/x12:PAS")), 
+														Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+														Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+														Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+														Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+														Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+													];
+												}
+											];
+											name = "PAS";
+											notifications = 
+											[
+												NotificationHandler
+												{
+													notification = StructureExceedsMaxOccurs;
+													name = "Segment Exceeds Maximum Use";
+													actions = 
+													[
+														SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS/*s/PAS/@segErrorCd")), 
+														Notify(SegmentExceedsMaximumUseNotification)
+													];
+												}
+											];
+										}, 
+										RecordStructureLocal
+										{
+											ids = 
+											[
+												"N1"
+											];
+											target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS/*s/N1");
+											contains = 
+											[
+												CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+												EmbeddedParser
+												{
+													parser = N1_Segment_parser;
+													schema_connections = 
+													[
+														Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS/*s/N1"), XPath("/x12:N1")), 
+														Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+														Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+														Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+														Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+														Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+													];
+												}
+											];
+											name = "N1";
+											notifications = 
+											[
+												NotificationHandler
+												{
+													notification = StructureExceedsMaxOccurs;
+													name = "Segment Exceeds Maximum Use";
+													actions = 
+													[
+														SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS/*s/N1/@segErrorCd")), 
+														Notify(SegmentExceedsMaximumUseNotification)
+													];
+												}
+											];
+											minOccurs = 0;
+											maxOccurs = 2;
+										}, 
+										RecordStructureLocal
+										{
+											ids = 
+											[
+												"PER"
+											];
+											target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS/*s/PER");
+											contains = 
+											[
+												CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+												EmbeddedParser
+												{
+													parser = PER_Segment_parser;
+													schema_connections = 
+													[
+														Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS/*s/PER"), XPath("/x12:PER")), 
+														Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+														Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+														Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+														Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+														Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+													];
+												}
+											];
+											name = "PER";
+											notifications = 
+											[
+												NotificationHandler
+												{
+													notification = StructureExceedsMaxOccurs;
+													name = "Segment Exceeds Maximum Use";
+													actions = 
+													[
+														SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS/*s/PER/@segErrorCd")), 
+														Notify(SegmentExceedsMaximumUseNotification)
+													];
+												}
+											];
+											minOccurs = 0;
+											maxOccurs = 10;
+										}, 
+										RecordStructureLocal
+										{
+											ids = 
+											[
+												"MSG"
+											];
+											target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS/*s/MSG");
+											contains = 
+											[
+												CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+												EmbeddedParser
+												{
+													parser = MSG_Segment_parser;
+													schema_connections = 
+													[
+														Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS/*s/MSG"), XPath("/x12:MSG")), 
+														Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+														Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+														Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+														Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+														Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+													];
+												}
+											];
+											name = "MSG";
+											notifications = 
+											[
+												NotificationHandler
+												{
+													notification = StructureExceedsMaxOccurs;
+													name = "Segment Exceeds Maximum Use";
+													actions = 
+													[
+														SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_NX1_1/*s/LOOP_PAS/*s/MSG/@segErrorCd")), 
+														Notify(SegmentExceedsMaximumUseNotification)
+													];
+												}
+											];
+											minOccurs = 0;
+											maxOccurs = 10;
+										}
+									];
+									name = "LOOP_PAS";
+									minOccurs = 0;
+									maxOccurs = 5;
+								}
+							];
+							name = "LOOP_NX1_1";
+							maxOccurs = 5;
+						}, 
+						SequenceStructureLocal
+						{
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1");
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = MandatoryMissing;
+									name = "Mandatory Loop Missing";
+									actions = 
+									[
+										SetValue("3", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/IN1/@segErrorCd")), 
+										Notify(MandatoryMissing)
+									];
+								}, 
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Loop Occurs Over Maximum Times";
+									actions = 
+									[
+										SetValue("4", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/IN1/@segErrorCd")), 
+										Notify(LoopOccursOverMaximumTimesNotification)
+									];
+								}
+							];
+							sub_elements = 
+							[
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"IN1"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/IN1");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = IN1_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/IN1"), XPath("/x12:IN1")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "IN1";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/IN1/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+								}, 
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"IN2"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/IN2");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = IN2_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/IN2"), XPath("/x12:IN2")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "IN2";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = MandatoryStructureMissing;
+											name = "Mandatory Segment Missing";
+											actions = 
+											[
+												SetValue("3", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/IN2/@segErrorCd")), 
+												Notify(MandatoryStructureMissing)
+											];
+										}, 
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/IN2/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+									maxOccurs = 10;
+								}, 
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"YNQ"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/YNQ");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = YNQ_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/YNQ"), XPath("/x12:YNQ")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "YNQ";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/YNQ/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+									minOccurs = 0;
+									maxOccurs = 5;
+								}, 
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"DMG"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/DMG");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = DMG_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/DMG"), XPath("/x12:DMG")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "DMG";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/DMG/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+									minOccurs = 0;
+								}, 
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"MSG"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/MSG");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = MSG_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/MSG"), XPath("/x12:MSG")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "MSG";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/MSG/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+									minOccurs = 0;
+								}, 
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"N10"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/N10");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = N10_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/N10"), XPath("/x12:N10")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "N10";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/N10/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+									minOccurs = 0;
+								}, 
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"BFS"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/BFS");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = BFS_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/BFS"), XPath("/x12:BFS")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "BFS";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/BFS/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+									minOccurs = 0;
+								}, 
+								SequenceStructureLocal
+								{
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_SCM_2");
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Loop Occurs Over Maximum Times";
+											actions = 
+											[
+												SetValue("4", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_SCM_2/*s/SCM/@segErrorCd")), 
+												Notify(LoopOccursOverMaximumTimesNotification)
+											];
+										}
+									];
+									sub_elements = 
+									[
+										RecordStructureLocal
+										{
+											ids = 
+											[
+												"SCM"
+											];
+											target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_SCM_2/*s/SCM");
+											contains = 
+											[
+												CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+												EmbeddedParser
+												{
+													parser = SCM_Segment_parser;
+													schema_connections = 
+													[
+														Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_SCM_2/*s/SCM"), XPath("/x12:SCM")), 
+														Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+														Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+														Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+														Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+														Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+													];
+												}
+											];
+											name = "SCM";
+											notifications = 
+											[
+												NotificationHandler
+												{
+													notification = StructureExceedsMaxOccurs;
+													name = "Segment Exceeds Maximum Use";
+													actions = 
+													[
+														SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_SCM_2/*s/SCM/@segErrorCd")), 
+														Notify(SegmentExceedsMaximumUseNotification)
+													];
+												}
+											];
+										}, 
+										RecordStructureLocal
+										{
+											ids = 
+											[
+												"SCS"
+											];
+											target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_SCM_2/*s/SCS");
+											contains = 
+											[
+												CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+												EmbeddedParser
+												{
+													parser = SCS_Segment_parser;
+													schema_connections = 
+													[
+														Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_SCM_2/*s/SCS"), XPath("/x12:SCS")), 
+														Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+														Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+														Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+														Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+														Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+													];
+												}
+											];
+											name = "SCS";
+											notifications = 
+											[
+												NotificationHandler
+												{
+													notification = StructureExceedsMaxOccurs;
+													name = "Segment Exceeds Maximum Use";
+													actions = 
+													[
+														SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_SCM_2/*s/SCS/@segErrorCd")), 
+														Notify(SegmentExceedsMaximumUseNotification)
+													];
+												}
+											];
+											minOccurs = 0;
+											maxOccurs = 5;
+										}
+									];
+									name = "LOOP_SCM_2";
+									minOccurs = 0;
+									maxOccurs = 10;
+								}, 
+								SequenceStructureLocal
+								{
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2");
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Loop Occurs Over Maximum Times";
+											actions = 
+											[
+												SetValue("4", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/NX1/@segErrorCd")), 
+												Notify(LoopOccursOverMaximumTimesNotification)
+											];
+										}
+									];
+									sub_elements = 
+									[
+										RecordStructureLocal
+										{
+											ids = 
+											[
+												"NX1"
+											];
+											target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/NX1");
+											contains = 
+											[
+												CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+												EmbeddedParser
+												{
+													parser = NX1_Segment_parser;
+													schema_connections = 
+													[
+														Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/NX1"), XPath("/x12:NX1")), 
+														Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+														Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+														Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+														Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+														Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+													];
+												}
+											];
+											name = "NX1";
+											notifications = 
+											[
+												NotificationHandler
+												{
+													notification = StructureExceedsMaxOccurs;
+													name = "Segment Exceeds Maximum Use";
+													actions = 
+													[
+														SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/NX1/@segErrorCd")), 
+														Notify(SegmentExceedsMaximumUseNotification)
+													];
+												}
+											];
+										}, 
+										RecordStructureLocal
+										{
+											ids = 
+											[
+												"NX2"
+											];
+											target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/NX2");
+											contains = 
+											[
+												CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+												EmbeddedParser
+												{
+													parser = NX2_Segment_parser;
+													schema_connections = 
+													[
+														Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/NX2"), XPath("/x12:NX2")), 
+														Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+														Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+														Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+														Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+														Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+													];
+												}
+											];
+											name = "NX2";
+											notifications = 
+											[
+												NotificationHandler
+												{
+													notification = MandatoryStructureMissing;
+													name = "Mandatory Segment Missing";
+													actions = 
+													[
+														SetValue("3", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/NX2/@segErrorCd")), 
+														Notify(MandatoryStructureMissing)
+													];
+												}, 
+												NotificationHandler
+												{
+													notification = StructureExceedsMaxOccurs;
+													name = "Segment Exceeds Maximum Use";
+													actions = 
+													[
+														SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/NX2/@segErrorCd")), 
+														Notify(SegmentExceedsMaximumUseNotification)
+													];
+												}
+											];
+											maxOccurs = 30;
+										}, 
+										RecordStructureLocal
+										{
+											ids = 
+											[
+												"N10"
+											];
+											target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/N10");
+											contains = 
+											[
+												CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+												EmbeddedParser
+												{
+													parser = N10_Segment_parser;
+													schema_connections = 
+													[
+														Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/N10"), XPath("/x12:N10")), 
+														Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+														Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+														Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+														Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+														Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+													];
+												}
+											];
+											name = "N10";
+											notifications = 
+											[
+												NotificationHandler
+												{
+													notification = StructureExceedsMaxOccurs;
+													name = "Segment Exceeds Maximum Use";
+													actions = 
+													[
+														SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/N10/@segErrorCd")), 
+														Notify(SegmentExceedsMaximumUseNotification)
+													];
+												}
+											];
+											minOccurs = 0;
+										}, 
+										RecordStructureLocal
+										{
+											ids = 
+											[
+												"ARS"
+											];
+											target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/ARS");
+											contains = 
+											[
+												CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+												EmbeddedParser
+												{
+													parser = ARS_Segment_parser;
+													schema_connections = 
+													[
+														Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/ARS"), XPath("/x12:ARS")), 
+														Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+														Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+														Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+														Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+														Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+													];
+												}
+											];
+											name = "ARS";
+											notifications = 
+											[
+												NotificationHandler
+												{
+													notification = StructureExceedsMaxOccurs;
+													name = "Segment Exceeds Maximum Use";
+													actions = 
+													[
+														SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_IN1/*s/LOOP_NX1_2/*s/ARS/@segErrorCd")), 
+														Notify(SegmentExceedsMaximumUseNotification)
+													];
+												}
+											];
+											minOccurs = 0;
+										}
+									];
+									name = "LOOP_NX1_2";
+									minOccurs = 0;
+									maxOccurs = 10;
+								}
+							];
+							name = "LOOP_IN1";
+							maxOccurs = 12;
+						}, 
+						SequenceStructureLocal
+						{
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_REA");
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Loop Occurs Over Maximum Times";
+									actions = 
+									[
+										SetValue("4", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_REA/*s/REA/@segErrorCd")), 
+										Notify(LoopOccursOverMaximumTimesNotification)
+									];
+								}
+							];
+							sub_elements = 
+							[
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"REA"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_REA/*s/REA");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = REA_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_REA/*s/REA"), XPath("/x12:REA")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "REA";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_REA/*s/REA/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+								}, 
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"AMT"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_REA/*s/AMT");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = AMT_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_REA/*s/AMT"), XPath("/x12:AMT")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "AMT";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_REA/*s/AMT/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+									minOccurs = 0;
+									maxOccurs = 10;
+								}
+							];
+							name = "LOOP_REA";
+							minOccurs = 0;
+						}, 
+						SequenceStructureLocal
+						{
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_MCD");
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Loop Occurs Over Maximum Times";
+									actions = 
+									[
+										SetValue("4", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_MCD/*s/MCD/@segErrorCd")), 
+										Notify(LoopOccursOverMaximumTimesNotification)
+									];
+								}
+							];
+							sub_elements = 
+							[
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"MCD"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_MCD/*s/MCD");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = MCD_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_MCD/*s/MCD"), XPath("/x12:MCD")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "MCD";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_MCD/*s/MCD/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+								}, 
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"AMT"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_MCD/*s/AMT");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = AMT_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_MCD/*s/AMT"), XPath("/x12:AMT")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "AMT";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_MCD/*s/AMT/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+									minOccurs = 0;
+									maxOccurs = 10;
+								}
+							];
+							name = "LOOP_MCD";
+							minOccurs = 0;
+						}, 
+						SequenceStructureLocal
+						{
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_BUY");
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Loop Occurs Over Maximum Times";
+									actions = 
+									[
+										SetValue("4", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_BUY/*s/BUY/@segErrorCd")), 
+										Notify(LoopOccursOverMaximumTimesNotification)
+									];
+								}
+							];
+							sub_elements = 
+							[
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"BUY"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_BUY/*s/BUY");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = BUY_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_BUY/*s/BUY"), XPath("/x12:BUY")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "BUY";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_BUY/*s/BUY/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+								}, 
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"TBA"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_BUY/*s/TBA");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = TBA_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_BUY/*s/TBA"), XPath("/x12:TBA")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "TBA";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_BUY/*s/TBA/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+									minOccurs = 0;
+									maxOccurs = 10;
+								}
+							];
+							name = "LOOP_BUY";
+							minOccurs = 0;
+							maxOccurs = 20;
+						}, 
+						SequenceStructureLocal
+						{
+							target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_PRJ");
+							notifications = 
+							[
+								NotificationHandler
+								{
+									notification = StructureExceedsMaxOccurs;
+									name = "Loop Occurs Over Maximum Times";
+									actions = 
+									[
+										SetValue("4", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_PRJ/*s/PRJ/@segErrorCd")), 
+										Notify(LoopOccursOverMaximumTimesNotification)
+									];
+								}
+							];
+							sub_elements = 
+							[
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"PRJ"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_PRJ/*s/PRJ");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = PRJ_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_PRJ/*s/PRJ"), XPath("/x12:PRJ")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "PRJ";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_PRJ/*s/PRJ/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+								}, 
+								RecordStructureLocal
+								{
+									ids = 
+									[
+										"PER"
+									];
+									target = XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_PRJ/*s/PER");
+									contains = 
+									[
+										CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+										EmbeddedParser
+										{
+											parser = PER_Segment_parser;
+											schema_connections = 
+											[
+												Connect(XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_PRJ/*s/PER"), XPath("/x12:PER")), 
+												Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+												Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+												Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+												Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+												Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+											];
+										}
+									];
+									name = "PER";
+									notifications = 
+									[
+										NotificationHandler
+										{
+											notification = StructureExceedsMaxOccurs;
+											name = "Segment Exceeds Maximum Use";
+											actions = 
+											[
+												SetValue("5", XPath("/x12:TS_872/*s/LOOP_LX/*s/LOOP_LRQ/*s/LOOP_PRJ/*s/PER/@segErrorCd")), 
+												Notify(SegmentExceedsMaximumUseNotification)
+											];
+										}
+									];
+									minOccurs = 0;
+									maxOccurs = 10;
+								}
+							];
+							name = "LOOP_PRJ";
+							minOccurs = 0;
+						}
+					];
+					name = "LOOP_LRQ";
+					maxOccurs = -1;
+				}
+			];
+			name = "LOOP_LX";
+			maxOccurs = -1;
+		}, 
+		RecordStructureLocal
+		{
+			ids = 
+			[
+				"SE"
+			];
+			target = XPath("/x12:TS_872/*s/SE");
+			contains = 
+			[
+				CalculateValue("$1+1", [XPath("$NumberOfSegments")], XPath("$NumberOfSegments")), 
+				EmbeddedParser
+				{
+					parser = SE_Segment_parser;
+					schema_connections = 
+					[
+						Connect(XPath("/x12:TS_872/*s/SE"), XPath("/x12:SE")), 
+						Connect(XPath("/x12:delimiters"), XPath("/x12:delimiters")), 
+						Connect(XPath("/x12:TS_Errors"), XPath("/x12:TS_Errors")), 
+						Connect(XPath("/x12:TS_872"), XPath("/x12:TS_872")), 
+						Connect(XPath("$ErrorsFoundFlag"), XPath("$ErrorsFoundFlag")), 
+						Connect(XPath("$transactionSetStartingSegmentIndex"), XPath("$transactionSetStartingSegmentIndex"))
+					];
+				}, 
+				Group<optional>
+				{
+					contains = 
+					[
+						Group<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:TS_872/*s/ST/*s/R02")), 
+								Locator(XPath("/x12:TS_872/SE/*s/R02"))
+							];
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/TransactionSetError"))
+							];
+							contains = 
+							[
+								EnsureCondition
+								{
+									condition = "$1 != $2";
+									params = 
+									[
+										XPath("/x12:TS_872/*s/ST/*s/R02"), 
+										XPath("/x12:TS_872/*s/SE/*s/R02")
+									];
+								}, 
+								SetValue("3", XPath("/x12:TS_Errors/*s/TransactionSetError/@code")), 
+								SetValue("Transaction Set Control Number in Header and Trailer Do Not Match", XPath("/x12:TS_Errors/*s/TransactionSetError/@description")), 
+								SetValue("true", XPath("$ErrorsFoundFlag"))
+							];
+							name = "Transaction Set Control Number in Header and Trailer Do Not Match";
+						}, 
+						Group<disabled, optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:TS_872/*s/SE/*s/R01"))
+							];
+							target = 
+							[
+								Locator(XPath("/x12:TS_Errors/*s/TransactionSetError"))
+							];
+							contains = 
+							[
+								EnsureCondition
+								{
+									condition = "$1 != $2";
+									params = 
+									[
+										XPath("/x12:TS_872/*s/SE/*s/R01"), 
+										XPath("$NumberOfSegments")
+									];
+								}, 
+								SetValue("4", XPath("/x12:TS_Errors/*s/TransactionSetError/@code")), 
+								SetValue("Number of Included Segments Does Not Match Actual Count", XPath("/x12:TS_Errors/*s/TransactionSetError/@description")), 
+								SetValue("true", XPath("$ErrorsFoundFlag"))
+							];
+							name = "Number of Included Segments Does Not Match Actual Count";
+						}, 
+						Group<optional>
+						{
+							target = 
+							[
+								Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/TransactionSetError"))
+							];
+							contains = 
+							[
+								EnsureCondition("$1 != false", [XPath("$ErrorsFoundFlag")]), 
+								SetValue("5", XPath("/x12:TS_Errors/*s/TransactionSetError/@code")), 
+								SetValue("One or more Segments in Error", XPath("/x12:TS_Errors/*s/TransactionSetError/@description"))
+							];
+							name = "One or more Segments in Error";
+						}, 
+						Group<optional>
+						{
+							source = 
+							[
+								Locator(XPath("/x12:TS_872/*s/ST/*s/R01"))
+							];
+							target = 
+							[
+								Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error"))
+							];
+							contains = 
+							[
+								EnsureCondition("$1 != 872", [XPath("/x12:TS_872/*s/ST/*s/R01")]), 
+								SetValue("18", XPath("/x12:TS_Errors/*s/TransactionSetError/@code")), 
+								SetValue("Transaction Set not in Functional Group", XPath("/x12:TS_Errors/*s/TransactionSetError/@description")), 
+								SetValue("true", XPath("$ErrorsFoundFlag"))
+							];
+							name = "Transaction Set not in Functional Group";
+						}, 
+						Group<optional>
+						{
+							target = 
+							[
+								Locator(XPath("/x12:Errors/*s/Interchange/*s/FunctionalGroup/*s/x12:TS_Errors/*s/x12:Error"))
+							];
+							contains = 
+							[
+								Alternatives
+								{
+									options = 
+									[
+										Group
+										{
+											source = 
+											[
+												Locator(XPath("/x12:TS_872/*s/ST"))
+											];
+											contains = 
+											[
+												EnsureCondition
+												{
+													condition = "$1.indexOf(\";\" + $2 + \";\") == -1";
+													params = 
+													[
+														XPath("$TSControlNumber2"), 
+														XPath("/x12:TS_872/*s/ST/*s/R02")
+													];
+												}, 
+												CalculateValue
+												{
+													expression = "$1 + \";\" + $2 + \";\"";
+													params = 
+													[
+														XPath("$TSControlNumber2"), 
+														XPath("/x12:TS_872/*s/ST/*s/R02")
+													];
+													result = XPath("$TSControlNumber2");
+												}
+											];
+											name = "if unique, add to list";
+										}, 
+										Group
+										{
+											contains = 
+											[
+												SetValue("23", XPath("/x12:TS_Errors/*s/TransactionSetError/@code")), 
+												SetValue("Transaction Set Control Number Not Unique within the Functional Group", XPath("/x12:TS_Errors/*s/TransactionSetError/@description")), 
+												SetValue("true", XPath("$ErrorsFoundFlag"))
+											];
+											name = "not unique - error";
+										}
+									];
+								}
+							];
+							name = "Transaction Set Control Number Not Unique within the Functional Group";
+						}
+					];
+				}
+			];
+			name = "SE";
+			notifications = 
+			[
+				NotificationHandler
+				{
+					notification = MandatoryStructureMissing;
+					name = "Mandatory Segment Missing";
+					actions = 
+					[
+						SetValue("3", XPath("/x12:TS_872/*s/SE/@segErrorCd")), 
+						Notify(MandatoryStructureMissing)
+					];
+				}, 
+				NotificationHandler
+				{
+					notification = StructureExceedsMaxOccurs;
+					name = "Segment Exceeds Maximum Use";
+					actions = 
+					[
+						SetValue("5", XPath("/x12:TS_872/*s/SE/@segErrorCd")), 
+						Notify(SegmentExceedsMaximumUseNotification)
+					];
+				}
+			];
+		}
+	];
+}
+instance segmentId = Variable()
+instance transactionSetId = Variable()
+instance SegmentExceedsMaximumUseNotification = Notification()
+instance LoopOccursOverMaximumTimesNotification = Notification()
+instance MandatorySegmentMissing = NotificationHandler
+{
+	notification = MandatoryStructureMissing;
+	actions = 
+	[
+		SetValue("3", XPath("/x12:TS_Errors/*s/x12:Error/@Code"), [], "Error Code"), 
+		SetValue("Mandatory segment missing", XPath("/x12:TS_Errors/*s/x12:Error/@Description"), [], "Description"), 
+		PopulateStructureErrorDetails
+	];
+}
+instance SegmentExceedsMaximumUse = NotificationHandler
+{
+	notification = SegmentExceedsMaximumUseNotification;
+	actions = 
+	[
+		SetValue("5", XPath("/x12:TS_Errors/*s/x12:Error/@Code"), [], "Error Code"), 
+		SetValue("Segment Exceeds Maximum Use", XPath("/x12:TS_Errors/*s/x12:Error/@Description"), [], "Description"), 
+		PopulateStructureErrorDetails
+	];
+}
+instance UnexpectedSegment = NotificationHandler
+{
+	notification = UnexpectedRecord;
+	actions = 
+	[
+		SetValue("2", XPath("/x12:TS_Errors/*s/x12:Error/@Code"), [], "Error Code"), 
+		SetValue("Unexpected segment", XPath("/x12:TS_Errors/*s/x12:Error/@Description"), [], "Description"), 
+		PopulateStructureErrorDetails
+	];
+}
+instance UnrecognizedSegment = NotificationHandler
+{
+	notification = UnrecognizedRecord;
+	actions = 
+	[
+		SetValue("1", XPath("/x12:TS_Errors/*s/x12:Error/@Code"), [], "Error Code"), 
+		SetValue("Unrecognized Segment ID", XPath("/x12:TS_Errors/*s/x12:Error/@Description"), [], "Description"), 
+		PopulateStructureErrorDetails
+	];
+}
+instance LoopOccursOverMaximumTimes = NotificationHandler
+{
+	notification = LoopOccursOverMaximumTimesNotification;
+	actions = 
+	[
+		SetValue("4", XPath("/x12:TS_Errors/*s/x12:Error/@Code"), [], "Error Code"), 
+		SetValue("Loop Occurs Over Maximum Times", XPath("/x12:TS_Errors/*s/x12:Error/@Description"), [], "Description"), 
+		Map(XPath("$VarStructureDetails/*s/Repetitions"), XPath("/x12:TS_Errors/*s/x12:Error/*s/LoopCount"), [], "Occurrences"), 
+		PopulateStructureErrorDetails
+	];
+}
+instance SegmentNotInProperSequence = NotificationHandler
+{
+	notification = StructureOutOfSequence;
+	actions = 
+	[
+		SetValue("7", XPath("/x12:TS_Errors/*s/x12:Error/@Code"), [], "Error Code"), 
+		SetValue("Segment Not in Proper Sequence", XPath("/x12:TS_Errors/*s/x12:Error/@Description"), [], "Description"), 
+		PopulateStructureErrorDetails
+	];
+}
+instance PopulateStructureErrorDetails = GroupMapping
+{
+	contains = 
+	[
+		CalculateValue("$1.substring(6, $1.length)", [XPath("$VarStructureDetails/*s/InternalPath")], XPath("/x12:TS_Errors/*s/x12:Error/@internal_path"), "Ignore", "Internal Path"), 
+		AlternativeMappings
+		{
+			options = 
+			[
+				CalculateValue
+				{
+					expression = "$1 - $2 + 1";
+					params = 
+					[
+						XPath("$VarStructureDetails/*s/RecordIndex"), 
+						XPath("$transactionSetStartingSegmentIndex")
+					];
+					result = XPath("/x12:TS_Errors/*s/x12:Error/*s/SegmentIndex");
+					name = "inside TS";
+				}, 
+				Map(XPath("$LineIndex"), XPath("/x12:TS_Errors/*s/x12:Error/*s/SegmentIndex"), [], "Envelope Segment")
+			];
+			name = "Line Index";
+		}, 
+		Map
+		{
+			source = XPath("$VarStructureDetails/*s/RecordId");
+			target = XPath("/x12:TS_Errors/*s/x12:Error/*s/SegmentIdentifier");
+			transformers = 
+			[
+				Replace<optional>(TextSearch(StaticString("LOOP_"))), 
+				Replace<optional>(PatternSearch("_[0-9]+$"))
+			];
+			name = "Identifier";
+		}, 
+		GroupMapping<optional>
+		{
+			source = 
+			[
+				LocatorByKey(XPath("$LoopIDLevel_Lookup/*s/entry[key=$1]"), [DynamicString(XPath("$LoopLevel"))])
+			];
+			contains = 
+			[
+				Map(XPath("$LoopIDLevel_Lookup/*s/entry/*s/value"), XPath("/x12:TS_Errors/*s/x12:Error/*s/LoopIdentifier"), [], "Loop ID")
+			];
+			name = "Loop ID";
+		}, 
+		Notify(ErrorsFound_Notification, StaticString(), "Notify errors found")
+	];
+}
+instance GroupControlNumberVioletsSyntaxNotification = Notification()
+instance GroupControlNumberVioletsSyntax = NotificationHandler
+{
+	notification = GroupControlNumberVioletsSyntaxNotification;
+	actions = 
+	[
+		SetValue("6", XPath("/x12:TS_Errors/*s/x12:Error/@Code"), [], "Error Code"), 
+		SetValue("Group Control number violets syntax", XPath("/x12:TS_Errors/*s/x12:Error/@Description"), [], "Description"), 
+		PopulateStructureErrorDetails
+	];
+}
+instance Errors = AdditionalOutputPort<disabled>()
+instance ErrorsFound = AdditionalOutputPort<disabled>(null_port_encoding, ".txt")
+instance ErrorsFoundFlag = Variable(XSDTypeRef("xs:boolean"), InitialValue("false"))
+instance LoopIDNameByLevelIndex = LookupTransformer(DynamicTable(XPath("$LoopIDLevel_Lookup")))
+instance LoopIDLevel_Lookup = Variable(XSDTypeRef("cde:lookupTable"))
+instance LoopLevel = Variable(XSDTypeRef("xs:int"), InitialValue("0"))
+instance LineIndex = Variable(XSDTypeRef("xs:integer"))
+instance IncrementLineIndex = CalculateValue("$1 + 1", [XPath("$LineIndex")], XPath("$LineIndex"))
+instance TransactionSetActualCount = Variable(XSDTypeRef("xs:integer"))
+instance FunctionalGroupVersionsSupported = Variable(XSDTypeRef("xs:string"), InitialValue(";004010;"))
+instance FunctionalGroupsSupported = Variable(XSDTypeRef("xs:string"), InitialValue(";ME;"))
+instance transactionSetStartingSegmentIndex = Variable(XSDTypeRef("xs:integer"))
+instance NumberOfSegments = Variable(XSDTypeRef("xs:integer"), InitialValue("0"))
+instance TSControlNumber = Variable(XSDTypeRef("xs:integer"), InitialValue("-1"))
+instance temp1 = Variable()
+instance temp2 = Variable()
+instance TSControlNumber2 = Variable()
+instance ErrorInTransaction = Variable(XSDTypeRef("cde:lookupTable"))
+instance ErrorStringFlag = Variable(XSDTypeRef("xs:string"), InitialValue("<ErrorsFound>false</ErrorsFound>"))

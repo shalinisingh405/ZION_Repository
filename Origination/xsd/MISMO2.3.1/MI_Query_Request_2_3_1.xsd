@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://Radian.Operations.MortgageIns.Common.MISMOSchemas.MORTGAGE_INSURANCE_QUERY_REQUEST_v2_3_1" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://Radian.Operations.MortgageIns.Common.MISMOSchemas.MORTGAGE_INSURANCE_QUERY_REQUEST_v2_3_1">
+		<xs:complexType name="Signature">
+		<xs:sequence>
+			<xs:element ref="SignedInfo"/>
+			<xs:element ref="SignatureValue"/>
+			<xs:element ref="KeyInfo" minOccurs="0"/>
+			<xs:element ref="Object" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Id" type="xs:ID"/>
+	</xs:complexType>
+	<xs:element name="Signature" type="Signature"/>
+	<xs:complexType name="SignatureValue" mixed="true">
+		<xs:attribute name="Id" type="xs:ID"/>
+	</xs:complexType>
+	<xs:element name="SignatureValue" type="SignatureValue"/>
+	<xs:complexType name="SignedInfo">
+		<xs:sequence>
+			<xs:element ref="CanonicalizationMethod"/>
+			<xs:element ref="SignatureMethod"/>
+			<xs:element ref="Reference" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Id" type="xs:ID"/>
+	</xs:complexType>
+	<xs:element name="SignedInfo" type="SignedInfo"/>
+	<xs:complexType name="CanonicalizationMethod" mixed="true">
+		<xs:attribute name="Algorithm" use="required" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="CanonicalizationMethod" type="CanonicalizationMethod"/>
+	<xs:complexType name="SignatureMethod" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="HMACOutputLength"/>
+		</xs:choice>
+		<xs:attribute name="Algorithm" use="required" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="SignatureMethod" type="SignatureMethod"/>
+	<xs:complexType name="Reference">
+		<xs:sequence>
+			<xs:element ref="Transforms" minOccurs="0"/>
+			<xs:element ref="DigestMethod"/>
+			<xs:element ref="DigestValue"/>
+		</xs:sequence>
+		<xs:attribute name="Id" type="xs:ID"/>
+		<xs:attribute name="URI" type="xs:anySimpleType"/>
+		<xs:attribute name="Type" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="Reference" type="Reference"/>
+	<xs:complexType name="Transforms">
+		<xs:sequence>
+			<xs:element ref="Transform" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Transforms" type="Transforms"/>
+	<xs:complexType name="Transform" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="XPath"/>
+		</xs:choice>
+		<xs:attribute name="Algorithm" use="required" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="Transform" type="Transform"/>
+	<xs:complexType name="XPath" mixed="true"/>
+	<xs:element name="XPath" type="XPath"/>
+	<xs:complexType name="DigestMethod" mixed="true">
+		<xs:attribute name="Algorithm" use="required" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="DigestMethod" type="DigestMethod"/>
+	<xs:complexType name="DigestValue" mixed="true"/>
+	<xs:element name="DigestValue" type="DigestValue"/>
+	<xs:complexType name="KeyInfo" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="KeyName"/>
+			<xs:element ref="KeyValue"/>
+			<xs:element ref="RetrievalMethod"/>
+			<xs:element ref="X509Data"/>
+			<xs:element ref="PGPData"/>
+			<xs:element ref="SPKIData"/>
+			<xs:element ref="MgmtData"/>
+		</xs:choice>
+		<xs:attribute name="Id" type="xs:ID"/>
+	</xs:complexType>
+	<xs:element name="KeyInfo" type="KeyInfo"/>
+	<xs:complexType name="KeyName" mixed="true"/>
+	<xs:element name="KeyName" type="KeyName"/>
+	<xs:complexType name="KeyValue" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="DSAKeyValue"/>
+			<xs:element ref="RSAKeyValue"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:element name="KeyValue" type="KeyValue"/>
+	<xs:complexType name="MgmtData" mixed="true"/>
+	<xs:element name="MgmtData" type="MgmtData"/>
+	<xs:complexType name="RetrievalMethod">
+		<xs:sequence>
+			<xs:element ref="Transforms" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="URI" use="required" type="xs:anySimpleType"/>
+		<xs:attribute name="Type" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="RetrievalMethod" type="RetrievalMethod"/>
+	<xs:complexType name="X509Data">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="X509IssuerSerial"/>
+				<xs:element ref="X509SKI"/>
+				<xs:element ref="X509SubjectName"/>
+				<xs:element ref="X509Certificate"/>
+				<xs:element ref="X509CRL"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="X509Data" type="X509Data"/>
+	<xs:complexType name="X509IssuerSerial">
+		<xs:sequence>
+			<xs:element ref="X509IssuerName"/>
+			<xs:element ref="X509SerialNumber"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="X509IssuerSerial" type="X509IssuerSerial"/>
+	<xs:complexType name="X509IssuerName" mixed="true"/>
+	<xs:element name="X509IssuerName" type="X509IssuerName"/>
+	<xs:complexType name="X509SubjectName" mixed="true"/>
+	<xs:element name="X509SubjectName" type="X509SubjectName"/>
+	<xs:complexType name="X509SerialNumber" mixed="true"/>
+	<xs:element name="X509SerialNumber" type="X509SerialNumber"/>
+	<xs:complexType name="X509SKI" mixed="true"/>
+	<xs:element name="X509SKI" type="X509SKI"/>
+	<xs:complexType name="X509Certificate" mixed="true"/>
+	<xs:element name="X509Certificate" type="X509Certificate"/>
+	<xs:complexType name="X509CRL" mixed="true"/>
+	<xs:element name="X509CRL" type="X509CRL"/>
+	<xs:complexType name="PGPData">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element ref="PGPKeyID"/>
+				<xs:element ref="PGPKeyPacket" minOccurs="0"/>
+			</xs:sequence>
+			<xs:choice>
+				<xs:element ref="PGPKeyPacket"/>
+			</xs:choice>
+		</xs:choice>
+	</xs:complexType>
+	<xs:element name="PGPData" type="PGPData"/>
+	<xs:complexType name="PGPKeyPacket" mixed="true"/>
+	<xs:element name="PGPKeyPacket" type="PGPKeyPacket"/>
+	<xs:complexType name="PGPKeyID" mixed="true"/>
+	<xs:element name="PGPKeyID" type="PGPKeyID"/>
+	<xs:complexType name="SPKIData">
+		<xs:sequence>
+			<xs:element ref="SPKISexp"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="SPKIData" type="SPKIData"/>
+	<xs:complexType name="SPKISexp" mixed="true"/>
+	<xs:element name="SPKISexp" type="SPKISexp"/>
+	<xs:complexType name="Object" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="Signature"/>
+			<xs:element ref="SignatureProperties"/>
+			<xs:element ref="Manifest"/>
+		</xs:choice>
+		<xs:attribute name="Id" type="xs:ID"/>
+		<xs:attribute name="MimeType" type="xs:anySimpleType"/>
+		<xs:attribute name="Encoding" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="Object" type="Object"/>
+	<xs:complexType name="Manifest">
+		<xs:sequence>
+			<xs:element ref="Reference" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Id" type="xs:ID"/>
+	</xs:complexType>
+	<xs:element name="Manifest" type="Manifest"/>
+	<xs:complexType name="SignatureProperties">
+		<xs:sequence>
+			<xs:element ref="SignatureProperty" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Id" type="xs:ID"/>
+	</xs:complexType>
+	<xs:element name="SignatureProperties" type="SignatureProperties"/>
+	<xs:complexType name="DateTimeStamp">
+		<xs:attribute name="DateTime" use="required" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="DateTimeStamp" type="DateTimeStamp"/>
+	<xs:complexType name="SignatureProperty" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="DateTimeStamp"/>
+		</xs:choice>
+		<xs:attribute name="Target" use="required" type="xs:anySimpleType"/>
+		<xs:attribute name="Id" type="xs:ID"/>
+	</xs:complexType>
+	<xs:element name="SignatureProperty" type="SignatureProperty"/>
+	<xs:complexType name="HMACOutputLength" mixed="true"/>
+	<xs:element name="HMACOutputLength" type="HMACOutputLength"/>
+	<xs:complexType name="DSAKeyValue">
+		<xs:sequence>
+			<xs:sequence minOccurs="0">
+				<xs:element ref="P"/>
+				<xs:element ref="Q"/>
+			</xs:sequence>
+			<xs:element ref="G" minOccurs="0"/>
+			<xs:element ref="Y"/>
+			<xs:element ref="J" minOccurs="0"/>
+			<xs:sequence minOccurs="0">
+				<xs:element ref="Seed"/>
+				<xs:element ref="PgenCounter"/>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="DSAKeyValue" type="DSAKeyValue"/>
+	<xs:complexType name="P" mixed="true"/>
+	<xs:element name="P" type="P"/>
+	<xs:complexType name="Q" mixed="true"/>
+	<xs:element name="Q" type="Q"/>
+	<xs:complexType name="G" mixed="true"/>
+	<xs:element name="G" type="G"/>
+	<xs:complexType name="Y" mixed="true"/>
+	<xs:element name="Y" type="Y"/>
+	<xs:complexType name="J" mixed="true"/>
+	<xs:element name="J" type="J"/>
+	<xs:complexType name="Seed" mixed="true"/>
+	<xs:element name="Seed" type="Seed"/>
+	<xs:complexType name="PgenCounter" mixed="true"/>
+	<xs:element name="PgenCounter" type="PgenCounter"/>
+	<xs:complexType name="RSAKeyValue">
+		<xs:sequence>
+			<xs:element ref="Modulus"/>
+			<xs:element ref="Exponent"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="RSAKeyValue" type="RSAKeyValue"/>
+	<xs:complexType name="Modulus" mixed="true"/>
+	<xs:element name="Modulus" type="Modulus"/>
+	<xs:complexType name="Exponent" mixed="true"/>
+	<xs:element name="Exponent" type="Exponent"/>
+	<xs:complexType name="REQUEST_GROUP">
+		<xs:sequence>
+			<xs:element ref="REQUESTING_PARTY" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="RECEIVING_PARTY" minOccurs="0"/>
+			<xs:element ref="SUBMITTING_PARTY" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="REQUEST" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="Signature" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="MISMOVersionID" fixed="2.3.1" type="xs:anySimpleType"/>
+		<xs:attribute name="_ID" type="xs:ID"/>
+	</xs:complexType>
+	<xs:element name="REQUEST_GROUP" type="REQUEST_GROUP"/>
+	<xs:complexType name="REQUESTING_PARTY">
+		<xs:sequence>
+			<xs:element ref="CONTACT_DETAIL" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="PREFERRED_RESPONSE" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="_Name" type="xs:anySimpleType"/>
+		<xs:attribute name="_StreetAddress" type="xs:anySimpleType"/>
+		<xs:attribute name="_StreetAddress2" type="xs:anySimpleType"/>
+		<xs:attribute name="_City" type="xs:anySimpleType"/>
+		<xs:attribute name="_State" type="xs:anySimpleType"/>
+		<xs:attribute name="_PostalCode" type="xs:anySimpleType"/>
+		<xs:attribute name="_Identifier" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="REQUESTING_PARTY" type="REQUESTING_PARTY"/>
+	<xs:complexType name="CONTACT_DETAIL">
+		<xs:sequence>
+			<xs:element ref="CONTACT_POINT" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="_Name" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="CONTACT_DETAIL" type="CONTACT_DETAIL"/>
+	<xs:complexType name="CONTACT_POINT">
+		<xs:attribute name="_RoleType">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="Home"/>
+					<xs:enumeration value="Mobile"/>
+					<xs:enumeration value="Work"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="_Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="Fax"/>
+					<xs:enumeration value="Email"/>
+					<xs:enumeration value="Other"/>
+					<xs:enumeration value="Phone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="_TypeOtherDescription" type="xs:anySimpleType"/>
+		<xs:attribute name="_Value" type="xs:anySimpleType"/>
+		<xs:attribute name="_PreferenceIndicator">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="N"/>
+					<xs:enumeration value="Y"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="CONTACT_POINT" type="CONTACT_POINT"/>
+	<xs:complexType name="PREFERRED_RESPONSE">
+		<xs:attribute name="_Format">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="PDF"/>
+					<xs:enumeration value="Text"/>
+					<xs:enumeration value="PCL"/>
+					<xs:enumeration value="Other"/>
+					<xs:enumeration value="XML"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="_Method">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="Mail"/>
+					<xs:enumeration value="VAN"/>
+					<xs:enumeration value="Fax"/>
+					<xs:enumeration value="HTTPS"/>
+					<xs:enumeration value="MessageQueue"/>
+					<xs:enumeration value="File"/>
+					<xs:enumeration value="Other"/>
+					<xs:enumeration value="HTTP"/>
+					<xs:enumeration value="FTP"/>
+					<xs:enumeration value="SMTP"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="_Destination" type="xs:anySimpleType"/>
+		<xs:attribute name="_FormatOtherDescription" type="xs:anySimpleType"/>
+		<xs:attribute name="_MethodOther" type="xs:anySimpleType"/>
+		<xs:attribute name="_UseEmbeddedFileIndicator">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="N"/>
+					<xs:enumeration value="Y"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="MIMEType" type="xs:anySimpleType"/>
+		<xs:attribute name="_VersionIdentifier" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="PREFERRED_RESPONSE" type="PREFERRED_RESPONSE"/>
+	<xs:complexType name="RECEIVING_PARTY">
+		<xs:sequence>
+			<xs:element ref="CONTACT_DETAIL" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="_Name" type="xs:anySimpleType"/>
+		<xs:attribute name="_StreetAddress" type="xs:anySimpleType"/>
+		<xs:attribute name="_StreetAddress2" type="xs:anySimpleType"/>
+		<xs:attribute name="_City" type="xs:anySimpleType"/>
+		<xs:attribute name="_State" type="xs:anySimpleType"/>
+		<xs:attribute name="_PostalCode" type="xs:anySimpleType"/>
+		<xs:attribute name="_Identifier" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="RECEIVING_PARTY" type="RECEIVING_PARTY"/>
+	<xs:complexType name="SUBMITTING_PARTY">
+		<xs:sequence>
+			<xs:element ref="CONTACT_DETAIL" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="PREFERRED_RESPONSE" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="_SequenceIdentifier" type="xs:anySimpleType"/>
+		<xs:attribute name="_Name" type="xs:anySimpleType"/>
+		<xs:attribute name="_StreetAddress" type="xs:anySimpleType"/>
+		<xs:attribute name="_StreetAddress2" type="xs:anySimpleType"/>
+		<xs:attribute name="_City" type="xs:anySimpleType"/>
+		<xs:attribute name="_State" type="xs:anySimpleType"/>
+		<xs:attribute name="_PostalCode" type="xs:anySimpleType"/>
+		<xs:attribute name="LoginAccountIdentifier" type="xs:anySimpleType"/>
+		<xs:attribute name="LoginAccountPassword" type="xs:anySimpleType"/>
+		<xs:attribute name="_Identifier" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="SUBMITTING_PARTY" type="SUBMITTING_PARTY"/>
+	<xs:complexType name="REQUEST">
+		<xs:sequence>
+			<xs:element ref="KEY" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="REQUEST_DATA" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="RequestDatetime" type="xs:anySimpleType"/>
+		<xs:attribute name="InternalAccountIdentifier" type="xs:anySimpleType"/>
+		<xs:attribute name="LoginAccountIdentifier" type="xs:anySimpleType"/>
+		<xs:attribute name="LoginAccountPassword" type="xs:anySimpleType"/>
+		<xs:attribute name="RequestingPartyBranchIdentifier" type="xs:anySimpleType"/>
+		<xs:attribute name="_ID" type="xs:ID"/>
+	</xs:complexType>
+	<xs:element name="REQUEST" type="REQUEST"/>
+	<xs:complexType name="KEY">
+		<xs:attribute name="_Name" type="xs:anySimpleType"/>
+		<xs:attribute name="_Value" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="KEY" type="KEY"/>
+	<xs:complexType name="REQUEST_DATA">
+		<xs:sequence>
+			<xs:element ref="MI_QUERY"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="REQUEST_DATA" type="REQUEST_DATA"/>
+	<xs:complexType name="MI_QUERY">
+		<xs:sequence>
+			<xs:element ref="MI_REQUEST"/>
+			<xs:element ref="LOAN_APPLICATION" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="MISMOVersionID" fixed="2.3.1" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="MI_QUERY" type="MI_QUERY"/>
+	<xs:complexType name="MI_REQUEST">
+		<xs:attribute name="MICertificateIdentifier" type="xs:anySimpleType"/>
+		<xs:attribute name="MICompanyNameType" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="MortgageGuarantyInsuranceCorporation"/>
+					<xs:enumeration value="UnitedGuarantyCorporation"/>
+					<xs:enumeration value="GECapitalMICorporation"/>
+					<xs:enumeration value="AmerinGuaranteeCorporation"/>
+					<xs:enumeration value="RadianGuarantyIncorporated"/>
+					<xs:enumeration value="CommonwealthMortgageAssuranceCompany"/>
+					<xs:enumeration value="RepublicMICompany"/>
+					<xs:enumeration value="TriadGuarantyInsuranceCorporation"/>
+					<xs:enumeration value="CMG_MICompany"/>
+					<xs:enumeration value="PMI_MICorporation"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="MILenderIdentifier" use="required" type="xs:anySimpleType"/>
+		<xs:attribute name="MITransactionIdentifier" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="MI_REQUEST" type="MI_REQUEST"/>
+	<xs:complexType name="LOAN_APPLICATION">
+		<xs:sequence>
+			<xs:element ref="MORTGAGE_TERMS"/>
+			<xs:element ref="BORROWER" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="LOAN_APPLICATION" type="LOAN_APPLICATION"/>
+	<xs:complexType name="MORTGAGE_TERMS">
+		<xs:attribute name="LenderCaseIdentifier" use="required" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="MORTGAGE_TERMS" type="MORTGAGE_TERMS"/>
+	<xs:complexType name="BORROWER">
+		<xs:attribute name="_SSN" use="required" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:element name="BORROWER" type="BORROWER"/>
+</xs:schema>

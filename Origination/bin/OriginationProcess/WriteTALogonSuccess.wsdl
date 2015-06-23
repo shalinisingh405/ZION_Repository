@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soae="http://www.intel.com/soae/wsdl/wsdl11-2007a/" xmlns:tns="http://www.example.com/Origination/file/bin/OriginationProcess/WriteTALogonSuccess" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd0="http://www.example.com/Origination/file/bin/OriginationProcess/WriteTALogonSuccess/schemas" targetNamespace="http://www.example.com/Origination/file/bin/OriginationProcess/WriteTALogonSuccess">
+  <plnk:partnerLinkType name="WriteTALogonSuccessServicePartnerLinkType">
+    <plnk:role name="role" portType="tns:WriteTALogonSuccessServicePortType"/>
+  </plnk:partnerLinkType>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.com/Origination/file/bin/OriginationProcess/WriteTALogonSuccess/schemas"/>
+  </wsdl:types>
+  <wsdl:message name="WriteTALogonSuccessInput">
+    <wsdl:part name="body" type="xsd:anyType"/>
+  </wsdl:message>
+  <wsdl:portType name="WriteTALogonSuccessServicePortType">
+    <wsdl:operation name="WriteTALogonSuccessOperation">
+      <wsdl:input message="tns:WriteTALogonSuccessInput"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WriteTALogonSuccessServiceBinding" type="tns:WriteTALogonSuccessServicePortType">
+    <soae:binding transport="http://www.intel.com/soae/transport/file"/>
+    <wsdl:operation name="WriteTALogonSuccessOperation">
+      <wsdl:input>
+        <soae:content part="body" type="text/xml"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WriteTALogonSuccessService">
+    <wsdl:port binding="tns:WriteTALogonSuccessServiceBinding" name="WriteTALogonSuccessPort">
+      <soae:address location="file:///opt/xion/transactionlogs/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

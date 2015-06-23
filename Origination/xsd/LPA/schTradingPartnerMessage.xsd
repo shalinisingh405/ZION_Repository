@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://Radian.Matrix.MortgageIns.Origination.MDC.PublishTPProfileData" xmlns:b="http://schemas.microsoft.com/BizTalk/2003" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns0="http://Radian.Matrix.Common.Schemas.Header" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://Radian.Matrix.MortgageIns.Origination.MDC.PublishTPProfileData" elementFormDefault="qualified">
+	<xsd:import namespace="http://Radian.Matrix.Common.Schemas.Header" schemaLocation="Matrix_Common_Header.xsd"/>
+	<xsd:annotation>
+		<xsd:appinfo>
+			<b:references xmlns:b="http://schemas.microsoft.com/BizTalk/2003">
+				<b:reference targetNamespace="http://Radian.Matrix.Common.Schemas.Header"/>
+			</b:references>
+		</xsd:appinfo>
+	</xsd:annotation>
+	<xsd:element name="TradingPartner_Message">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="ns0:HEADER"/>
+				<xsd:element name="TradingPartnerProfile" type="TradingPartnerProfile"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="TradingPartnerProfile">
+		<xsd:sequence>
+			<xsd:element name="TradingPartnerProfile_Detail" type="TradingPartnerProfile_Detail" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradingPartnerProfile_Detail">
+		<xsd:sequence>
+			<xsd:element name="ProfileName" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="PartnerType" type="T_TradingConnectionCd" minOccurs="0"/>
+			<xsd:element name="PartnerNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="PartnerStatus" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="InstitutionType" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="PartnerName" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Origination_Product_Id" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Loss_Management_Id" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="OnBaseCode" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="CustomerSegmentations" type="CustomerSegmentations" minOccurs="0"/>
+			<xsd:element name="TradingConnections" type="TradingConnections" minOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradingConnections">
+		<xsd:sequence>
+			<xsd:element name="TradingConnection" type="TradingConnection" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CustomerSegmentations">
+		<xsd:sequence>
+			<xsd:element name="CustomerSegmentation" type="CustomerSegmentation" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CustomerSegmentation">
+		<xsd:sequence>
+			<xsd:element name="CustomerSegmentationCode" type="xsd:string" minOccurs="1"/>
+			<xsd:element name="EffectiveStartDate" type="xsd:dateTime" minOccurs="1"/>
+			<xsd:element name="EffectiveEndDate" type="xsd:dateTime" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradingConnection">
+		<xsd:sequence>
+			<xsd:element name="TradingConnectionCd" type="T_TradingConnectionCd" minOccurs="0"/>
+			<xsd:element name="ConnectionDirectionCd" type="T_ConnectionDirectionCd" minOccurs="0"/>
+			<xsd:element name="ServiceDeliveryMethodCd" type="T_ServiceDeliveryMethodCd" minOccurs="0"/>
+			<xsd:element name="ConnectionAuthorizationCd" type="T_ConnectionAuthorizationCd" minOccurs="0"/>
+			<xsd:element name="ConnectionUserNam" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ConnectionPswd" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Connection_SaltText" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ConnectionStatusCd" type="T_ConnectionStatusCd" minOccurs="0"/>
+			<xsd:element name="CredentialLocationCd" type="T_CredentialLocationCd" minOccurs="0"/>
+			<xsd:element name="ConnectionURL" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="PostbackTradingConnectionID" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Dynamic_Postback" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ConnectionExpirationDt" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ResponseRetryCnt" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="ResponseRetryIntervalNum" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="EnableChunkedEncoding" type="T_EnableChunkedEncoding" minOccurs="0"/>
+			<xsd:element name="ResponseRequestTimeoutCnt" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="AddXMLDeclarationInd" type="T_AddXMLDeclarationInd" minOccurs="0"/>
+			<xsd:element name="ResponseContentCd" type="T_ResponseContentCd" minOccurs="0"/>
+			<xsd:element name="ResponseTargetCharsetCd" type="T_ResponseTargetCharsetCd" minOccurs="0"/>
+			<xsd:element name="TradingConnectionServices" type="TradingConnectionServices" minOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradingConnectionServices">
+		<xsd:sequence>
+			<xsd:element name="TradingConnectionService" type="TradingConnectionService" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradingConnectionService">
+		<xsd:sequence>
+			<xsd:element name="ServiceInterface" type="ServiceInterface" minOccurs="0"/>
+			<xsd:element name="CustomerAuthorizedServices" type="CustomerAuthorizedServices" minOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ServiceInterface">
+		<xsd:sequence>
+			<xsd:element name="TradingPartnerServiceCd" type="T_TradingPartnerServiceCd" minOccurs="0"/>
+			<xsd:element name="ServiceDefaultInd" type="T_ServiceDefaultInd" minOccurs="0"/>
+			<xsd:element name="InterfaceFileFormatCd" type="T_InterfaceFileFormatCd" minOccurs="0"/>
+			<xsd:element name="InterfaceFileFormatVersionCd" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="AsynchronousInd" type="T_AsynchronousInd" minOccurs="0"/>
+			<xsd:element name="InterfaceArchiveLocationNam" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ServiceEndpoint" type="ServiceEndpoint" minOccurs="1"/>
+			<xsd:element name="CustomProcessingInd" type="T_CustomProcessingInd" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CustomerAuthorizedServices">
+		<xsd:sequence>
+			<xsd:element name="CustomerAuthorizedService" type="CustomerAuthorizedService" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CustomerAuthorizedService">
+		<xsd:sequence>
+			<xsd:element name="CustomerNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CustomerName" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CustomerUserNam" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CustomerPswd" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Customer_SaltText" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CredentialLocationCd" type="T_CredentialLocationCd" minOccurs="0"/>
+			<xsd:element name="VendorClientId" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="PreProcessTransformInd" type="T_PreProcessTransformInd" minOccurs="0"/>
+			<xsd:element name="PostProcessTransformInd" type="T_PostProcessTransformInd" minOccurs="0"/>
+			<xsd:element name="ACKNACKPostProcessTransformInd" type="T_ACKNACKPostProcessTransformInd" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ServiceEndpoint">
+		<xsd:sequence>
+			<xsd:element name="ServiceEndpointURL" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ServiceEndpointFormatVersionCd" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ServiceEndpointDeliveryMethodCd" type="T_ServiceDeliveryMethodCd" minOccurs="0"/>
+			<xsd:element name="ServiceEndpointRetryCnt" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="ServiceEndpointIntervalNum" type="xsd:int" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="T_InterfaceFileFormatVersionCd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="DU32"/>
+			<xsd:enumeration value="EDI260"/>
+			<xsd:enumeration value="EDI263"/>
+			<xsd:enumeration value="EDI266"/>
+			<xsd:enumeration value="EDI872"/>
+			<xsd:enumeration value="MICAN0D"/>
+			<xsd:enumeration value="MICATMP"/>
+			<xsd:enumeration value="MISMO11"/>
+			<xsd:enumeration value="MISMO211"/>
+			<xsd:enumeration value="MISMO231"/>
+			<xsd:enumeration value="MIMSO31"/>
+			<xsd:enumeration value="MISMO32"/>
+			<xsd:enumeration value="MISMOSD102"/>
+			<xsd:enumeration value="MISMO321"/>
+			<xsd:enumeration value="MISMO33"/>
+			<xsd:enumeration value="XCM1231"/>
+			<xsd:enumeration value="XCM1232"/>
+			<xsd:enumeration value="XCM1233"/>
+			<xsd:enumeration value="XCM1234"/>
+			<xsd:enumeration value="XCM1235"/>
+			<xsd:enumeration value="XCM1245"/>
+			<xsd:enumeration value="XCM201"/>
+			<xsd:enumeration value="XCM303"/>
+			<xsd:enumeration value="XCM400"/>
+			<xsd:enumeration value="XCM305"/>
+			<xsd:enumeration value="XCM404"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_TradingPartnerServiceCd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="MIORD"/>
+			<xsd:enumeration value="MIQRY"/>
+			<xsd:enumeration value="MIRQT"/>
+			<xsd:enumeration value="DCPKG"/>
+			<xsd:enumeration value="HARP"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_TradingConnectionCd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="VEND"/>
+			<xsd:enumeration value="CUST"/>
+			<xsd:enumeration value="GEN"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_ServiceDeliveryMethodCd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="HTTP"/>
+			<xsd:enumeration value="SFTP"/>
+			<xsd:enumeration value="SOAP"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_ServiceDefaultInd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="N"/>
+			<xsd:enumeration value="Y"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_PreProcessTransformInd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="N"/>
+			<xsd:enumeration value="Y"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_PostProcessTransformInd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="N"/>
+			<xsd:enumeration value="Y"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_ACKNACKPostProcessTransformInd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="N"/>
+			<xsd:enumeration value="Y"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_InterfaceFileFormatCd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="XML"/>
+			<xsd:enumeration value="FLAT"/>
+			<xsd:enumeration value="ZIP"/>
+			<xsd:enumeration value="POSIT"/>
+			<xsd:enumeration value="EDI"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_CredentialLocationCd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NONE"/>
+			<xsd:enumeration value="HTBSC"/>
+			<xsd:enumeration value="KEY"/>
+			<xsd:enumeration value="REQ"/>
+			<xsd:enumeration value="SUBP"/>
+			<xsd:enumeration value="SOAP"/>
+			<xsd:enumeration value="RESP"/>
+			<xsd:enumeration value="QUERY"/>
+			<xsd:enumeration value="HTHDR"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_ConnectionStatusCd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ACTV"/>
+			<xsd:enumeration value="INAC"/>
+			<xsd:enumeration value="SUSP"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_ConnectionDirectionCd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="PSTPL"/>
+			<xsd:enumeration value="PST"/>
+			<xsd:enumeration value="RECV"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_ConnectionAuthorizationCd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NONE"/>
+			<xsd:enumeration value="CRED"/>
+			<xsd:enumeration value="DCERT"/>
+			<xsd:enumeration value="BAUTH"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_AsynchronousInd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="N"/>
+			<xsd:enumeration value="Y"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_EnableChunkedEncoding">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="N"/>
+			<xsd:enumeration value="Y"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_AddXMLDeclarationInd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="N"/>
+			<xsd:enumeration value="Y"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_ResponseContentCd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="APXML"/>
+			<xsd:enumeration value="APOCT"/>
+			<xsd:enumeration value="TXPLN"/>
+			<xsd:enumeration value="TXXML"/>
+			<xsd:enumeration value="APSOA"/>
+			<xsd:enumeration value="APJSO"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_ResponseTargetCharsetCd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ASCII"/>
+			<xsd:enumeration value="I8859"/>
+			<xsd:enumeration value="UTF8"/>
+			<xsd:enumeration value="UTF16"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="T_CustomProcessingInd">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="N"/>
+			<xsd:enumeration value="Y"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>
