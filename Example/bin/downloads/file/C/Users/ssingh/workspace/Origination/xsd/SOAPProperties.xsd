@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 sp1 (http://www.altova.com) by Kiran Gopinath (Radian Guaranty, Inc.) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.radian.biz/ClientConnectivity/zion/Origination/SOAPProperties"
+	targetNamespace="http://www.radian.biz/ClientConnectivity/zion/Origination/SOAPProperties"
+	xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope">
+	<xs:import
+		schemaLocation="../systemLib/importedSchemas/soap-envelope.xsd"
+		namespace="http://schemas.xmlsoap.org/soap/envelope/">
+	</xs:import>
+	<xs:import schemaLocation="../systemLib/importedSchemas/soap-envelope-12.xsd" namespace="http://www.w3.org/2003/05/soap-envelope"></xs:import>
+	<xs:element name="SOAPProperties">
+		<xs:annotation>
+			<xs:documentation>
+				Root Element for Origination SOAP properties
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SOAPEndpoint" type="T_SOAPEndpoint"
+					minOccurs="1" maxOccurs="unbounded" />
+					<xs:element name="SOAPResponse"
+						type="T_SOAPResponseSOAP" minOccurs="1" maxOccurs="unbounded" />
+				
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="T_SOAPResponseSOAP">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element  ref="SOAP:Envelope" minOccurs="0" />
+				<xs:element  ref="soapenv:Envelope" minOccurs="0" />
+			</xs:choice>			
+		</xs:sequence>
+		<xs:attribute name="Level" type="xs:int" use="required" />
+	</xs:complexType>
+	<xs:complexType name="T_SOAPEndpoint">
+		<xs:sequence>
+			<xs:element name="SOAPVersion" type="T_SOAPVersion"
+				minOccurs="1" />
+			<xs:element name="SOAPActionType" type="T_SOAPActionType"
+				minOccurs="1" />
+			<xs:element name="SOAPAction" type="T_SOAPAction"
+				minOccurs="1" />
+			<xs:element name="SOAPContentType" type="T_SOAPContentType"
+				minOccurs="1" />
+			<xs:element name="SOAPEndpointURL" type="T_SOAPEndpointURL"
+				minOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="Level" type="xs:int" use="required" />
+	</xs:complexType>
+	<xs:simpleType name="T_SOAPVersion">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SOAP1.1" />
+			<xs:enumeration value="SOAP1.2" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="T_SOAPActionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SOAPAction" />
+			<xs:enumeration value="Action" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="T_SOAPAction">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+	<xs:simpleType name="T_SOAPContentType">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+	<xs:simpleType name="T_SOAPEndpointURL">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+</xs:schema>
