@@ -51,7 +51,9 @@
                 partnerLink="Receive" receiveRawEnvelope="false" temporalScope="NONE">
                 <soae-ab:inputData binary="true" empty="false" xsdType="{http://www.w3.org/2001/XMLSchema}anyType"/>
                 <soae-ab:outputData binary="false" oneway="false" xsdType="{http://www.w3.org/2001/XMLSchema}anyType"/>
-                <soae-ab:httpTransport method=""
+                <soae-ab:httpTransport
+                    establishWebsocketConnection="false"
+                    isCacheKey="false" isStreaming="false" method=""
                     serviceURI="http://www.example.org:8080/" soapAction="http://Receive"/>
                 <soae-ab:wsdlEndpointConfig defaultFlags="0"
                     inputMsg="ReceiveInput" inputMsgPart="body"
@@ -120,12 +122,20 @@
             </bpws:else>
         </bpws:if>
         <bpws:extensionActivity>
+            <soae-ab:AssignBuilder
+                destinationType="{http://www.w3.org/2001/XMLSchema}anyType"
+                destinationTypeKind="TYPE"
+                destinationVariable="Expression3"
+                expression="xpath:{'Hello'}" keepSrcElementName="false"
+                name="Expression3" xDestination=""/>
+        </bpws:extensionActivity>
+        <bpws:extensionActivity>
             <soae-ab:ReplyBuilder addAttachments="false"
                 compression="identity" destinationVariable=""
                 messageBodyFrom="" name="Reply"
                 passThroughEnabled="false" rawEnvelopeFrom=""
-                sendRawEnvelope="false" throwFault="false">
-                <soae-ab:outputDataMapping partName="" xpath="$Receive.body"/>
+                sendRawEnvelope="false" throwFault="false" xmlResponse="false">
+                <soae-ab:outputDataMapping mode="Xpath" partName="" xpath="xpath:{$Receive.body}"/>
                 <soae-ab:outboundPolicies/>
             </soae-ab:ReplyBuilder>
         </bpws:extensionActivity>
