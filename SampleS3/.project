@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>SampleS3</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>com.intel.ssg.cbr.ide.core.CBRBuilder</name>
+			<arguments>
+				<dictionary>
+					<key>PARTNERLINK_BINDING#Process.bpel#Receive#myRole#port</key>
+					<value>ReceivePort</value>
+				</dictionary>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>com.intel.ssg.cbr.ide.core.CBRNature</nature>
+	</natures>
+</projectDescription>
